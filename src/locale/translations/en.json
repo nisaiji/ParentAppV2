@@ -1,0 +1,138 @@
+{
+
+  "translation": {
+    "validationMsgs":{
+    },
+    "appName": "Parent App",
+    "submitBtn": "Submit",
+    "backBtn": "Back",
+    "nextBtn": "Next",
+    "continueBtn": "Continue",
+    "yes": "Yes",
+    "no": "No",
+    "cancel": "Cancel",
+    "appClose": "Hold on!', 'Are you sure you want to exit the app ?",
+    "coming_soon": "Coming soon",
+    "logout": {
+      "logoutLabel": "Logout",
+      "header": "Log Out",
+      "content": "Are you sure you want to log out ?"
+    },
+    "network": {
+      "notAvailable": "You don't have internet connection. Please check you internet connection."
+    },
+    "api": {
+      "apiError": "Something Went Wrong. Please try again.",
+      "apiError403": "Your login session has been expired. Please login.",
+      "noData": "No Data Found"
+    },
+    "splash": {
+      "header": "Teacher App"
+    },
+    "login":{
+      "clickToLogin": "Click To Login"
+    },
+    "profile":{
+      "classnameAndSection": "Class Name and Section",
+      "editProfile":"Edit Profile",
+      "yourName":"Your name",
+      "age":"Age",
+      "gender":"Gender",
+      "Address":"Address",
+      "Qualification":"Qualification",
+      "occupation":"Occupation",
+      "updateProfile":"Update Profile"
+    },
+    "privacy":{
+       "privacyHeader":"Privacy and Security",
+       "yourEmail":"Your Email",
+       "emailUpdate":"Add or update email address here",
+       "phone":"Phone Number",
+       "phoneUpdate":"Add or update phone number here",
+       "changePass":"Change Password ",
+       "updatePass":"Update your password here",
+       "tapUpdate":"Tap to update",
+       "save":"Save",
+       "oldPass":"Old Password",
+       "newPass":"New Password ",
+       "confirmPass":"Confirm Password",
+       "emailReq":"Email is required",
+       "invalidEmail":"Invalid email format",
+       "PhoneReq":"Phone number is required",
+       "phoneCriteria":"Starting digit of phone number must be start with 1 to 5",
+       "enterEmail":"Enter your email",
+       "enterPhone":"Enter your phone number"
+    },
+    "dashboard":{
+      "attendance":"Attendance",
+      "totalDayMsg":"Out of total working days",
+      "Month":"Month",
+      "Days":"Days",
+      "Year":"Year",
+      "2024":"2024",
+      "Logout":"Logout",
+      "Done":"Done",
+      "markAtt":"Mark Attendance",
+      "Absent":"Absent",
+      "Present":"Present"
+    },
+    "event":{
+      "Calendar":"Calendar",
+      "keyDates":"Key dates & Occasions",
+      "eventListHead":"Holidays and Events",
+      "noEventMsg":" No Holiday and {'\n'} Events today!",
+      "Holiday":"Holiday",
+      "Occasion":"Occasion",
+      "events":"Event"
+    },
+    "loginForm":{
+      "LOGO":"LOGO",
+      "welcome":"Welcome, ",
+      "loginHere": "Login Here",
+      "enterCredentials":"Enter your credentials to get access to parent account.",
+      "entryLabel":" Phone, email or username",
+      "Password":"Password",
+      "forgotPassword":"Forgot Password?",
+      "login":"Login",
+      "passUpdate":"Password Updated!",
+      "A":"A",
+      "updateDetails":" Please update your details",
+      "createUser":"Create Username",
+      "newPass":"New Password ",
+      "confirmPass":"Confirm Password",
+       "updatePass":"Update Password ",
+       "monitorAtt":"Monitor Attendance,",
+       "anytime":"Anytime!",
+       "swipeUp":"Click here",
+       "startedMsg":"to get started "
+},
+"editForm":{
+  "editProfile":"Edit profile ",
+  "Name":"Name",
+  "rollNumber":"Roll Number",
+  "classSec":"Class and Section",
+  "Dob":"Date of Birth",
+  "Gender":"Gender",
+  "Email":"Email",
+  "Phone":"Phone Number",
+  "blood":"Blood Group",
+  "Address":"Address",
+  "updatePass":"Update Profile",
+  "enterFull":"Enter your fullname",
+  "enterAge":"Enter your age",
+  "selectGender":"Select Gender",
+  "enterAddress":"Enter your address",
+  "enterQualification":"Enter your qualification" ,
+  "enterOccupation":"Enter your occupation"
+},
+"profileScreen":{
+  "editInfo":"Edit profile information",
+  "help":"Help & Support",
+  "logOut":"Log out",
+  "language":"Choose Language",
+  "selectChild":"Select child"
+}
+
+
+  }
+}
