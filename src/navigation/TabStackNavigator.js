@@ -3,7 +3,6 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Image, TouchableOpacity, StyleSheet, Alert} from 'react-native';
 import DashboardScreen from '@src/screens/Dashboard/Container/index';
 import ProfileStackNavigator from '@src/navigation/ProfileStackNavigator';
-import Eventholiday from '@src/screens/EventHoliday/Container/index';
 import home from '@src/assets/images/home.png';
 import homeoutlined from '@src/assets/images/homeoutlined.png';
 import event from '@src/assets/images/event.png';
@@ -14,6 +13,7 @@ import {scale} from 'react-native-size-matters';
 import {ROUTE} from './constant';
 import {Colors, Fonts} from '../theme/fonts';
 import {AuthContext} from '../context/AuthContext';
+import EventHoliday from '../screens/Event/Container';
 
 const Tab = createBottomTabNavigator();
 
@@ -85,7 +85,7 @@ function TabStackNavigator() {
       />
       <Tab.Screen
         name={ROUTE.EVENT}
-        component={Eventholiday}
+        component={EventHoliday}
         options={{
           headerShown: false,
           tabBarButton: props => (
