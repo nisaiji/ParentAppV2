@@ -1,24 +1,15 @@
-import React, {useContext, useEffect} from 'react';
+import { useNavigation } from '@react-navigation/native';
+import React, { useEffect } from 'react';
 import {View, ActivityIndicator, StyleSheet} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {ROUTE} from '@src/navigation/constant';
-import {AuthContext} from '@src/context/AuthContext';
-
+import { ROUTE } from './constant';
 export default function Splash() {
-  const navigation = useNavigation();
-  const {accessToken} = useContext(AuthContext);
+  const navigation = useNavigation()
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (accessToken) {
-        navigation.replace(ROUTE.TAB);
-      } else {
-        navigation.replace(ROUTE.AUTH);
-      }
-    }, 1000);
-
-    return () => clearTimeout(timer);
-  }, [accessToken, navigation]);
+    setTimeout(() => {
+      navigation.navigate(ROUTE.AUTH)
+    }, 3000);
+  },[])
 
   return (
     <View style={styles.container}>
