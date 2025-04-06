@@ -1,6 +1,13 @@
 export const ROUTE = {
   SPLASH: 'Splash',
   LOGIN: 'Login',
+  OTP: 'OTP',
+  EMAIL_VERIFICATION: 'EmailVerification',
+  EMAIL_OTP_VERIFICATION: 'Email_OTP',
+  CREATE_PASSWORD: 'CreatePassword',
+  SUCCESS_PAGE:'SuccessPage',
+  PARENT_DETAIL:'ParentDetail',
+  CHILD_DETAIL:"ChildDetail",
   HOME: 'Home',
   PROFILE: 'Profile',
   DASHBOARD: 'Dashboard',

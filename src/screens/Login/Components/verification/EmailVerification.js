@@ -9,19 +9,29 @@ import {
 } from 'react-native';
 import leftArrow from '../../../../assets/images/leftArrow.png';
 import {styles} from './styles';
+import { useNavigation } from '@react-navigation/native';
+import { ROUTE } from '../../../../navigation/constant';
+import BackgroundView from '../../../../components/BackgroundView';
+import { useTranslation } from 'react-i18next';
+import Header from '../../../../components/Header';
 
-export default function EmailVerificationScreen() {
+export default function EmailVerification() {
   const [email, setEmail] = useState('');
+  const [t] = useTranslation();
+const navigation = useNavigation()
+  const onBack = () => {
+      navigation.goBack()
+    }
+  
+    const onSubmit = () => {
+      navigation.navigate(ROUTE.EMAIL_OTP_VERIFICATION)
+    }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <BackgroundView>
+      <SafeAreaView style={styles.container}>
       {/* Header */}
-      <View style={styles.header}>
-        <TouchableOpacity>
-          <Image source={leftArrow} style={styles.backButton} />
-        </TouchableOpacity>
-        <Text style={styles.title}>Email Verification</Text>
-      </View>
+      <Header heading={t('emailVerification.heading')}/>
 
       {/* Subtitle */}
       <Text style={styles.subtitle}>Verify your email</Text>
@@ -39,9 +49,10 @@ export default function EmailVerificationScreen() {
       </View>
 
       {/* Continue Button */}
-      <TouchableOpacity style={styles.continueButton}>
+      <TouchableOpacity onPress={onSubmit} style={styles.continueButton}>
         <Text style={styles.continueText}>Continue</Text>
       </TouchableOpacity>
     </SafeAreaView>
+    </BackgroundView>
   );
 }

@@ -49,8 +49,8 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     backgroundColor: Colors.COLOR_6,
-    borderRadius: 10,
-    padding: 30,
+    borderRadius: scale(10),
+    padding: scale(30),
     alignItems: 'center',
   },
   swipeText: {

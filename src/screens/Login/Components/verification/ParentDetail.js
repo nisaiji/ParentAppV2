@@ -9,20 +9,27 @@ import {
 } from 'react-native';
 import leftArrow from '../../../../assets/images/leftArrow.png';
 import {styles} from './styles';
+import BackgroundView from '../../../../components/BackgroundView';
+import { ROUTE } from '../../../../navigation/constant';
+import { useNavigation } from '@react-navigation/native';
+import Header from '../../../../components/Header';
+import { useTranslation } from 'react-i18next';
 
-export default function ParentDetailScreen() {
+export default function ParentDetail() {
   const [name, setName] = useState('');
   const [optionalName, setOptionalName] = useState('');
+  const navigation = useNavigation()
+  const [t] = useTranslation();
+
+    const onSubmit = () => {
+      navigation.navigate(ROUTE.CHILD_DETAIL)
+    }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <BackgroundView>
+      <SafeAreaView style={styles.container}>
       {/* Header */}
-      <View style={styles.header}>
-        <TouchableOpacity>
-          <Image source={leftArrow} style={styles.backButton} />
-        </TouchableOpacity>
-        <Text style={styles.title}>Parent Details</Text>
-      </View>
+      <Header heading={t('parentDetail.heading')} noBack/>
 
       {/* New Password */}
       <Text style={styles.label}>Name</Text>
@@ -49,9 +56,10 @@ export default function ParentDetailScreen() {
       </View>
 
       {/* Continue Button */}
-      <TouchableOpacity style={[styles.continueButton, {marginBottom: 0}]}>
+      <TouchableOpacity onPress={onSubmit} style={[styles.continueButton, {marginBottom: 0}]}>
         <Text style={styles.continueText}>Continue</Text>
       </TouchableOpacity>
     </SafeAreaView>
+    </BackgroundView>
   );
 }

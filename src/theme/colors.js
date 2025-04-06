@@ -100,7 +100,8 @@ const colors = {
   OFF_WHITE: 'rgb(250,250,250)',
   MODERATE_PURPLE: 'rgba(78, 41, 115, 0.5)',
   Light_Purple2: 'rgba(78, 41, 115, 0.2)',
-  LOW_PURPLE:'rgba(78, 41, 115, 0.1)'
+  LOW_PURPLE:'rgba(78, 41, 115, 0.1)',
+  BACKGROUND_COLOR: 'rgba(102, 102, 102, 0.5)'
 };
 
 export default colors;

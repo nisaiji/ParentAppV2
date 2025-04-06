@@ -11,20 +11,20 @@ import leftArrow from '../../../../assets/images/leftArrow.png';
 import add from '../../../../assets/images/add.png';
 import verifyed from '../../../../assets/images/verifyed.png';
 import {styles} from './styles';
+import BackgroundView from '../../../../components/BackgroundView';
+import { useTranslation } from 'react-i18next';
+import Header from '../../../../components/Header';
 
-export default function ChildDetailScreen() {
+export default function ChildDetail() {
   const [name, setName] = useState('');
   const [id, setId] = useState('');
+  const [t] = useTranslation();
 
   return (
-    <SafeAreaView style={styles.container}>
+    <BackgroundView>
+      <SafeAreaView style={styles.container}>
       {/* Header */}
-      <View style={styles.header}>
-        <TouchableOpacity>
-          <Image source={leftArrow} style={styles.backButton} />
-        </TouchableOpacity>
-        <Text style={styles.title}>Child Details</Text>
-      </View>
+      <Header heading={t('childDetail.heading')} noBack />
 
       <View style={styles.verifiedContainer}>
         <Text style={styles.nameText}>Priyanka Sharma</Text>
@@ -69,5 +69,6 @@ export default function ChildDetailScreen() {
         <Text style={styles.addChildText}>Add Child</Text>
       </TouchableOpacity>
     </SafeAreaView>
+    </BackgroundView>
   );
 }
