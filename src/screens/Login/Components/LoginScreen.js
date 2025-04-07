@@ -11,26 +11,28 @@ import {
   Keyboard,
 } from 'react-native';
 import logo from '../../../assets/images/logo.png';
-import downArrow from '../../../assets/images/downarrow.png';
+import downArrow from '../../../assets/images/downArrow.png';
 import indianFlag from '../../../assets/images/indianFlag.png';
+import cross from '../../../assets/images/cross.png';
 import {styles} from './styles';
 import {
   ScrollView,
   TouchableWithoutFeedback,
 } from 'react-native-gesture-handler';
-import { useTranslation } from 'react-i18next';
-import { useNavigation } from '@react-navigation/native';
-import { ROUTE } from '../../../navigation/constant';
+import {useTranslation} from 'react-i18next';
+import {useNavigation} from '@react-navigation/native';
+import {ROUTE} from '../../../navigation/constant';
+import globalStyles from '../../../theme/styles';
 
 export default function Login() {
   const [phone, setPhone] = useState('');
   const [t] = useTranslation();
-  const navigation = useNavigation()
+  const navigation = useNavigation();
 
   const clearPhone = () => setPhone('');
   const onSubmit = () => {
-    navigation.navigate(ROUTE.OTP)
-  }
+    navigation.navigate(ROUTE.OTP);
+  };
 
   return (
     <KeyboardAvoidingView
@@ -48,7 +50,7 @@ export default function Login() {
               <View style={styles.phoneInputWrapper}>
                 {/* Country Code */}
                 <TouchableOpacity disabled style={styles.countryCodeContainer}>
-                <Image
+                  <Image
                     source={indianFlag}
                     style={styles.flag}
                     resizeMode="contain"
@@ -72,8 +74,15 @@ export default function Login() {
                     onChangeText={setPhone}
                   />
                   {phone.length > 0 && (
-                    <Pressable onPress={clearPhone} style={styles.clearButton}>
-                      <Text style={styles.clearText}>✕</Text>
+                    <Pressable
+                      onPress={clearPhone}
+                      style={styles.clearButton}
+                      hitSlop={globalStyles.hitSlop10}>
+                      <Image
+                        source={cross}
+                        style={styles.crossIcon}
+                        resizeMode="contain"
+                      />
                     </Pressable>
                   )}
                 </View>

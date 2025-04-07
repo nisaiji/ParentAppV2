@@ -1,7 +1,7 @@
 import {StyleSheet} from 'react-native';
 import metrics from '../../../theme/metrics';
 import {Fonts, Size} from '../../../theme/fonts';
-import { scale } from 'react-native-size-matters';
+import {scale} from 'react-native-size-matters';
 import colors from '../../../theme/colors';
 
 export const styles = StyleSheet.create({
@@ -14,8 +14,8 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   logo: {
-    height: scale(100),
-    width: scale(100),
+    height: scale(90),
+    width: scale(80),
     alignSelf: 'center',
     marginBottom: scale(40),
   },
@@ -27,6 +27,7 @@ export const styles = StyleSheet.create({
     fontSize: Size.font_18,
     marginBottom: scale(20),
     fontFamily: Fonts.BOLD,
+    lineHeight: scale(20),
   },
   phoneInputWrapper: {
     flexDirection: 'row',
@@ -35,18 +36,20 @@ export const styles = StyleSheet.create({
     gap: scale(10),
   },
   countryCodeContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: colors.BACKGROUND_COLOR,
     borderRadius: scale(12),
-    width: scale(110),
-    height: scale(52),
-    marginRight: scale(2),
-    justifyContent:'space-around'
+    backgroundColor: colors.BACKGROUND_COLOR,
+    flexDirection: 'row',
+    width: scale(100),
+    height: scale(50),
+    paddingVertical: scale(16),
+    paddingHorizontal: scale(12),
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: scale(10),
   },
   flag: {
     width: scale(24),
-    height: scale(20)
+    height: scale(20),
   },
   code: {
     color: colors.WHITE,
@@ -58,11 +61,13 @@ export const styles = StyleSheet.create({
     height: scale(8),
   },
   phoneInputContainer: {
-    flex: 1,
-    backgroundColor: colors.BACKGROUND_COLOR,
-    borderRadius: scale(12),
-    paddingHorizontal: scale(12),
     flexDirection: 'row',
+    flex: 1,
+    width: scale(243),
+    height: scale(50),
+    backgroundColor: colors.BACKGROUND_COLOR,
+    paddingHorizontal: scale(12),
+    borderRadius: scale(12),
     alignItems: 'center',
   },
   input: {
@@ -72,23 +77,20 @@ export const styles = StyleSheet.create({
     paddingVertical: scale(12),
     fontFamily: Fonts.MEDIUM,
   },
-  clearButton: {
-    paddingHorizontal: 6,
-  },
-  clearText: {
-    color: '#aaa',
-    fontSize: scale(18),
+  crossIcon: {
+    height: scale(24),
+    width: scale(24),
   },
   button: {
     backgroundColor: colors.WHITE,
     borderRadius: scale(12),
     alignItems: 'center',
     width: '100%',
-    height: scale(52),
-    justifyContent:'center'
+    height: scale(50),
+    justifyContent: 'center',
   },
   buttonText: {
-    color: 'black',
+    color: colors.BLACK,
     fontSize: scale(18),
     fontFamily: Fonts.BOLD,
   },

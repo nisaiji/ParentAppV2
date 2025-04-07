@@ -48,7 +48,7 @@
 
 const colors = {
   WHITE: '#FFFFFF',
-  BLACK: '#000000',
+  BLACK: '#1A1A1A',
   GRAY: '#e5e7e6',
   RED: '#FF0000',
   PURPLE: '#33005B',
