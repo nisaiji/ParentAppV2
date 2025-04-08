@@ -11,7 +11,7 @@ import {
   Keyboard,
 } from 'react-native';
 import logo from '../../../assets/images/logo.png';
-import downArrow from '../../../assets/images/downArrow.png';
+import downArrow from '../../../assets/images/downarrow.png';
 import indianFlag from '../../../assets/images/indianFlag.png';
 import cross from '../../../assets/images/cross.png';
 import {styles} from './styles';
