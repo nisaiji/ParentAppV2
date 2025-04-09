@@ -3,7 +3,6 @@ import {Fonts, Size} from '../../../../theme/fonts';
 import metrics from '../../../../theme/metrics';
 import colors from '../../../../theme/colors';
 import { scale } from 'react-native-size-matters';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 export const styles = StyleSheet.create({
   container: {
@@ -13,8 +12,9 @@ export const styles = StyleSheet.create({
   subtitle: {
     color: colors.WHITE,
     fontSize: Size.font_16,
-    fontFamily: Fonts.REGULAR,
+    fontFamily: Fonts.MEDIUM,
     width: '80%',
+    lineHeight: scale(24)
   },
   label: {
     color: colors.WHITE,
@@ -25,20 +25,22 @@ export const styles = StyleSheet.create({
     color: 'gray',
   },
   otpContainer: {
-    marginVertical: scale(30),
+    marginVertical: scale(26),
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: scale(40),
+    justifyContent: 'space-around',
+    // marginBottom: scale(40),
+    width: '90%',
+    alignSelf:'center'
   },
   otpInput: {
-    width: scale(55),
-    height: scale(55),
+    width: scale(44),
+    height: scale(44),
     backgroundColor: '#111',
     borderRadius: scale(12),
     borderWidth: 1,
-    borderColor: Colors.WHITE,
+    borderColor: colors.WHITE,
     color: colors.WHITE,
-    fontSize: 20,
+    fontSize: scale(20),
     textAlign: 'center',
     fontFamily: Fonts.MEDIUM,
   },
@@ -63,7 +65,8 @@ export const styles = StyleSheet.create({
     paddingHorizontal: scale(12),
     alignItems: 'center',
     borderRadius: scale(12),
-    marginVertical: scale(20),
+    marginTop: scale(14),
+    marginVertical: scale(27),
     position: 'relative',
     borderWidth: 1,
   },
@@ -83,7 +86,7 @@ export const styles = StyleSheet.create({
   },
   continueButton: {
     marginTop: scale(55),
-    backgroundColor: colors.WHITE,
+    backgroundColor: colors.BLACK2,
     paddingVertical: scale(14),
     borderRadius: scale(12),
     alignItems: 'center',

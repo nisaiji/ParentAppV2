@@ -52,7 +52,8 @@ export default function EmailOTPVerification() {
 
         {/* Subtitle */}
         <Text style={styles.subtitle}>
-          We have sent a verification code to +91 7853065649
+        We have sent a verification code to
+        parents@gmail.com
         </Text>
 
         {/* OTP Boxes */}
@@ -73,7 +74,7 @@ export default function EmailOTPVerification() {
 
         {/* resend otp */}
         <Text style={styles.subtitle}>
-          <Text style={styles.grayText}>Resend otp in </Text>30
+          <Text style={styles.grayText}>Resend OTP in </Text>30
         </Text>
 
         {/* Continue Button */}

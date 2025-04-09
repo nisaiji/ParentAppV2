@@ -56,8 +56,12 @@ const colors = {
   LIGHT_YELLOW: 'rgb(255,255,240)',
   CREAM: '#FFFFF0',
   BLACK1:"#0F0616",
+  BLACK2: '#BFBFBF',
+  BLACK3: '#0F0F0F',
   PURPLE_DARK:"#222B45",
   GRAY2:"rgba(15, 6, 22, 0.50)",
+  BLUE: '#0A81D1',
+  PURPLE: "#451952",
 
   COLOR_1: 'rgba(78, 41, 115, 1)',
   COLOR_2: '#D91111',

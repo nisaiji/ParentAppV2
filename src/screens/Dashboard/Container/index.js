@@ -5,15 +5,15 @@ import {
   View,
 } from 'react-native';
 import styles from './styles';
-import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import BackgroundView from '../../../components/BackgroundView';
 
 function Dashboard() {
   return (
-    <GestureHandlerRootView style={styles.container}>
+      <BackgroundView>
       <View style={styles.container}>
-        <Text>Dashboard</Text>
+        <Text>Home</Text>
       </View>
-    </GestureHandlerRootView>
+      </BackgroundView>
   );
 }
 

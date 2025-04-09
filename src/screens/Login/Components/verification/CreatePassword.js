@@ -43,7 +43,7 @@ export default function CreatePassword() {
         <View style={styles.inputContainerWithIcon}>
           <TextInput
             style={styles.input}
-            placeholder="New password"
+            placeholder="Create new password"
             placeholderTextColor="#aaa"
             secureTextEntry={!showNew}
             value={newPassword}
@@ -65,7 +65,7 @@ export default function CreatePassword() {
         <View style={styles.inputContainerWithIcon}>
           <TextInput
             style={styles.input}
-            placeholder="Confirm password"
+            placeholder="Confirm new password"
             placeholderTextColor="#aaa"
             secureTextEntry={!showConfirm}
             value={confirmPassword}

@@ -12,6 +12,8 @@ export const ROUTE = {
   PROFILE: 'Profile',
   DASHBOARD: 'Dashboard',
   EVENT: 'Event',
+  CHILD: 'Child',
+  SETTING: 'Setting',
  
   UPDATE_PASSWORD: 'UpdatePassword',
   AUTH: 'Auth',

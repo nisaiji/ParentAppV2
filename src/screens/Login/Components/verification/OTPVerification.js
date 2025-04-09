@@ -74,7 +74,7 @@ export default function OTPVerification() {
 
         {/* resend otp */}
         <Text style={styles.subtitle}>
-          <Text style={styles.grayText}>Resend otp in </Text>30
+          <Text style={styles.grayText}>Resend OTP in </Text>30
         </Text>
 
         {/* Continue Button */}

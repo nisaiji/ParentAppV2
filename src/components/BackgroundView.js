@@ -10,7 +10,7 @@ const BackgroundView = ({ children, style = {} }) => {
 const styles = StyleSheet.create({
     background: {
         flex: 1,
-        backgroundColor: colors.BLACK,
+        backgroundColor: colors.BLACK3,
         paddingTop:scale(10),
         paddingHorizontal: scale(12)
     },

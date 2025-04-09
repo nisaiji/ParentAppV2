@@ -14,6 +14,7 @@ import { ROUTE } from '../../../../navigation/constant';
 import { useNavigation } from '@react-navigation/native';
 import Header from '../../../../components/Header';
 import { useTranslation } from 'react-i18next';
+import { scale } from 'react-native-size-matters';
 
 export default function ParentDetail() {
   const [name, setName] = useState('');
@@ -56,7 +57,7 @@ export default function ParentDetail() {
       </View>
 
       {/* Continue Button */}
-      <TouchableOpacity onPress={onSubmit} style={[styles.continueButton, {marginBottom: 0}]}>
+      <TouchableOpacity onPress={onSubmit} style={[styles.continueButton, {marginBottom: 0, marginTop: scale(28)}]}>
         <Text style={styles.continueText}>Continue</Text>
       </TouchableOpacity>
     </SafeAreaView>

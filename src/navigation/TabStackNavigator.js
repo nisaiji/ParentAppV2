@@ -1,127 +1,125 @@
-import React, {useContext, useState} from 'react';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Image, TouchableOpacity, StyleSheet, Alert} from 'react-native';
+import React, { useContext, useState } from 'react';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Image, TouchableOpacity, StyleSheet, Text, DevSettings } from 'react-native';
 import DashboardScreen from '@src/screens/Dashboard/Container/index';
 import ProfileStackNavigator from '@src/navigation/ProfileStackNavigator';
 import home from '@src/assets/images/home.png';
-import homeoutlined from '@src/assets/images/homeoutlined.png';
-import event from '@src/assets/images/event.png';
-import eventoutlined from '@src/assets/images/eventoutlined.png';
-import profile from '@src/assets/images/profile.png';
-import profileoutlined from '@src/assets/images/profileoutlined.png';
-import {scale} from 'react-native-size-matters';
-import {ROUTE} from './constant';
-import {Colors, Fonts} from '../theme/fonts';
-import {AuthContext} from '../context/AuthContext';
+import child from '@src/assets/images/child.png';
+import setting from '@src/assets/images/setting.png';
+import { scale } from 'react-native-size-matters';
+import { ROUTE } from './constant';
+import { Colors, Fonts } from '../theme/fonts';
+import { AuthContext } from '../context/AuthContext';
 import EventHoliday from '../screens/Event/Container';
+import colors from '../theme/colors';
 
 const Tab = createBottomTabNavigator();
 
 function TabStackNavigator() {
-  const {profileDrawer, setProfileDrawer} = useContext(AuthContext);
+  const { profileDrawer, setProfileDrawer } = useContext(AuthContext);
   return (
     <Tab.Navigator
       initialRouteName={ROUTE.DASHBOARD}
-      screenOptions={({route}) => ({
-        tabBarIcon: ({focused, color, size}) => {
-          let iconSource;
-          let rn = route.name;
+      screenOptions={({ route }) => ({
+        headerShown: false,
+        tabBarButton: (props) => {
+          const { accessibilityState, onPress } = props;
+          const focused = accessibilityState.selected;
+          const isDashboard = route.name === ROUTE.DASHBOARD;
+          const isChild = route.name === ROUTE.CHILD;
+          const isSetting = route.name === ROUTE.SETTING;
 
-          if (rn === ROUTE.DASHBOARD) {
-            iconSource = focused ? home : homeoutlined;
-          } else if (rn === ROUTE.EVENT) {
-            iconSource = focused ? event : eventoutlined;
-          } else if (rn === ROUTE.PROFILE) {
-            iconSource = focused ? profile : profileoutlined;
+          let iconSource;
+          let label = '';
+          let bgColor = "";
+          let labelColor = colors.WHITE;
+
+          if (isDashboard) {
+            iconSource = home;
+            label = 'Home';
+            bgColor = colors.BLUE;
+          } else if (isChild) {
+            iconSource = child;
+            label = 'Child';
+            bgColor = colors.PURPLE;
+          } else if (isSetting) {
+            iconSource = setting;
+            label = 'Settings';
+            bgColor = colors.WHITE;
+            labelColor = colors.BLACK1
           }
 
           return (
-            <Image
-              source={iconSource}
+            <TouchableOpacity
+              onPress={() => {
+                onPress();
+                if (profileDrawer) setProfileDrawer(false);
+              }}
               style={[
-                {
-                  height: 30,
-                  width: 30,
-                  resizeMode: 'contain',
-                  tintColor: focused
-                    ? iconSource === event
-                      ? ''
-                      : Colors.PURPLE1
-                    : '',
-                },
+                styles.tabButton,
+                focused ? { backgroundColor: bgColor } : null,
               ]}
-            />
+            >
+              <Image
+                source={iconSource}
+                style={[
+                  styles.icon,
+                  { tintColor: focused ? labelColor : Colors.DARKGRAY },
+                ]}
+              />
+              {focused && <Text style={[
+                styles.label,
+                { color: labelColor }
+              ]}>{label}</Text>}
+            </TouchableOpacity>
           );
         },
-        tabBarActiveTintColor: Colors.COLOR_7,
-        tabBarInactiveTintColor: Colors.DARKGRAY,
-        tabBarLabelStyle: {
-          paddingBottom: scale(10),
-          fontSize: scale(10),
-          fontFamily: Fonts.BOLD,
-        },
         tabBarStyle: {
-          padding: scale(10),
-          height: scale(70),
+          height: scale(65),
+          backgroundColor: colors.BLACK3,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          borderTopWidth: 0,
+          alignItems: 'center'
         },
-      })}>
+      })}
+    >
       <Tab.Screen
         name={ROUTE.DASHBOARD}
         component={DashboardScreen}
-        options={{
-          headerShown: false,
-          tabBarButton: props => (
-            <TouchableOpacity
-              {...props}
-              onPress={() => {
-                props.onPress();
-                if (profileDrawer) {
-                  setProfileDrawer(false);
-                }
-              }}
-            />
-          ),
-        }}
       />
       <Tab.Screen
-        name={ROUTE.EVENT}
+        name={ROUTE.CHILD}
         component={EventHoliday}
-        options={{
-          headerShown: false,
-          tabBarButton: props => (
-            <TouchableOpacity
-              {...props}
-              onPress={() => {
-                props.onPress();
-                // console.log('props', props);
-                if (profileDrawer) {
-                  setProfileDrawer(false);
-                }
-              }}
-            />
-          ),
-        }}
       />
       <Tab.Screen
-        name={ROUTE.PROFILE}
+        name={ROUTE.SETTING}
         component={ProfileStackNavigator}
-        options={{
-          headerShown: false,
-          tabBarButton: props => (
-            <TouchableOpacity
-              {...props}
-              onPress={() => {
-                props.onPress();
-                if (profileDrawer) {
-                  setProfileDrawer(false);
-                }
-              }}
-            />
-          ),
-        }}
       />
     </Tab.Navigator>
   );
 }
+
+const styles = StyleSheet.create({
+  tabButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: scale(12),
+    height: scale(40),
+    flex: 0.33
+  },
+  icon: {
+    height: scale(20),
+    width: scale(20),
+    resizeMode: 'contain',
+    marginRight: scale(5),
+  },
+  label: {
+    color: colors.WHITE,
+    fontFamily: Fonts.MEDIUM,
+    fontSize: scale(16),
+  },
+});
 
 export default TabStackNavigator;

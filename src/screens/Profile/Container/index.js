@@ -6,14 +6,15 @@ import {
 } from 'react-native';
 import styles from './styles';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import BackgroundView from '../../../components/BackgroundView';
 
 function Profile() {
   return (
-    <GestureHandlerRootView style={styles.container}>
+    <BackgroundView>
       <View style={styles.container}>
         <Text>Profile</Text>
       </View>
-    </GestureHandlerRootView>
+    </BackgroundView>
   );
 }
 

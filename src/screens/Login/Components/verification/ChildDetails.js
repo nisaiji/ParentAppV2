@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
   TextInput,
+  Alert,
 } from 'react-native';
 import leftArrow from '../../../../assets/images/leftArrow.png';
 import add from '../../../../assets/images/add.png';
@@ -14,11 +15,37 @@ import {styles} from './styles';
 import BackgroundView from '../../../../components/BackgroundView';
 import { useTranslation } from 'react-i18next';
 import Header from '../../../../components/Header';
+import { ROUTE } from '../../../../navigation/constant';
+import { useNavigation } from '@react-navigation/native';
 
 export default function ChildDetail() {
   const [name, setName] = useState('');
   const [id, setId] = useState('');
+  const [childs, setChilds] = useState([{child: 'Subhash', id: 1}])
   const [t] = useTranslation();
+  const navigation = useNavigation()
+
+  const verifyChild = () => {
+    let temp = [...childs]
+    temp.push({child: name, id: temp?.length + 1})
+    setChilds(temp)
+    setName("")
+  }
+
+  const addChild = () => {
+    if(name?.length > 0 && childs?.length < 5) {
+      verifyChild()
+    }else{
+      Alert.alert('upto 5 child can be added')
+    }
+  }
+
+  const onSubmit = () => {
+    navigation.navigate(ROUTE.TAB, {screen: ROUTE.SUCCESS_PAGE, params: {
+          message: t('passwordSuccess'),
+          nextRoute: ROUTE.PARENT_DETAIL
+        }})
+  }
 
   return (
     <BackgroundView>
@@ -26,13 +53,15 @@ export default function ChildDetail() {
       {/* Header */}
       <Header heading={t('childDetail.heading')} noBack />
 
-      <View style={styles.verifiedContainer}>
-        <Text style={styles.nameText}>Priyanka Sharma</Text>
+      {childs.map((item) => (
+        <View style={styles.verifiedContainer} key={item?.id}>
+        <Text style={styles.nameText}>{item?.child}</Text>
         <View style={styles.verifiedWrapper}>
           <Text style={styles.verifyedText}>Verified</Text>
           <Image source={verifyed} style={styles.verifiedIcon} />
         </View>
       </View>
+      ))}
 
       {/* New Password */}
       <Text style={styles.label}>Name</Text>
@@ -59,13 +88,13 @@ export default function ChildDetail() {
       </View>
 
       {/* Continue Button */}
-      <TouchableOpacity style={[styles.continueButton, {marginTop: 35}]}>
-        <Text style={styles.continueText}>Continue</Text>
-      </TouchableOpacity>
+      {childs?.length > 0 && <TouchableOpacity onPress={onSubmit} style={[styles.continueButton, {marginTop: 28}]}>
+        <Text style={styles.continueText}>{name?.length ? "Verify" : "Continue"}</Text>
+      </TouchableOpacity>}
 
       {/* Add Child Button */}
-      <TouchableOpacity style={[styles.addChildButton, {marginBottom: 0}]}>
-        <Image source={add} style={styles.addIcon} />
+      <TouchableOpacity disabled={name?.length === 0 } onPress={addChild} style={[styles.addChildButton, {marginBottom: 0}]}>
+        <Image source={add} style={styles.addIcon} resizeMode='contain'/>
         <Text style={styles.addChildText}>Add Child</Text>
       </TouchableOpacity>
     </SafeAreaView>
