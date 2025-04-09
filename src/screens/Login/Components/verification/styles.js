@@ -40,7 +40,7 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.WHITE,
     color: colors.WHITE,
-    fontSize: scale(20),
+    fontSize: Size.font_20,
     textAlign: 'center',
     fontFamily: Fonts.MEDIUM,
   },
@@ -93,9 +93,8 @@ export const styles = StyleSheet.create({
   },
   continueText: {
     fontFamily: Fonts.BOLD,
-    fontSize: scale(18),
     color: '#0A0A0A',
-    fontSize: scale(16),
+    fontSize: Size.font_16,
     color: 'black',
   },
   addChildButton: {
@@ -113,9 +112,8 @@ export const styles = StyleSheet.create({
   },
   addChildText: {
     fontFamily: Fonts.BOLD,
-    fontSize: scale(18),
     color: '#0A0A0A',
-    fontSize: scale(16),
+    fontSize: Size.font_16,
     color: '#fff',
   },
   addIcon: {
@@ -125,7 +123,7 @@ export const styles = StyleSheet.create({
   verifyedText: {
     color: '#00B383',
     fontFamily: Fonts.BOLD,
-    fontSize: scale(14),
+    fontSize:Size.font_14,
   },
   verifiedContainer: {
     flexDirection: 'row',

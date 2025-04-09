@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 10,
   },
   text: {
-    fontSize: scale(14),
+    fontSize: Size.font_14,
     color: Colors.BLACK,
     fontFamily: Fonts.BOLD,
     paddingHorizontal: scale(5),

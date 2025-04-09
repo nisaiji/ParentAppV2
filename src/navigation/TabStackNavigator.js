@@ -1,38 +1,38 @@
-import React, { useContext, useState } from 'react';
+import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Image, TouchableOpacity, StyleSheet, Text, DevSettings } from 'react-native';
+import { Image, TouchableOpacity, StyleSheet, Text } from 'react-native';
 import DashboardScreen from '@src/screens/Dashboard/Container/index';
-import ProfileStackNavigator from '@src/navigation/ProfileStackNavigator';
+import SettingStackNavigator from '@src/navigation/SettingStackNavigator';
 import home from '@src/assets/images/home.png';
 import child from '@src/assets/images/child.png';
 import setting from '@src/assets/images/setting.png';
 import { scale } from 'react-native-size-matters';
 import { ROUTE } from './constant';
-import { Colors, Fonts } from '../theme/fonts';
-import { AuthContext } from '../context/AuthContext';
-import EventHoliday from '../screens/Event/Container';
+import { Colors, Fonts, Size } from '../theme/fonts';
 import colors from '../theme/colors';
+import ChildStackNavigator from './ChildStackNavigator';
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 
 function TabStackNavigator() {
-  const { profileDrawer, setProfileDrawer } = useContext(AuthContext);
   return (
     <Tab.Navigator
-      initialRouteName={ROUTE.DASHBOARD}
-      screenOptions={({ route }) => ({
+      initialRouteName={ROUTE.CHILD}
+      screenOptions={({ route, navigation }) => ({
         headerShown: false,
         tabBarButton: (props) => {
           const { accessibilityState, onPress } = props;
           const focused = accessibilityState.selected;
           const isDashboard = route.name === ROUTE.DASHBOARD;
-          const isChild = route.name === ROUTE.CHILD;
-          const isSetting = route.name === ROUTE.SETTING;
+          const isChild = route.name === ROUTE.CHILD_STACK;
+          const isSetting = route.name === ROUTE.SETTING_STACK;
 
           let iconSource;
           let label = '';
           let bgColor = "";
           let labelColor = colors.WHITE;
+          let rn = route.name;
 
           if (isDashboard) {
             iconSource = home;
@@ -51,10 +51,9 @@ function TabStackNavigator() {
 
           return (
             <TouchableOpacity
-              onPress={() => {
-                onPress();
-                if (profileDrawer) setProfileDrawer(false);
-              }}
+            onPress={() => {
+              navigation.navigate(rn); // Navigate to the respective route on icon press
+            }}
               style={[
                 styles.tabButton,
                 focused ? { backgroundColor: bgColor } : null,
@@ -80,7 +79,8 @@ function TabStackNavigator() {
           flexDirection: 'row',
           justifyContent: 'space-between',
           borderTopWidth: 0,
-          alignItems: 'center'
+          alignItems: 'center',
+          paddingHorizontal: scale(12)
         },
       })}
     >
@@ -89,12 +89,24 @@ function TabStackNavigator() {
         component={DashboardScreen}
       />
       <Tab.Screen
-        name={ROUTE.CHILD}
-        component={EventHoliday}
+      options={({ route }) => {
+        const routeName = getFocusedRouteNameFromRoute(route) ?? 'HomeMain';
+  
+        if (routeName === ROUTE.EDIT_CHILD) {
+          return {
+            tabBarStyle: { display: 'none' },
+          };
+        }
+  
+        return {};
+      }}
+        name={ROUTE.CHILD_STACK}
+        component={ChildStackNavigator}
+
       />
       <Tab.Screen
-        name={ROUTE.SETTING}
-        component={ProfileStackNavigator}
+        name={ROUTE.SETTING_STACK}
+        component={SettingStackNavigator}
       />
     </Tab.Navigator>
   );
@@ -118,7 +130,7 @@ const styles = StyleSheet.create({
   label: {
     color: colors.WHITE,
     fontFamily: Fonts.MEDIUM,
-    fontSize: scale(16),
+    fontSize: Size.font_16,
   },
 });
 

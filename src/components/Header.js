@@ -4,8 +4,8 @@ import { useNavigation } from '@react-navigation/native';
 import leftArrow from '../assets/images/leftArrow.png'; // or use vector icon
 import { scale } from 'react-native-size-matters';
 import colors from '../theme/colors';
-import { Fonts, Size } from '../theme/fonts';
-import commonStyle from '../theme/styles'
+import { Fonts, Size, globalStyle } from '../theme/fonts';
+
 
 const Header = ({ noBack = false, heading = '', style = {} }) => {
   const navigation = useNavigation();
@@ -18,13 +18,11 @@ const Header = ({ noBack = false, heading = '', style = {} }) => {
     <View style={[styles.container, style]}>
       <View style={styles.innerHeader}>
         {!noBack && (
-          <TouchableOpacity onPress={onBack} style={styles.backWrapper} hitSlop={commonStyle.hitSlop10}>
+          <TouchableOpacity onPress={onBack} style={styles.backWrapper} hitSlop={{top: 10, bottom: 10, left: 20, right: 20}}>
             <Image source={leftArrow} style={styles.backButton} resizeMode="contain" />
           </TouchableOpacity>
         )}
         <Text style={styles.title}>{heading}</Text>
-        {/* Spacer to balance title centering */}
-        {!noBack && <View style={styles.backWrapper} />}
       </View>
     </View>
   );

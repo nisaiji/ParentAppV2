@@ -13,7 +13,12 @@ export const ROUTE = {
   DASHBOARD: 'Dashboard',
   EVENT: 'Event',
   CHILD: 'Child',
+  CHILD_STACK: 'ChildTStack',
+  EDIT_CHILD: 'EditChild',
   SETTING: 'Setting',
+  EDIT_PROFILE: 'EditProfile',
+  CHANGE_PASSWORD: 'ChangePassword',
+  SETTING_STACK: 'SettingStack',
  
   UPDATE_PASSWORD: 'UpdatePassword',
   AUTH: 'Auth',

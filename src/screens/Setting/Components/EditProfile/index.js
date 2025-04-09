@@ -5,17 +5,16 @@ import {
   View,
 } from 'react-native';
 import styles from './styles';
-import {GestureHandlerRootView} from 'react-native-gesture-handler';
-import BackgroundView from '../../../components/BackgroundView';
+import BackgroundView from '@src/components/BackgroundView';
 
-function Profile() {
+function Setting() {
   return (
     <BackgroundView>
       <View style={styles.container}>
-        <Text>Profile</Text>
+        <Text>Setting</Text>
       </View>
     </BackgroundView>
   );
 }
 
-export default Profile;
+export default Setting;

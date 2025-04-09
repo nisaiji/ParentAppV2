@@ -91,7 +91,7 @@ export const styles = StyleSheet.create({
   },
   buttonText: {
     color: colors.BLACK,
-    fontSize: scale(18),
+    fontSize: Size.font_18,
     fontFamily: Fonts.BOLD,
   },
 });

@@ -40,4 +40,9 @@ const Weight = {
   normal: 'normal',
 };
 
-export {Size, Weight, Colors, Fonts};
+const globalStyle = {
+  hitSlop10:{top: 10, bottom: 10, left: 10, right: 10},
+  hitSlop20:{top: 20, bottom: 20, left: 20, right: 20}
+}
+
+export {Size, Weight, Colors, Fonts, globalStyle};
