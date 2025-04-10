@@ -50,7 +50,7 @@ const colors = {
   WHITE: '#FFFFFF',
   BLACK: '#1A1A1A',
   GRAY: '#e5e7e6',
-  RED: '#FF0000',
+  RED: '#DD1C1A',
   PURPLE: '#33005B',
   DARKGRAY: 'gray',
   LIGHT_YELLOW: 'rgb(255,255,240)',
@@ -64,11 +64,13 @@ const colors = {
   PURPLE: "#451952",
   PURPLE50: "#45195280",
   COLOR_1_40: "#66666640",
+  COLOR_1_80: "#66666680",
   COLOR_1: "#666666",
   COLOR_2: "#A2A2A2",
   COLOR_2_40: "#A2A2A240",
   COLOR_3: "#898D8C",
-  
+  COLOR_4: "#383839",
+  DISABLE_COLOR: '#0A0A0A',
 
 
   BORDER: 'rgba(137, 141, 140, 0.25)',

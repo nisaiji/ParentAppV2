@@ -11,7 +11,7 @@ const Stack = createNativeStackNavigator();
 export default function Navigation() {
   return (
     <NavigationContainer ref={navigationRef}>
-      <Stack.Navigator initialRouteName={ROUTE.TAB}>
+      <Stack.Navigator initialRouteName={ROUTE.SPLASH}>
         <Stack.Screen
           name={ROUTE.SPLASH}
           options={{headerShown: false}}

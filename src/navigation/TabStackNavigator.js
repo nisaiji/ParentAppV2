@@ -105,6 +105,17 @@ function TabStackNavigator() {
 
       />
       <Tab.Screen
+      options={({ route }) => {
+        const routeName = getFocusedRouteNameFromRoute(route) ?? 'HomeMain';
+  
+        if (routeName === ROUTE.CHANGE_PASSWORD || routeName === ROUTE.EDIT_PROFILE) {
+          return {
+            tabBarStyle: { display: 'none' },
+          };
+        }
+  
+        return {};
+      }}
         name={ROUTE.SETTING_STACK}
         component={SettingStackNavigator}
       />

@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
         height: scale(150),
         alignSelf: 'center',
         position: 'relative',
-        marginVertical: scale(32)
+marginBottom: scale(23)
     },
     childImg: {
         width: '100%',

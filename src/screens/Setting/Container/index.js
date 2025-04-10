@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Image,
   ScrollView,
@@ -8,16 +8,37 @@ import {
   View,
 } from 'react-native';
 import styles from './styles';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import BackgroundView from '../../../components/BackgroundView';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Header from '../../../components/Header';
 import childDummy from '../../../assets/images/childDummy.png'
+import rightArrow from '../../../assets/images/rightArrow.png'
 import pencilIcon from '../../../assets/images/pencilIcon.png'
+import logoutIcon from '../../../assets/images/logout.png'
+import infoIcon from '../../../assets/images/info.png'
+import smartPhoneIcon from '../../../assets/images/smartphone.png'
+import feedbackIcon from '../../../assets/images/feedback.png'
+import faqIcon from '../../../assets/images/faq.png'
+import passwordIcon from '../../../assets/images/password.png'
 import { globalStyle } from '../../../theme/fonts';
-import { scale } from 'react-native-size-matters';
+import { useNavigation } from '@react-navigation/native';
+import { ROUTE } from '../../../navigation/constant';
+import ConfirmPopup from '../../../components/ConfirmPopup';
 
 function Setting() {
+  const navigation = useNavigation()
+  const [logoutPopup, setLogoutPopup] = useState(false)
+
+  const onChangePassword = () => {
+navigation.navigate(ROUTE.CHANGE_PASSWORD)
+  }
+  const onEditProfile = () => {
+    navigation.navigate(ROUTE.EDIT_PROFILE)
+      }
+      const onLogout = () => {
+        
+      }
+
   return (
     <BackgroundView>
       <SafeAreaView style={styles.container}>
@@ -31,7 +52,7 @@ function Setting() {
               <Text style={styles.parentLabel}>Parent</Text>
             </View>
           </View>
-          <TouchableOpacity hitSlop={globalStyle.hitSlop10} style={styles.pencilIcon}>
+          <TouchableOpacity onPress={onEditProfile} hitSlop={globalStyle.hitSlop10} style={styles.pencilIcon}>
             <Image source={pencilIcon} style={styles.pencilIcon} resizeMode='contain' />
           </TouchableOpacity>
         </View>
@@ -39,13 +60,13 @@ function Setting() {
           <Text style={[styles.parentName, styles.mb16]}>Account Settings</Text>
           <View style={styles.itemContainer}>
             <View style={styles.itemLeftContainer}>
-              <Image source={pencilIcon} style={styles.pencilIcon} resizeMode='contain'/>
+              <Image source={passwordIcon} style={styles.pencilIcon} resizeMode='contain'/>
               <Text style={[styles.parentName,styles.itemLabel]}>
               Change password
               </Text>
             </View>
-            <TouchableOpacity>
-            <Image source={pencilIcon} style={styles.pencilIcon} resizeMode='contain'/>
+            <TouchableOpacity onPress={onChangePassword}>
+            <Image source={rightArrow} style={styles.pencilIcon} resizeMode='contain'/>
             </TouchableOpacity>
           </View>
         </View>
@@ -54,37 +75,37 @@ function Setting() {
           <View style={styles.combinedBG}>
           <View style={[styles.itemContainer, styles.combinedBGItem]}>
             <View style={styles.itemLeftContainer}>
-              <Image source={pencilIcon} style={styles.pencilIcon} resizeMode='contain'/>
+              <Image source={faqIcon} style={styles.pencilIcon} resizeMode='contain'/>
               <Text style={[styles.parentName,styles.itemLabel]}>
               Frequently asked questions
               </Text>
             </View>
             <TouchableOpacity>
-            <Image source={pencilIcon} style={styles.pencilIcon} resizeMode='contain'/>
+            <Image source={rightArrow} style={styles.pencilIcon} resizeMode='contain'/>
             </TouchableOpacity>
           </View>
           <View style={styles.borderBottom}/>
           <View style={[styles.itemContainer, styles.combinedBGItem]}>
             <View style={styles.itemLeftContainer}>
-              <Image source={pencilIcon} style={styles.pencilIcon} resizeMode='contain'/>
+              <Image source={feedbackIcon} style={styles.pencilIcon} resizeMode='contain'/>
               <Text style={[styles.parentName,styles.itemLabel]}>
               Share feedback
               </Text>
             </View>
             <TouchableOpacity>
-            <Image source={pencilIcon} style={styles.pencilIcon} resizeMode='contain'/>
+            <Image source={rightArrow} style={styles.pencilIcon} resizeMode='contain'/>
             </TouchableOpacity>
           </View>
           <View style={styles.borderBottom}/>
           <View style={[styles.itemContainer, styles.combinedBGItem]}>
             <View style={styles.itemLeftContainer}>
-              <Image source={pencilIcon} style={styles.pencilIcon} resizeMode='contain'/>
+              <Image source={smartPhoneIcon} style={styles.pencilIcon} resizeMode='contain'/>
               <Text style={[styles.parentName,styles.itemLabel]}>
               App tour
               </Text>
             </View>
             <TouchableOpacity>
-            <Image source={pencilIcon} style={styles.pencilIcon} resizeMode='contain'/>
+            <Image source={rightArrow} style={styles.pencilIcon} resizeMode='contain'/>
             </TouchableOpacity>
           </View>
           </View>
@@ -93,29 +114,37 @@ function Setting() {
           <Text style={[styles.parentName, styles.mb16]}>More</Text>
           <View style={[styles.itemContainer,styles.mb20]}>
             <View style={styles.itemLeftContainer}>
-              <Image source={pencilIcon} style={styles.pencilIcon} resizeMode='contain'/>
+              <Image source={infoIcon} style={styles.pencilIcon} resizeMode='contain'/>
               <Text style={[styles.parentName,styles.itemLabel]}>
               About us
               </Text>
             </View>
             <TouchableOpacity>
-            <Image source={pencilIcon} style={styles.pencilIcon} resizeMode='contain'/>
+            <Image source={rightArrow} style={styles.pencilIcon} resizeMode='contain'/>
             </TouchableOpacity>
           </View>
           <View style={[styles.itemContainer, styles.mb40]}>
             <View style={styles.itemLeftContainer}>
-              <Image source={pencilIcon} style={styles.pencilIcon} resizeMode='contain'/>
+              <Image source={logoutIcon} style={styles.pencilIcon} resizeMode='contain'/>
               <Text style={[styles.parentName,styles.itemLabel]}>
               Logout
               </Text>
             </View>
-            <TouchableOpacity>
-            <Image source={pencilIcon} style={styles.pencilIcon} resizeMode='contain'/>
+            <TouchableOpacity onPress={() => setLogoutPopup(true)}>
+            <Image source={rightArrow} style={styles.pencilIcon} resizeMode='contain'/>
             </TouchableOpacity>
           </View>
           
         </View>
         </ScrollView>
+        {/* confirm popup */}
+      <ConfirmPopup
+        isVisible={logoutPopup}
+        onClose={() => setLogoutPopup(false)}
+        onConfirm={() => {
+          onLogout()
+        }}
+      />
       </SafeAreaView>
     </BackgroundView>
   );

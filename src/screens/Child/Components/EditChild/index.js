@@ -11,7 +11,7 @@ import BackgroundView from '@src/components/BackgroundView';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Header from '../../../../components/Header';
 import childDummy from '../../../../assets/images/childDummy.png'
-import pencilIcon from '../../../../assets/images/childDummy.png'
+import circlePencilIcon from '../../../../assets/images/circlePencil.png'
 import { GestureHandlerRootView, ScrollView } from 'react-native-gesture-handler';
 
 
@@ -30,7 +30,7 @@ function EditChild() {
           </View>
           <View style={styles.childImgContainer}>
             <Image source={childDummy} resizeMode={'contain'} style={styles.childImg} />
-            <Image source={pencilIcon} resizeMode={'contain'} style={styles.pencilIcon} />
+            <Image source={circlePencilIcon} resizeMode={'contain'} style={styles.pencilIcon} />
           </View>
           <View style={styles.formContainer}>
             <Text style={styles.formHeader}>Personal Information</Text>

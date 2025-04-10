@@ -40,7 +40,7 @@ const CustomDropdown = ({items, desc, onSelect, selectedValue, isDisabled}) => {
         style={[isOpen ? styles.dropdownOpen : styles.dropdownClose]}
         onPress={() => !isDisabled && setIsOpen(!isOpen)}
         activeOpacity={isDisabled ? 1 : 0.7}>
-        <Text style={[styles.text, {color: isDisabled ? 'gray' : 'black'}]}>
+        <Text style={[styles.text, {color: isDisabled ? colors.DARKGRAY : colors.BLACK}]}>
           {selectedItem ? selectedItem.label : desc}
         </Text>
       </TouchableOpacity>

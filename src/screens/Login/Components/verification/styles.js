@@ -19,10 +19,10 @@ export const styles = StyleSheet.create({
   label: {
     color: colors.WHITE,
     fontSize: Size.font_16,
-    fontFamily: Fonts.REGULAR,
+    fontFamily: Fonts.MEDIUM,
   },
   grayText: {
-    color: 'gray',
+    color: colors.DARKGRAY,
   },
   otpContainer: {
     marginVertical: scale(26),
@@ -93,9 +93,9 @@ export const styles = StyleSheet.create({
   },
   continueText: {
     fontFamily: Fonts.BOLD,
-    color: '#0A0A0A',
+    color: colors.DISABLE_COLOR,
     fontSize: Size.font_16,
-    color: 'black',
+    color: colors.BLACK,
   },
   addChildButton: {
     marginTop: scale(20),
@@ -112,7 +112,7 @@ export const styles = StyleSheet.create({
   },
   addChildText: {
     fontFamily: Fonts.BOLD,
-    color: '#0A0A0A',
+    color: colors.DISABLE_COLOR,
     fontSize: Size.font_16,
     color: '#fff',
   },

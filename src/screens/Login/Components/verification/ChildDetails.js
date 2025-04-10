@@ -21,7 +21,7 @@ import { useNavigation } from '@react-navigation/native';
 export default function ChildDetail() {
   const [name, setName] = useState('');
   const [id, setId] = useState('');
-  const [childs, setChilds] = useState([{child: 'Subhash', id: 1}])
+  const [childs, setChilds] = useState([])
   const [t] = useTranslation();
   const navigation = useNavigation()
 
@@ -88,15 +88,15 @@ export default function ChildDetail() {
       </View>
 
       {/* Continue Button */}
-      {childs?.length > 0 && <TouchableOpacity onPress={onSubmit} style={[styles.continueButton, {marginTop: 28}]}>
+      {childs?.length === 0 && <TouchableOpacity onPress={onSubmit} style={[styles.continueButton, {marginTop: 28}]}>
         <Text style={styles.continueText}>{name?.length ? "Verify" : "Continue"}</Text>
       </TouchableOpacity>}
 
       {/* Add Child Button */}
-      <TouchableOpacity disabled={name?.length === 0 } onPress={addChild} style={[styles.addChildButton, {marginBottom: 0}]}>
+      {childs?.length > 0 && <TouchableOpacity disabled={name?.length === 0 } onPress={addChild} style={[styles.addChildButton, {marginBottom: 0}]}>
         <Image source={add} style={styles.addIcon} resizeMode='contain'/>
         <Text style={styles.addChildText}>Add Child</Text>
-      </TouchableOpacity>
+      </TouchableOpacity>}
     </SafeAreaView>
     </BackgroundView>
   );
