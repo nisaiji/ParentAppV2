@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, {useRef, useState} from 'react';
 import {
   View,
   Text,
@@ -7,17 +7,20 @@ import {
   SafeAreaView,
   TextInput,
 } from 'react-native';
-import { styles } from './styles';
-import { useNavigation } from '@react-navigation/native';
-import { ROUTE } from '../../../../navigation/constant';
+import {styles} from './styles';
+import {useNavigation} from '@react-navigation/native';
+import {ROUTE} from '../../../../navigation/constant';
 import BackgroundView from '../../../../components/BackgroundView';
 import Header from '../../../../components/Header';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
+import {useSelector} from 'react-redux';
 
 export default function OTPVerification() {
   const [otp, setOtp] = useState(['', '', '', '', '']);
+  const {status} = useSelector(state => state.auth);
+  // console.log({status});
   const inputRefs = useRef([]);
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   const [t] = useTranslation();
 
   const handleChange = (text, index) => {
@@ -37,15 +40,14 @@ export default function OTPVerification() {
   };
 
   const onBack = () => {
-    navigation.goBack()
-  }
+    navigation.goBack();
+  };
 
   const onSubmit = () => {
-    navigation.navigate(ROUTE.EMAIL_VERIFICATION)
-  }
+    navigation.navigate(ROUTE.EMAIL_VERIFICATION);
+  };
 
   return (
-
     <SafeAreaView style={styles.container}>
       <BackgroundView>
         {/* Header */}
@@ -53,7 +55,7 @@ export default function OTPVerification() {
 
         {/* Subtitle */}
         <Text style={styles.subtitle}>
-          We have sent a verification code to +91 7853065649
+          We have sent a verification code to +91 {status?.phone || 7853065649}
         </Text>
 
         {/* OTP Boxes */}

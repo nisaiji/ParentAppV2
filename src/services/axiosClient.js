@@ -6,9 +6,9 @@ import {ROUTE} from '../navigation/constant';
 import {checkInternetConnection} from '../utils/handler';
 
 // Base URL for API requests
-// const baseURL = 'http://192.168.29.79:4000/';
+const baseURL = 'http://192.168.29.79:4000/';
 // const baseURL = 'https://api.sharedri.com/';
-const baseURL = 'https://development-api.nisaiji.com/';
+// const baseURL = 'https://development-api.nisaiji.com/';
 
 let isShowingNoInternetToast = false;
 
@@ -70,6 +70,8 @@ axiosClient.interceptors.response.use(
   async response => {
     const data = response?.data;
     // Return response if the status is 'ok'
+    // console.log({response});
+
     if (data?.status === 'ok') {
       return response;
     }
@@ -113,7 +115,7 @@ axiosClient.interceptors.response.use(
   },
   async error => {
     // console.log('error?.response?.status 111', JSON.stringify(error?.response));
-
+    // console.log({err: error.response.data});
     // Handle network errors
     if (error?.message === 'Network Error') {
       if (!isShowingNoInternetToast) {
@@ -124,13 +126,6 @@ axiosClient.interceptors.response.use(
         }, 5000);
       }
       return Promise.reject('Check your internet connectivity');
-    }
-
-    // Specific handling for the attendance API endpoint
-    if (
-      error?.response?.config?.url?.includes('attendance/teacher/is-marked')
-    ) {
-      return Promise.reject(error?.response?.data);
     }
 
     // Handle 403 errors (forbidden access) and 410 errors (soft delete)
