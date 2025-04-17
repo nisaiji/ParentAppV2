@@ -62,4 +62,7 @@ export const EndPoints = {
   OTP_VERIFY: 'v2/parent/phoneVerify',
   EMAIL_OTP_SEND: 'v2/parent/emailVerify',
   EMAIL_OTP_VERIFY: 'v2/parent/emailVerify',
+  PASSWORD_UPDATE: 'v2/parent/password',
+  UPDATE_PARENT_FULLNAME: 'v2/parent/fullname',
+  ADD_STUDENT: 'v2/parent/add',
 };

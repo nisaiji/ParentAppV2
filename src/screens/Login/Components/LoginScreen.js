@@ -35,18 +35,17 @@ export default function Login() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const clearPhone = () => setPhone('');
-  const {token, status} = useSelector(state => state.auth);
-  console.log(token,status);
+  const {status} = useSelector(state => state.auth);
+  console.log(status);
 
   const getStatus = async () => {
     try {
       const res = await axiosClient.post(EndPoints.GET_STATUS, {phone});
       const data = res?.data?.result;
-
+      // console.log(data);
       if (data) {
         dispatch(setAuth({...data, phone}));
       }
-      // console.log(data);
 
       if (!data?.phoneVerified) {
         try {
@@ -56,11 +55,16 @@ export default function Login() {
             navigation.navigate(ROUTE.OTP);
           }
         } catch (e) {
-          // console.log('OTP_SEND Error:', e);
           errorToast(e);
         }
       } else if (!data?.emailVerified) {
         navigation.navigate(ROUTE.EMAIL_VERIFICATION);
+      } else if (!data?.passwordUpdated) {
+        navigation.navigate(ROUTE.CREATE_PASSWORD);
+      } else if (!data?.personalInfoUpdated) {
+        navigation.navigate(ROUTE.PARENT_DETAIL);
+      } else {
+        navigation.navigate(ROUTE.CHILD_DETAIL);
       }
     } catch (e) {
       // console.log('GET_STATUS Error:', e);

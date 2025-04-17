@@ -18,6 +18,7 @@ import {axiosClient} from '../../../../services/axiosClient';
 import {EndPoints} from '../../../../ParentApi';
 import {errorToast, successToast} from '../../../../components/CustomToast';
 import {setToken} from '../../../../redux/authSlice';
+import {globalStyle} from '../../../../theme/fonts';
 
 export default function OTPVerification() {
   const [otp, setOtp] = useState(['', '', '', '', '']);
@@ -128,7 +129,9 @@ export default function OTPVerification() {
             {isResendDisabled ? 'Resend OTP in ' + timer + 's' : ''}
           </Text>
           {!isResendDisabled && (
-            <TouchableOpacity onPress={resendOtp}>
+            <TouchableOpacity
+              onPress={resendOtp}
+              hitSlop={globalStyle.hitSlop10}>
               <Text style={[styles.blueText]}>Resend OTP</Text>
             </TouchableOpacity>
           )}

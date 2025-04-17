@@ -149,25 +149,37 @@ export const isLogin = createAsyncThunk('auth/isLogin', async () => {
   }
 });
 
-// Async thunk to store auth status in AsyncStorage
-export const setAuth = createAsyncThunk(
-  'auth/setAuth',
-  async (data, {rejectWithValue}) => {
+export const setChildList = createAsyncThunk(
+  'auth/setChildList',
+  async child => {
     try {
-      const existing = await AsyncStorage.getItem('status');
-      const parsed = existing ? JSON.parse(existing) : {};
-      const mergedData = {...parsed, ...data};
-      console.log({existing});
-      console.log({parsed});
-      console.log({mergedData});
+      const existing = await AsyncStorage.getItem('childs');
+      const parsed = existing ? JSON.parse(existing) : {childs: []};
 
-      await AsyncStorage.setItem('status', JSON.stringify(mergedData));
-      return mergedData;
+      const updatedChilds = [...(parsed.childs || []), child];
+      const updatedData = {...parsed, childs: updatedChilds};
+
+      await AsyncStorage.setItem('childs', JSON.stringify(updatedData));
+      return updatedData;
     } catch (error) {
       throw error;
     }
   },
 );
+
+// Async thunk to store auth status in AsyncStorage
+export const setAuth = createAsyncThunk('auth/setAuth', async data => {
+  try {
+    const existing = await AsyncStorage.getItem('status');
+    const parsed = existing ? JSON.parse(existing) : {};
+    const mergedData = {...parsed, ...data};
+
+    await AsyncStorage.setItem('status', JSON.stringify(mergedData));
+    return mergedData;
+  } catch (error) {
+    throw error;
+  }
+});
 
 export const setToken = createAsyncThunk('auth/setToken', async ({token}) => {
   try {
@@ -182,6 +194,7 @@ export const setToken = createAsyncThunk('auth/setToken', async ({token}) => {
 
 const initialState = {
   status: {},
+  childs: [],
   token: null,
 };
 
@@ -199,6 +212,9 @@ const authSlice = createSlice({
       })
       .addCase(setAuth.fulfilled, (state, action) => {
         state.status = action.payload;
+      })
+      .addCase(setChildList.fulfilled, (state, action) => {
+        state.childs = action.payload?.childs;
       })
       .addCase(setToken.fulfilled, (state, action) => {
         state.token = action.payload;

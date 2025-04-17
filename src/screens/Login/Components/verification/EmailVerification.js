@@ -33,7 +33,7 @@ export default function EmailVerification() {
     try {
       const res = await axiosClient.post(EndPoints.EMAIL_OTP_SEND, {email});
       if (res?.data?.statusCode === 200) {
-        dispatch(setAuth(email));
+        dispatch(setAuth({email}));
         successToast(res?.data?.result);
         navigation.navigate(ROUTE.EMAIL_OTP_VERIFICATION);
       }

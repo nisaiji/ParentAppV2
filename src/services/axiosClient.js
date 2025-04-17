@@ -54,7 +54,6 @@ axiosClient.interceptors.request.use(
     }
 
     const token = await AsyncStorage.getItem('accessToken');
-    console.log(`Bearer ${token}`);
     
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
