@@ -127,21 +127,62 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 
+/**
+ * Async thunk to check if the user is logged in.
+ * Retrieves tokens from AsyncStorage, decodes the JWT, and returns user details.
+ */
+export const isLogin = createAsyncThunk('auth/isLogin', async () => {
+  try {
+    const token = await AsyncStorage.getItem('accessToken');
+    if (token) {
+      const status = await AsyncStorage.getItem('status');
+
+      return {
+        token: token,
+        status: status ? JSON.parse(status) : null,
+      };
+    }
+    return null;
+  } catch (error) {
+    console.error('Error during isLogin:', error);
+    throw error;
+  }
+});
+
 // Async thunk to store auth status in AsyncStorage
 export const setAuth = createAsyncThunk(
   'auth/setAuth',
   async (data, {rejectWithValue}) => {
     try {
-      await AsyncStorage.setItem('status', JSON.stringify(data));
-      return data;
+      const existing = await AsyncStorage.getItem('status');
+      const parsed = existing ? JSON.parse(existing) : {};
+      const mergedData = {...parsed, ...data};
+      console.log({existing});
+      console.log({parsed});
+      console.log({mergedData});
+
+      await AsyncStorage.setItem('status', JSON.stringify(mergedData));
+      return mergedData;
     } catch (error) {
-      return rejectWithValue(error.message);
+      throw error;
     }
   },
 );
 
+export const setToken = createAsyncThunk('auth/setToken', async ({token}) => {
+  try {
+    // console.log('Saving token to AsyncStorage:', token);
+    await AsyncStorage.setItem('accessToken', token);
+    return token;
+  } catch (error) {
+    // console.error('AsyncStorage error:', error);
+    throw error;
+  }
+});
+
 const initialState = {
   status: {},
+  token: null,
 };
 
 const authSlice = createSlice({
@@ -150,11 +191,17 @@ const authSlice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder
+      .addCase(isLogin.fulfilled, (state, action) => {
+        if (action.payload) {
+          state.token = action.payload.token;
+          state.status = action.payload.status;
+        }
+      })
       .addCase(setAuth.fulfilled, (state, action) => {
         state.status = action.payload;
       })
-      .addCase(setAuth.rejected, (state, action) => {
-        console.error('Failed to save auth status:', action.payload);
+      .addCase(setToken.fulfilled, (state, action) => {
+        state.token = action.payload;
       });
   },
 });

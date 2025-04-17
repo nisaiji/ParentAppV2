@@ -2,19 +2,19 @@ import {StyleSheet} from 'react-native';
 import {Fonts, Size} from '../../../../theme/fonts';
 import metrics from '../../../../theme/metrics';
 import colors from '../../../../theme/colors';
-import { scale } from 'react-native-size-matters';
+import {scale} from 'react-native-size-matters';
 
 export const styles = StyleSheet.create({
   container: {
-    flex:1,
+    flex: 1,
   },
-  
+
   subtitle: {
     color: colors.WHITE,
     fontSize: Size.font_16,
     fontFamily: Fonts.MEDIUM,
     width: '80%',
-    lineHeight: scale(24)
+    lineHeight: scale(24),
   },
   label: {
     color: colors.WHITE,
@@ -23,6 +23,11 @@ export const styles = StyleSheet.create({
   },
   grayText: {
     color: colors.DARKGRAY,
+    fontFamily: Fonts.REGULAR,
+  },
+  blueText: {
+    color: colors.BLUE,
+    fontFamily: Fonts.REGULAR,
   },
   otpContainer: {
     marginVertical: scale(26),
@@ -30,7 +35,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-around',
     // marginBottom: scale(40),
     width: '90%',
-    alignSelf:'center'
+    alignSelf: 'center',
   },
   otpInput: {
     width: scale(44),
@@ -123,7 +128,7 @@ export const styles = StyleSheet.create({
   verifyedText: {
     color: '#00B383',
     fontFamily: Fonts.BOLD,
-    fontSize:Size.font_14,
+    fontSize: Size.font_14,
   },
   verifiedContainer: {
     flexDirection: 'row',

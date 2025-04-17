@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, {useRef, useState} from 'react';
 import {
   View,
   Text,
@@ -8,18 +8,23 @@ import {
   TextInput,
 } from 'react-native';
 import leftArrow from '../../../../assets/images/leftArrow.png';
-import { styles } from './styles';
-import { useNavigation } from '@react-navigation/native';
-import { ROUTE } from '../../../../navigation/constant';
+import {styles} from './styles';
+import {useNavigation} from '@react-navigation/native';
+import {ROUTE} from '../../../../navigation/constant';
 import BackgroundView from '../../../../components/BackgroundView';
 import Header from '../../../../components/Header';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
+import {useSelector} from 'react-redux';
 
 export default function EmailOTPVerification() {
   const [otp, setOtp] = useState(['', '', '', '', '']);
+  const {status} = useSelector(state => state.auth);
   const inputRefs = useRef([]);
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   const [t] = useTranslation();
+
+  console.log({status});
+
   const handleChange = (text, index) => {
     const updatedOtp = [...otp];
     updatedOtp[index] = text;
@@ -37,12 +42,12 @@ export default function EmailOTPVerification() {
   };
 
   const onBack = () => {
-    navigation.goBack()
-  }
+    navigation.goBack();
+  };
 
   const onSubmit = () => {
-    navigation.navigate(ROUTE.CREATE_PASSWORD)
-  }
+    navigation.navigate(ROUTE.CREATE_PASSWORD);
+  };
 
   return (
     <BackgroundView>
@@ -52,8 +57,7 @@ export default function EmailOTPVerification() {
 
         {/* Subtitle */}
         <Text style={styles.subtitle}>
-        We have sent a verification code to
-        parents@gmail.com
+          We have sent a verification code to parents@gmail.com
         </Text>
 
         {/* OTP Boxes */}

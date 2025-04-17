@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   View,
   Text,
@@ -13,16 +13,22 @@ import {ROUTE} from '../../../../navigation/constant';
 import BackgroundView from '../../../../components/BackgroundView';
 import Header from '../../../../components/Header';
 import {useTranslation} from 'react-i18next';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {axiosClient} from '../../../../services/axiosClient';
+import {EndPoints} from '../../../../ParentApi';
+import {errorToast, successToast} from '../../../../components/CustomToast';
+import {setToken} from '../../../../redux/authSlice';
 
 export default function OTPVerification() {
   const [otp, setOtp] = useState(['', '', '', '', '']);
+  const [timer, setTimer] = useState(30);
+  const [isResendDisabled, setIsResendDisabled] = useState(true);
   const {status} = useSelector(state => state.auth);
   // console.log({status});
   const inputRefs = useRef([]);
   const navigation = useNavigation();
   const [t] = useTranslation();
-
+  const dispatch = useDispatch();
   const handleChange = (text, index) => {
     const updatedOtp = [...otp];
     updatedOtp[index] = text;
@@ -43,9 +49,51 @@ export default function OTPVerification() {
     navigation.goBack();
   };
 
-  const onSubmit = () => {
-    navigation.navigate(ROUTE.EMAIL_VERIFICATION);
+  const onSubmit = async () => {
+    try {
+      const res = await axiosClient.put(EndPoints.OTP_VERIFY, {
+        phone: status?.phone,
+        otp: Number(otp.join('')),
+      });
+
+      if (res?.data?.statusCode === 200) {
+        dispatch(setToken({token: res?.data?.result?.token}));
+        successToast(res?.data?.result?.messsage);
+        navigation.navigate(ROUTE.EMAIL_VERIFICATION);
+      }
+    } catch (e) {
+      // console.error(err);
+      errorToast(e);
+    }
   };
+
+  const resendOtp = async () => {
+    try {
+      const res = await axiosClient.post(EndPoints.OTP_SEND, {
+        phone: status?.phone,
+      });
+      if (res?.data?.statusCode === 200) {
+        successToast(res?.data?.result);
+        setTimer(30);
+        setIsResendDisabled(true);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // Countdown effect
+  useEffect(() => {
+    let interval = null;
+    if (timer > 0) {
+      interval = setInterval(() => {
+        setTimer(prev => prev - 1);
+      }, 1000);
+    } else {
+      setIsResendDisabled(false);
+    }
+    return () => clearInterval(interval);
+  }, [timer]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -55,7 +103,7 @@ export default function OTPVerification() {
 
         {/* Subtitle */}
         <Text style={styles.subtitle}>
-          We have sent a verification code to +91 {status?.phone || 7853065649}
+          We have sent a verification code to +91 {status?.phone}
         </Text>
 
         {/* OTP Boxes */}
@@ -75,9 +123,16 @@ export default function OTPVerification() {
         </View>
 
         {/* resend otp */}
-        <Text style={styles.subtitle}>
-          <Text style={styles.grayText}>Resend OTP in </Text>30
-        </Text>
+        <View style={{flexDirection: 'row', marginTop: 20}}>
+          <Text style={styles.grayText}>
+            {isResendDisabled ? 'Resend OTP in ' + timer + 's' : ''}
+          </Text>
+          {!isResendDisabled && (
+            <TouchableOpacity onPress={resendOtp}>
+              <Text style={[styles.blueText]}>Resend OTP</Text>
+            </TouchableOpacity>
+          )}
+        </View>
 
         {/* Continue Button */}
         <TouchableOpacity onPress={onSubmit} style={styles.continueButton}>

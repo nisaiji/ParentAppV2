@@ -26,7 +26,7 @@ import globalStyles from '../../../theme/styles';
 import {axiosClient} from '../../../services/axiosClient';
 import {EndPoints} from '../../../ParentApi';
 import {successToast} from '../../../components/CustomToast';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {setAuth} from '../../../redux/authSlice';
 
 export default function Login() {
@@ -34,8 +34,9 @@ export default function Login() {
   const [t] = useTranslation();
   const navigation = useNavigation();
   const dispatch = useDispatch();
-
   const clearPhone = () => setPhone('');
+  const {token, status} = useSelector(state => state.auth);
+  console.log(token,status);
 
   const getStatus = async () => {
     try {
@@ -45,6 +46,7 @@ export default function Login() {
       if (data) {
         dispatch(setAuth({...data, phone}));
       }
+      // console.log(data);
 
       if (!data?.phoneVerified) {
         try {
@@ -54,11 +56,15 @@ export default function Login() {
             navigation.navigate(ROUTE.OTP);
           }
         } catch (e) {
-          console.log('OTP_SEND Error:', e);
+          // console.log('OTP_SEND Error:', e);
+          errorToast(e);
         }
+      } else if (!data?.emailVerified) {
+        navigation.navigate(ROUTE.EMAIL_VERIFICATION);
       }
     } catch (e) {
-      console.log('GET_STATUS Error:', e);
+      // console.log('GET_STATUS Error:', e);
+      errorToast(e);
     }
   };
 

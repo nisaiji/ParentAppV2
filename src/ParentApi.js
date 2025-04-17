@@ -59,4 +59,7 @@ export const EndPoints = {
   LOGIN: 'v2/parent/login',
   GET_STATUS: 'v2/parent/status',
   OTP_SEND: 'v2/parent/phoneVerify',
+  OTP_VERIFY: 'v2/parent/phoneVerify',
+  EMAIL_OTP_SEND: 'v2/parent/emailVerify',
+  EMAIL_OTP_VERIFY: 'v2/parent/emailVerify',
 };

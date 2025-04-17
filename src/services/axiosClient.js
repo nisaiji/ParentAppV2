@@ -19,23 +19,23 @@ export const axiosClient = axios.create({baseURL});
  * Function to refresh the access token using the stored refresh token.
  * @returns {Promise<string|null>} - Returns the new access token or null if the refresh token is invalid.
  */
-async function refreshAccessToken() {
-  const refreshToken = await AsyncStorage.getItem('refreshToken');
-  if (!refreshToken) {
-    return null;
-  }
+// async function refreshAccessToken() {
+//   const refreshToken = await AsyncStorage.getItem('refreshToken');
+//   if (!refreshToken) {
+//     return null;
+//   }
 
-  try {
-    const response = await axios.get(`${baseURL}teacher/refresh`, {
-      headers: {
-        Authorization: `Bearer ${refreshToken}`,
-      },
-    });
-    return response?.data?.result?.accessToken;
-  } catch (error) {
-    return null;
-  }
-}
+//   try {
+//     const response = await axios.get(`${baseURL}teacher/refresh`, {
+//       headers: {
+//         Authorization: `Bearer ${refreshToken}`,
+//       },
+//     });
+//     return response?.data?.result?.accessToken;
+//   } catch (error) {
+//     return null;
+//   }
+// }
 
 // Request interceptor: Adds the access token to request headers before sending it
 axiosClient.interceptors.request.use(
@@ -54,6 +54,8 @@ axiosClient.interceptors.request.use(
     }
 
     const token = await AsyncStorage.getItem('accessToken');
+    console.log(`Bearer ${token}`);
+    
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
