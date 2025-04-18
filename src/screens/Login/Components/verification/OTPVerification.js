@@ -25,7 +25,6 @@ export default function OTPVerification() {
   const [timer, setTimer] = useState(30);
   const [isResendDisabled, setIsResendDisabled] = useState(true);
   const {status} = useSelector(state => state.auth);
-  // console.log({status});
   const inputRefs = useRef([]);
   const navigation = useNavigation();
   const [t] = useTranslation();
@@ -46,12 +45,11 @@ export default function OTPVerification() {
     }
   };
 
-  const onBack = () => {
-    navigation.goBack();
-  };
-
   const onSubmit = async () => {
     try {
+      if (otp.join('').length !== 5) {
+        return errorToast(t('validation.shortOtp'));
+      }
       const res = await axiosClient.put(EndPoints.OTP_VERIFY, {
         phone: status?.phone,
         otp: Number(otp.join('')),
@@ -63,7 +61,6 @@ export default function OTPVerification() {
         navigation.navigate(ROUTE.EMAIL_VERIFICATION);
       }
     } catch (e) {
-      // console.error(err);
       errorToast(e);
     }
   };
@@ -104,7 +101,7 @@ export default function OTPVerification() {
 
         {/* Subtitle */}
         <Text style={styles.subtitle}>
-          We have sent a verification code to +91 {status?.phone}
+          {t('otp.subtitle')} +91 {status?.phone}
         </Text>
 
         {/* OTP Boxes */}
@@ -124,22 +121,22 @@ export default function OTPVerification() {
         </View>
 
         {/* resend otp */}
-        <View style={{flexDirection: 'row', marginTop: 20}}>
+        <View style={{flexDirection: 'row'}}>
           <Text style={styles.grayText}>
-            {isResendDisabled ? 'Resend OTP in ' + timer + 's' : ''}
+            {isResendDisabled ? t('otp.resendOtpIn') + timer + 's' : ''}
           </Text>
           {!isResendDisabled && (
             <TouchableOpacity
               onPress={resendOtp}
               hitSlop={globalStyle.hitSlop10}>
-              <Text style={[styles.blueText]}>Resend OTP</Text>
+              <Text style={[styles.blueText]}>{t('button.resendOtp')}</Text>
             </TouchableOpacity>
           )}
         </View>
 
         {/* Continue Button */}
         <TouchableOpacity onPress={onSubmit} style={styles.continueButton}>
-          <Text style={styles.continueText}>Continue</Text>
+          <Text style={styles.continueText}>{t('button.continue')}</Text>
         </TouchableOpacity>
       </BackgroundView>
     </SafeAreaView>

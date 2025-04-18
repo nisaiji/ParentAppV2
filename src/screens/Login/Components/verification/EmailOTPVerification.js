@@ -18,7 +18,7 @@ import {useSelector} from 'react-redux';
 import {axiosClient} from '../../../../services/axiosClient';
 import {EndPoints} from '../../../../ParentApi';
 import {errorToast, successToast} from '../../../../components/CustomToast';
-import { globalStyle } from '../../../../theme/fonts';
+import {globalStyle} from '../../../../theme/fonts';
 
 export default function EmailOTPVerification() {
   const [otp, setOtp] = useState(['', '', '', '', '']);
@@ -28,8 +28,6 @@ export default function EmailOTPVerification() {
   const inputRefs = useRef([]);
   const navigation = useNavigation();
   const [t] = useTranslation();
-
-  // console.log({status});
 
   const handleChange = (text, index) => {
     const updatedOtp = [...otp];
@@ -47,24 +45,19 @@ export default function EmailOTPVerification() {
     }
   };
 
-  const onBack = () => {
-    navigation.goBack();
-  };
-
   const onSubmit = async () => {
     try {
+      if (otp.join('').length !== 5) {
+        return errorToast(t('validation.shortOtp'));
+      }
       const res = await axiosClient.put(EndPoints.EMAIL_OTP_VERIFY, {
         otp: Number(otp.join('')),
       });
-      // console.log(res.data);
-
       if (res?.data?.statusCode === 200) {
-        // dispatch(setToken({token: res?.data?.result?.token}));
         successToast(res?.data?.result?.messsage);
         navigation.navigate(ROUTE.CREATE_PASSWORD);
       }
     } catch (e) {
-      // console.error(err);
       errorToast(e);
     }
   };
@@ -79,8 +72,8 @@ export default function EmailOTPVerification() {
         setTimer(30);
         setIsResendDisabled(true);
       }
-    } catch (err) {
-      console.error(err);
+    } catch (e) {
+      console.error(e);
     }
   };
 
@@ -105,7 +98,7 @@ export default function EmailOTPVerification() {
 
         {/* Subtitle */}
         <Text style={styles.subtitle}>
-          We have sent a verification code to {status?.email}
+          {t('otp.subtitle')} {status?.email}
         </Text>
 
         {/* OTP Boxes */}
@@ -127,20 +120,20 @@ export default function EmailOTPVerification() {
         {/* resend otp */}
         <View style={{flexDirection: 'row', marginTop: 20}}>
           <Text style={styles.grayText}>
-            {isResendDisabled ? 'Resend OTP in ' + timer + 's' : ''}
+            {isResendDisabled ? t('otp.resendOtpIn') + timer + 's' : ''}
           </Text>
           {!isResendDisabled && (
             <TouchableOpacity
               onPress={resendOtp}
               hitSlop={globalStyle.hitSlop10}>
-              <Text style={[styles.blueText]}>Resend OTP</Text>
+              <Text style={[styles.blueText]}>{t('button.resendOtp')}</Text>
             </TouchableOpacity>
           )}
         </View>
 
         {/* Continue Button */}
         <TouchableOpacity onPress={onSubmit} style={styles.continueButton}>
-          <Text style={styles.continueText}>Continue</Text>
+          <Text style={styles.continueText}>{t('button.continue')}</Text>
         </TouchableOpacity>
       </SafeAreaView>
     </BackgroundView>

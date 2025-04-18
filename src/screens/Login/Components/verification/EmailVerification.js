@@ -18,19 +18,22 @@ import {axiosClient} from '../../../../services/axiosClient';
 import {EndPoints} from '../../../../ParentApi';
 import {useDispatch} from 'react-redux';
 import {setAuth} from '../../../../redux/authSlice';
-import { errorToast, successToast } from '../../../../components/CustomToast';
+import {errorToast, successToast} from '../../../../components/CustomToast';
+import {REGEX} from '../../../../utils/Rejex';
 
 export default function EmailVerification() {
   const [email, setEmail] = useState('');
   const [t] = useTranslation();
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const onBack = () => {
-    navigation.goBack();
-  };
 
   const onSubmit = async () => {
     try {
+      if (!email) {
+        return errorToast(t('validation.requiredEmail'));
+      } else if (!REGEX.EMAIL.test(email)) {
+        return errorToast(t('validation.invalidEmail'));
+      }
       const res = await axiosClient.post(EndPoints.EMAIL_OTP_SEND, {email});
       if (res?.data?.statusCode === 200) {
         dispatch(setAuth({email}));
@@ -38,7 +41,6 @@ export default function EmailVerification() {
         navigation.navigate(ROUTE.EMAIL_OTP_VERIFICATION);
       }
     } catch (e) {
-      // console.log('OTP_SEND Error:', e);
       errorToast(e);
     }
   };
@@ -50,15 +52,14 @@ export default function EmailVerification() {
         <Header heading={t('emailVerification.heading')} />
 
         {/* Subtitle */}
-        <Text style={styles.subtitle}>Verify your email</Text>
+        <Text style={styles.label}>{t('emailVerification.verifyEmail')}</Text>
 
         {/* OTP Boxes */}
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
-            placeholder="Email address"
+            placeholder={t('placeholder.emailAddress')}
             placeholderTextColor="#aaa"
-            keyboardType="phone-pad"
             value={email}
             onChangeText={setEmail}
           />
@@ -66,7 +67,7 @@ export default function EmailVerification() {
 
         {/* Continue Button */}
         <TouchableOpacity onPress={onSubmit} style={styles.continueButton}>
-          <Text style={styles.continueText}>Continue</Text>
+          <Text style={styles.continueText}>{t('button.continue')}</Text>
         </TouchableOpacity>
       </SafeAreaView>
     </BackgroundView>

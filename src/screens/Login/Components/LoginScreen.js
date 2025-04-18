@@ -25,9 +25,10 @@ import {ROUTE} from '../../../navigation/constant';
 import globalStyles from '../../../theme/styles';
 import {axiosClient} from '../../../services/axiosClient';
 import {EndPoints} from '../../../ParentApi';
-import {successToast} from '../../../components/CustomToast';
+import {errorToast, successToast} from '../../../components/CustomToast';
 import {useDispatch, useSelector} from 'react-redux';
 import {setAuth} from '../../../redux/authSlice';
+import {REGEX} from '../../../utils/Rejex';
 
 export default function Login() {
   const [phone, setPhone] = useState('7771872012');
@@ -35,11 +36,17 @@ export default function Login() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const clearPhone = () => setPhone('');
-  const {status} = useSelector(state => state.auth);
-  console.log(status);
 
   const getStatus = async () => {
     try {
+      if (!phone) {
+        return errorToast(t('validation.requiredPhone'));
+      } else if (phone.length < 10) {
+        return errorToast(t('validation.shortPhone'));
+      } else if (!REGEX.PHONE.test(phone)) {
+        return errorToast(t('validation.invalidPhone'));
+      }
+
       const res = await axiosClient.post(EndPoints.GET_STATUS, {phone});
       const data = res?.data?.result;
       // console.log(data);
@@ -67,7 +74,6 @@ export default function Login() {
         navigation.navigate(ROUTE.CHILD_DETAIL);
       }
     } catch (e) {
-      // console.log('GET_STATUS Error:', e);
       errorToast(e);
     }
   };
@@ -108,6 +114,7 @@ export default function Login() {
                     placeholder="Phone number"
                     placeholderTextColor="#aaa"
                     keyboardType="phone-pad"
+                    maxLength={10}
                     value={phone}
                     onChangeText={setPhone}
                   />
@@ -127,7 +134,7 @@ export default function Login() {
               </View>
 
               <TouchableOpacity onPress={getStatus} style={styles.button}>
-                <Text style={styles.buttonText}>Continue</Text>
+                <Text style={styles.buttonText}>{t('button.continue')}</Text>
               </TouchableOpacity>
             </View>
           </View>

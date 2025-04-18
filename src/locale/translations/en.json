@@ -10,7 +10,7 @@
     "no": "No",
     "cancel": "Cancel",
     "appClose": "Hold on!', 'Are you sure you want to exit the app ?",
-    "passwordSuccess":"Password set successfully!",
+    "passwordSuccess": "Password set successfully!",
     "logout": {
       "logoutLabel": "Logout",
       "header": "Log Out",
@@ -27,23 +27,59 @@
     "splash": {
       "header": "Parent App"
     },
-    "login":{
+    "login": {
       "signupOrLogin": "Sign up or login"
     },
-    "otp":{
-      "otpVerification":"OTP Verification"
+    "otp": {
+      "otpVerification": "OTP Verification",
+      "resendOtpIn": "Resend OTP in ",
+      "subtitle": "We have sent a verification code to"
     },
-    "emailVerification":{
-      "heading":"Email Verification"
+    "emailVerification": {
+      "heading": "Email Verification",
+      "verifyEmail": "Verify your email"
     },
-    "createPassword":{
-      "heading":"Create Password"
+    "createPassword": {
+      "heading": "Create Password",
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm Password"
     },
-    "parentDetail":{
-      "heading":"Parent Details"
+    "parentDetail": {
+      "name": "Name",
+      "optionalName": "Co-parent's name (optional)",
+      "heading": "Parent Details"
     },
-    "childDetail":{
-      "heading":"Child Details"
+    "childDetail": {
+      "studentId": "Student ID (optional)",
+      "verified": "Verified",
+      "heading": "Child Details"
+    },
+    "validation": {
+      "requiredPhone": "Phone number is required",
+      "shortPhone": "Phone number must be at least 10 digits",
+      "invalidPhone": "Phone number must start with 6-9 and be 10 digits long",
+      "shortOtp": "OTP number must be 5 digits long",
+      "requiredEmail": "Email is required",
+      "invalidEmail": "Please enter a valid email address",
+      "requiredPassword": "Password is required",
+      "weakPassword": "Password must be at least 8 characters",
+      "requiredConfirmPassword": "Please confirm your password",
+      "passwordMismatch": "Passwords do not match",
+      "fullname": "Fullname is required",
+      "maxChild": "Upto 5 child can be added"
+    },
+    "placeholder": {
+      "parentName": "Father's / Mother's name",
+      "emailAddress": "Email address",
+      "createPassword": "Create new password",
+      "confirmPassword": "Confirm new password",
+      "id": "12 digit ID"
+    },
+    "button": {
+      "continue": "Continue",
+      "verify": "Verify",
+      "addChild": "Add Child",
+      "resendOtp": "Resend Otp"
     }
   }
 }

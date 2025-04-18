@@ -30,7 +30,7 @@ const Header = ({ noBack = false, heading = '', style = {} }) => {
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: scale(42),
+    marginBottom: scale(55),
   },
   innerHeader: {
     flexDirection: 'row',

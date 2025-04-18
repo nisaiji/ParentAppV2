@@ -30,11 +30,14 @@ export default function ChildDetail() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const childs = useSelector(state => state?.auth?.childs ?? []);
-  console.log(JSON.stringify(childs));
+  // console.log(childs);
 
   const addChild = async () => {
-    if (name?.length > 0 && childs.length < 5) {
+    if (childs.length < 5) {
       try {
+        if (!name) {
+          return errorToast(t('validation.fullname'));
+        }
         const res = await axiosClient.put(EndPoints.ADD_STUDENT, {
           studentName: name,
         });
@@ -49,7 +52,7 @@ export default function ChildDetail() {
         errorToast(e);
       }
     } else {
-      errorToast('upto 5 child can be added');
+      errorToast('validation.maxChild');
     }
   };
 
@@ -68,32 +71,34 @@ export default function ChildDetail() {
       <SafeAreaView style={styles.container}>
         {/* Header */}
         <Header heading={t('childDetail.heading')} noBack />
-        {childs.map((item, i) => (
+        {childs?.map((item, i) => (
           <View style={styles.verifiedContainer} key={i}>
             <Text style={styles.nameText}>{item?.child}</Text>
             <View style={styles.verifiedWrapper}>
-              <Text style={styles.verifyedText}>Verified</Text>
+              <Text style={styles.verifyedText}>
+                {t('childDetail.verified')}
+              </Text>
               <Image source={verifyed} style={styles.verifiedIcon} />
             </View>
           </View>
         ))}
         {/* name */}
-        <Text style={styles.label}>Name</Text>
+        <Text style={styles.label}>{t('childDetail.studentId')}</Text>
         <View style={styles.inputContainerWithIcon}>
           <TextInput
             style={styles.input}
-            placeholder="Name"
+            placeholder={t('childDetail.studentId')}
             placeholderTextColor="#aaa"
             value={name}
             onChangeText={text => setName(text)}
           />
         </View>
         {/* Student id */}
-        <Text style={styles.label}>{`Student ID (optional)`}</Text>
+        <Text style={styles.label}>{t('childDetail.studentId')}</Text>
         <View style={styles.inputContainerWithIcon}>
           <TextInput
             style={styles.input}
-            placeholder="12 digit ID"
+            placeholder={t('placeholder.id')}
             placeholderTextColor="#aaa"
             value={id}
             onChangeText={text => setId(text)}
@@ -106,7 +111,7 @@ export default function ChildDetail() {
             onPress={addChild}
             style={[styles.addChildButton, {marginBottom: 0}]}>
             <Image source={add} style={styles.addIcon} resizeMode="contain" />
-            <Text style={styles.addChildText}>Add Child</Text>
+            <Text style={styles.addChildText}>{t('button.addChild')}</Text>
           </TouchableOpacity>
         )}
         {childs?.length > 0 && (
@@ -114,7 +119,7 @@ export default function ChildDetail() {
             onPress={onSubmit}
             style={[styles.continueButton, {marginTop: 28}]}>
             <Text style={styles.continueText}>
-              {name?.length ? 'Verify' : 'Continue'}
+              {name?.length ? t('button.verify') : t('button.continue')}
             </Text>
           </TouchableOpacity>
         )}

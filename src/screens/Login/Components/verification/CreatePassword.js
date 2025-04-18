@@ -7,7 +7,6 @@ import {
   SafeAreaView,
   TextInput,
 } from 'react-native';
-import leftArrow from '../../../../assets/images/leftArrow.png';
 import show from '../../../../assets/images/show.png';
 import hide from '../../../../assets/images/hide.png';
 import {styles} from './styles';
@@ -19,9 +18,11 @@ import Header from '../../../../components/Header';
 import {axiosClient} from '../../../../services/axiosClient';
 import {EndPoints} from '../../../../ParentApi';
 import {errorToast, successToast} from '../../../../components/CustomToast';
+import {REGEX} from '../../../../utils/Rejex';
+import {globalStyle} from '../../../../theme/fonts';
 
 export default function CreatePassword() {
-  const [newPassword, setNewPassword] = useState('');
+  const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showNew, setShowNew] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
@@ -30,8 +31,17 @@ export default function CreatePassword() {
 
   const onSubmit = async () => {
     try {
+      if (!password) {
+        return errorToast(t('validation.requiredPassword'));
+      } else if (password.length < 8) {
+        return errorToast(t('validation.weakPassword'));
+      } else if (!confirmPassword) {
+        return errorToast(t('validation.requiredConfirmPassword'));
+      } else if (password !== confirmPassword) {
+        return errorToast(t('validation.passwordMismatch'));
+      }
       const res = await axiosClient.put(EndPoints.PASSWORD_UPDATE, {
-        password: newPassword,
+        password,
       });
       if (res?.data?.statusCode === 200) {
         successToast(res?.data?.result);
@@ -52,19 +62,20 @@ export default function CreatePassword() {
         <Header heading={t('createPassword.heading')} noBack={true} />
 
         {/* New Password */}
-        <Text style={styles.label}>New Password</Text>
+        <Text style={styles.label}>{t('createPassword.newPassword')}</Text>
         <View style={styles.inputContainerWithIcon}>
           <TextInput
             style={styles.input}
-            placeholder="Create new password"
+            placeholder={t('placeholder.createPassword')}
             placeholderTextColor="#aaa"
             secureTextEntry={!showNew}
-            value={newPassword}
-            onChangeText={setNewPassword}
+            value={password}
+            onChangeText={setPassword}
           />
           <TouchableOpacity
             style={styles.eyeIcon}
-            onPress={() => setShowNew(!showNew)}>
+            onPress={() => setShowNew(!showNew)}
+            hitSlop={globalStyle.hitSlop10}>
             <Image
               source={showNew ? hide : show}
               style={styles.eyeIconImage}
@@ -74,11 +85,11 @@ export default function CreatePassword() {
         </View>
 
         {/* Confirm Password */}
-        <Text style={styles.label}>Confirm Password</Text>
+        <Text style={styles.label}>{t('createPassword.confirmPassword')}</Text>
         <View style={styles.inputContainerWithIcon}>
           <TextInput
             style={styles.input}
-            placeholder="Confirm new password"
+            placeholder={t('placeholder.confirmPassword')}
             placeholderTextColor="#aaa"
             secureTextEntry={!showConfirm}
             value={confirmPassword}
@@ -86,7 +97,8 @@ export default function CreatePassword() {
           />
           <TouchableOpacity
             style={styles.eyeIcon}
-            onPress={() => setShowConfirm(!showConfirm)}>
+            onPress={() => setShowConfirm(!showConfirm)}
+            hitSlop={globalStyle.hitSlop10}>
             <Image
               source={showConfirm ? hide : show}
               style={styles.eyeIconImage}
@@ -99,7 +111,7 @@ export default function CreatePassword() {
         <TouchableOpacity
           onPress={onSubmit}
           style={[styles.continueButton, {marginTop: 35}]}>
-          <Text style={styles.continueText}>Continue</Text>
+          <Text style={styles.continueText}>{t('button.continue')}</Text>
         </TouchableOpacity>
       </SafeAreaView>
     </BackgroundView>

@@ -17,7 +17,7 @@ import {useTranslation} from 'react-i18next';
 import {scale} from 'react-native-size-matters';
 import {axiosClient} from '../../../../services/axiosClient';
 import {EndPoints} from '../../../../ParentApi';
-import { errorToast, successToast } from '../../../../components/CustomToast';
+import {errorToast, successToast} from '../../../../components/CustomToast';
 
 export default function ParentDetail() {
   const [name, setName] = useState('');
@@ -27,6 +27,9 @@ export default function ParentDetail() {
 
   const onSubmit = async () => {
     try {
+      if (!name) {
+        return errorToast(t('validation.fullname'));
+      }
       const res = await axiosClient.put(EndPoints.UPDATE_PARENT_FULLNAME, {
         fullname: name,
       });
@@ -39,7 +42,7 @@ export default function ParentDetail() {
       errorToast(e);
     }
   };
-  
+
   return (
     <BackgroundView>
       <SafeAreaView style={styles.container}>
@@ -47,11 +50,11 @@ export default function ParentDetail() {
         <Header heading={t('parentDetail.heading')} noBack />
 
         {/* New Password */}
-        <Text style={styles.label}>Name</Text>
+        <Text style={styles.label}>{t('parentDetail.name')}</Text>
         <View style={styles.inputContainerWithIcon}>
           <TextInput
             style={styles.input}
-            placeholder="Father's / Mother's name"
+            placeholder={t('placeholder.parentName')}
             placeholderTextColor="#aaa"
             value={name}
             onChangeText={text => setName(text)}
@@ -59,11 +62,11 @@ export default function ParentDetail() {
         </View>
 
         {/* Confirm Password */}
-        <Text style={styles.label}>{`Co-parent's name (optional)`}</Text>
+        <Text style={styles.label}>{t('parentDetail.optionalName')}</Text>
         <View style={styles.inputContainerWithIcon}>
           <TextInput
             style={styles.input}
-            placeholder="Father's / Mother's name"
+            placeholder={t('placeholder.parentName')}
             placeholderTextColor="#aaa"
             value={optionalName}
             onChangeText={text => setOptionalName(text)}
@@ -77,7 +80,7 @@ export default function ParentDetail() {
             styles.continueButton,
             {marginBottom: 0, marginTop: scale(28)},
           ]}>
-          <Text style={styles.continueText}>Continue</Text>
+          <Text style={styles.continueText}>{t('button.continue')}</Text>
         </TouchableOpacity>
       </SafeAreaView>
     </BackgroundView>

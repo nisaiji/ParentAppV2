@@ -8,18 +8,18 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-
   subtitle: {
     color: colors.WHITE,
     fontSize: Size.font_16,
     fontFamily: Fonts.MEDIUM,
-    width: '80%',
+    width: '85%',
     lineHeight: scale(24),
   },
   label: {
     color: colors.WHITE,
     fontSize: Size.font_16,
     fontFamily: Fonts.MEDIUM,
+    lineHeight: scale(20),
   },
   grayText: {
     color: colors.DARKGRAY,
@@ -78,20 +78,18 @@ export const styles = StyleSheet.create({
   eyeIcon: {
     position: 'absolute',
     right: scale(16),
-    top: scale(16),
-    height: scale(24),
-    width: scale(24),
+    height: scale(18),
+    width: scale(20),
     justifyContent: 'center',
     alignItems: 'center',
   },
   eyeIconImage: {
     height: scale(24),
     width: scale(24),
-    tintColor: '#aaa',
   },
   continueButton: {
     marginTop: scale(55),
-    backgroundColor: colors.BLACK2,
+    backgroundColor: colors.WHITE,
     paddingVertical: scale(14),
     borderRadius: scale(12),
     alignItems: 'center',
