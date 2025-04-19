@@ -6,16 +6,22 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  innerContainer:{
+  innerContainer: {
     marginTop: scale(13),
-    marginHorizontal: scale(6)
+    marginHorizontal: scale(6),
   },
   label: {
     color: colors.WHITE,
     fontSize: Size.font_16,
     fontFamily: Fonts.MEDIUM,
   },
-
+  input: {
+    flex: 1,
+    color: colors.WHITE,
+    fontSize: Size.font_14,
+    paddingVertical: scale(12),
+    fontFamily: Fonts.MEDIUM,
+  },
   inputContainerWithIcon: {
     flexDirection: 'row',
     backgroundColor: colors.COLOR_1_80,
@@ -30,7 +36,6 @@ const styles = StyleSheet.create({
   eyeIcon: {
     position: 'absolute',
     right: scale(16),
-    top: scale(16),
     height: scale(24),
     width: scale(24),
     justifyContent: 'center',
@@ -39,11 +44,18 @@ const styles = StyleSheet.create({
   eyeIconImage: {
     height: scale(24),
     width: scale(24),
-    tintColor: '#aaa',
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 13,
+    marginTop: -20,
+    marginBottom: 10,
+    marginLeft: 6,
+    fontFamily: Fonts.MEDIUM,
   },
   continueButton: {
     marginTop: scale(28),
-    backgroundColor: colors.BLACK2,
+    backgroundColor: colors.WHITE,
     paddingVertical: scale(14),
     borderRadius: scale(12),
     alignItems: 'center',
