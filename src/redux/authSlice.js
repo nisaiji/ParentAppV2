@@ -136,12 +136,13 @@ export const isLogin = createAsyncThunk('auth/isLogin', async () => {
     const token = await AsyncStorage.getItem('accessToken');
     if (token) {
       const status = await AsyncStorage.getItem('status');
-      const childs = await AsyncStorage.getItem('childs');
+      const childsStr = await AsyncStorage.getItem('childs');
+      const childs = childsStr ? JSON.parse(childsStr) : [];
 
       return {
-        token: token,
+        token,
         status: status ? JSON.parse(status) : {},
-        childs: childs ? JSON.parse(childs) : [],
+        childs,
       };
     }
     return null;
@@ -155,14 +156,17 @@ export const setChildList = createAsyncThunk(
   'auth/setChildList',
   async child => {
     try {
-      const existing = await AsyncStorage.getItem('childs');
-      const parsed = existing ? JSON.parse(existing) : {childs: []};
+      const existingStr = await AsyncStorage.getItem('childs');
+      const existing = existingStr ? JSON.parse(existingStr) : child;
 
-      const updatedChilds = [...(parsed.childs || []), child];
-      const updatedData = {...parsed, childs: updatedChilds};
+      // Add the new child to the array
+      const updatedChilds = [...existing, child];
 
-      await AsyncStorage.setItem('childs', JSON.stringify(updatedData));
-      return updatedData;
+      // Store the updated array as a string in AsyncStorage
+      await AsyncStorage.setItem('childs', JSON.stringify(updatedChilds));
+
+      // Return the updated array for Redux
+      return updatedChilds;
     } catch (error) {
       throw error;
     }
@@ -217,7 +221,7 @@ const authSlice = createSlice({
         state.status = action.payload;
       })
       .addCase(setChildList.fulfilled, (state, action) => {
-        state.childs = action.payload?.childs;
+        state.childs = action.payload;
       })
       .addCase(setToken.fulfilled, (state, action) => {
         state.token = action.payload;

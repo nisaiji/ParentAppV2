@@ -55,7 +55,7 @@ export default function EmailOTPVerification() {
       });
       if (res?.data?.statusCode === 200) {
         successToast(res?.data?.result?.messsage);
-        navigation.navigate(ROUTE.CREATE_PASSWORD);
+        navigation.navigate(ROUTE.PARENT_DETAIL);
       }
     } catch (e) {
       errorToast(e);

@@ -47,7 +47,7 @@ export default function CreatePassword() {
         successToast(res?.data?.result);
         navigation.navigate(ROUTE.SUCCESS_PAGE, {
           message: t('passwordSuccess'),
-          nextRoute: ROUTE.PARENT_DETAIL,
+          nextRoute: ROUTE.EMAIL_VERIFICATION,
         });
       }
     } catch (e) {

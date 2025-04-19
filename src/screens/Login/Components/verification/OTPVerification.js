@@ -58,7 +58,7 @@ export default function OTPVerification() {
       if (res?.data?.statusCode === 200) {
         dispatch(setToken({token: res?.data?.result?.token}));
         successToast(res?.data?.result?.messsage);
-        navigation.navigate(ROUTE.EMAIL_VERIFICATION);
+        navigation.navigate(ROUTE.CREATE_PASSWORD);
       }
     } catch (e) {
       errorToast(e);

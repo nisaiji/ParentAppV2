@@ -29,8 +29,7 @@ export default function ChildDetail() {
   const [t] = useTranslation();
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const childs = useSelector(state => state?.auth?.childs ?? []);
-  // console.log(childs);
+  const childs = useSelector(state => state.auth.childs) || [];
 
   const addChild = async () => {
     if (childs.length < 5) {
@@ -43,6 +42,8 @@ export default function ChildDetail() {
         });
         // console.log(res.data);
         if (res?.data?.statusCode === 200) {
+          // console.log('res', res?.data?.result);
+
           dispatch(setChildList(res?.data?.result));
           successToast('Child Added');
           setName('');
@@ -71,9 +72,11 @@ export default function ChildDetail() {
       <SafeAreaView style={styles.container}>
         {/* Header */}
         <Header heading={t('childDetail.heading')} noBack />
-        {childs?.map((item, i) => (
+        {childs.map((item, i) => (
           <View style={styles.verifiedContainer} key={i}>
-            <Text style={styles.nameText}>{item?.child}</Text>
+            <Text style={styles.nameText}>
+              {item?.firstname} {item?.lastname}
+            </Text>
             <View style={styles.verifiedWrapper}>
               <Text style={styles.verifyedText}>
                 {t('childDetail.verified')}
@@ -105,15 +108,13 @@ export default function ChildDetail() {
           />
         </View>
         {/* Continue or add child */}
-        {childs?.length === 0 && (
-          <TouchableOpacity
-            disabled={name?.length === 0}
-            onPress={addChild}
-            style={[styles.addChildButton, {marginBottom: 0}]}>
-            <Image source={add} style={styles.addIcon} resizeMode="contain" />
-            <Text style={styles.addChildText}>{t('button.addChild')}</Text>
-          </TouchableOpacity>
-        )}
+        <TouchableOpacity
+          disabled={name?.length === 0}
+          onPress={addChild}
+          style={[styles.addChildButton, {marginBottom: 0}]}>
+          <Image source={add} style={styles.addIcon} resizeMode="contain" />
+          <Text style={styles.addChildText}>{t('button.addChild')}</Text>
+        </TouchableOpacity>
         {childs?.length > 0 && (
           <TouchableOpacity
             onPress={onSubmit}

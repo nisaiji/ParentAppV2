@@ -71,15 +71,39 @@
     "placeholder": {
       "parentName": "Father's / Mother's name",
       "emailAddress": "Email address",
+      "enterPassword": "Enter password",
       "createPassword": "Create new password",
       "confirmPassword": "Confirm new password",
-      "id": "12 digit ID"
+      "id": "12 digit ID",
+      "selectGender": "Select Gender",
+      "selectBloodGroup": "Select Blood Group",
+      "firstname": "Student’s first name",
+      "lastname": "Student’s last name",
+      "address": "Complete address"
     },
     "button": {
       "continue": "Continue",
       "verify": "Verify",
       "addChild": "Add Child",
-      "resendOtp": "Resend Otp"
+      "resendOtp": "Resend Otp",
+      "updateSave": "Update & save"
+    },
+    "options": {
+      "male": "Male",
+      "female": "Female",
+      "other": "Other"
+    },
+    "label": {
+      "firstname": "First name",
+      "lastname": "Last Name",
+      "gender": "Gender",
+      "bloodgroup": "Blood group",
+      "dob": "Date of birth",
+      "address": "Address"
+    },
+    "title": {
+      "childSetting": "Child Settings",
+      "personalInfo": "Personal Information"
     }
   }
 }
