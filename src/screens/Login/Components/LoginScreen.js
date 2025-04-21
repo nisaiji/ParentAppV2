@@ -65,13 +65,9 @@ export default function Login() {
   // console.log(token, status);
   const getStatus = async () => {
     if (!validatePhone()) return;
-
     try {
       const res = await axiosClient.post(EndPoints.GET_STATUS, {phone});
       const data = res?.data?.result;
-
-      if (!data) return;
-
       dispatch(setAuth({...data, phone}));
 
       if (data.phoneVerified && data.passwordUpdated) {

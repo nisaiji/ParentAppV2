@@ -198,6 +198,17 @@ export const setToken = createAsyncThunk('auth/setToken', async ({token}) => {
   }
 });
 
+export const logout = createAsyncThunk('auth/logout', async (_, {dispatch}) => {
+  try {
+    await AsyncStorage.clear();
+    dispatch({type: 'RESET_APP'}); // Reset Redux state
+    return {};
+  } catch (error) {
+    console.error('Error during logout:', error);
+    throw error;
+  }
+});
+
 const initialState = {
   status: {},
   childs: [],
@@ -225,6 +236,11 @@ const authSlice = createSlice({
       })
       .addCase(setToken.fulfilled, (state, action) => {
         state.token = action.payload;
+      })
+      .addCase(logout.fulfilled, state => {
+        state.token = null;
+        state.status = {};
+        state.childs = [];
       });
   },
 });

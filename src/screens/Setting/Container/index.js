@@ -18,9 +18,12 @@ import {globalStyle} from '../../../theme/fonts';
 import {useNavigation} from '@react-navigation/native';
 import {ROUTE} from '../../../navigation/constant';
 import ConfirmPopup from '../../../components/ConfirmPopup';
+import {useDispatch} from 'react-redux';
+import { logout } from '../../../redux/authSlice';
 
 function Setting() {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const [logoutPopup, setLogoutPopup] = useState(false);
 
   const onChangePassword = () => {
@@ -29,7 +32,21 @@ function Setting() {
   const onEditProfile = () => {
     navigation.navigate(ROUTE.EDIT_PROFILE);
   };
-  const onLogout = () => {};
+  const onLogout = () => {
+    dispatch(logout());
+    navigation.reset({
+      index: 0,
+      routes: [
+        {
+          name: ROUTE.AUTH, // Main stack
+          state: {
+            index: 0, // Ensure LOGIN is the active screen inside AUTH stack
+            routes: [{name: ROUTE.LOGIN}],
+          },
+        },
+      ],
+    });
+  };
 
   return (
     <BackgroundView>
