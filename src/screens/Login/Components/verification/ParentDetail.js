@@ -18,11 +18,14 @@ import {scale} from 'react-native-size-matters';
 import {axiosClient} from '../../../../services/axiosClient';
 import {EndPoints} from '../../../../ParentApi';
 import {errorToast, successToast} from '../../../../components/CustomToast';
+import {useDispatch} from 'react-redux';
+import {setAuth} from '../../../../redux/authSlice';
 
 export default function ParentDetail() {
   const [name, setName] = useState('');
   const [optionalName, setOptionalName] = useState('');
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const [t] = useTranslation();
 
   const onSubmit = async () => {
@@ -36,6 +39,7 @@ export default function ParentDetail() {
 
       if (res?.data?.statusCode === 200) {
         successToast(res?.data?.result);
+        dispatch(setAuth({personalInfoUpdated: true}));
         navigation.navigate(ROUTE.CHILD_DETAIL);
       }
     } catch (e) {

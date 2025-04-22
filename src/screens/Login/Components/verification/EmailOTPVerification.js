@@ -14,11 +14,12 @@ import {ROUTE} from '../../../../navigation/constant';
 import BackgroundView from '../../../../components/BackgroundView';
 import Header from '../../../../components/Header';
 import {useTranslation} from 'react-i18next';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {axiosClient} from '../../../../services/axiosClient';
 import {EndPoints} from '../../../../ParentApi';
 import {errorToast, successToast} from '../../../../components/CustomToast';
 import {globalStyle} from '../../../../theme/fonts';
+import {setAuth} from '../../../../redux/authSlice';
 
 export default function EmailOTPVerification() {
   const [otp, setOtp] = useState(['', '', '', '', '']);
@@ -27,6 +28,7 @@ export default function EmailOTPVerification() {
   const {status} = useSelector(state => state.auth);
   const inputRefs = useRef([]);
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const [t] = useTranslation();
 
   const handleChange = (text, index) => {
@@ -55,7 +57,10 @@ export default function EmailOTPVerification() {
       });
       if (res?.data?.statusCode === 200) {
         successToast(res?.data?.result?.messsage);
-        navigation.navigate(ROUTE.PARENT_DETAIL);
+        dispatch(setAuth({emailVerified: true}));
+        navigation.navigate(ROUTE.AUTH, {
+          screen: ROUTE.PARENT_DETAIL,
+        });
       }
     } catch (e) {
       errorToast(e);

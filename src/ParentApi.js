@@ -65,4 +65,5 @@ export const EndPoints = {
   PASSWORD_UPDATE: 'v2/parent/password',
   UPDATE_PARENT_FULLNAME: 'v2/parent/fullname',
   ADD_STUDENT: 'v2/parent/add',
+  GET_INFO: 'v2/parent',
 };

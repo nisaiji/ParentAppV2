@@ -14,6 +14,7 @@ import circlePencilIcon from '../../../../assets/images/circlePencil.png';
 import DropdownComponent from '../../../../components/DropdownComponent';
 import {Colors} from '../../../../theme/fonts';
 import DatePicker from 'react-native-date-picker';
+import moment from 'moment';
 
 const EditChild = () => {
   const [t] = useTranslation();
@@ -160,7 +161,7 @@ const EditChild = () => {
                       onPress={() => setOpen(true)}
                       style={styles.textInput}>
                       <Text style={styles.textInput2}>
-                        {dob ? dob.toLocaleDateString() : 'MM/DD/YYYY'}
+                        {dob ? moment(dob).format('DD/MM/YYYY') : 'DD/MM/YYYY'}
                       </Text>
                     </TouchableOpacity>
 

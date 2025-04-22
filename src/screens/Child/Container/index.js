@@ -8,13 +8,14 @@ import rightArrow from '../../../assets/images/rightArrow.png';
 import childDummy from '../../../assets/images/childDummy.png';
 import {useNavigation} from '@react-navigation/native';
 import {ROUTE} from '../../../navigation/constant';
+import {useSelector} from 'react-redux';
 
 function EventHoliday() {
-  const [childs, setChilds] = useState([
-    {name: 'Priyanka Sharma', id: 1, img_url: ''},
-    {name: 'Yash Sharma', id: 2, img_url: ''},
-  ]);
+  // const data = useSelector(state => state.auth.data);
+  // console.log(JSON.stringify(data));
+  // const [childs, setChilds] = useState(data?.students);
   const navigation = useNavigation();
+
   const onArrowPress = () => {
     navigation.navigate(ROUTE.EDIT_CHILD);
   };
@@ -23,7 +24,7 @@ function EventHoliday() {
       <SafeAreaView style={styles.container}>
         <Header noBack heading="Your Child" />
         <View style={styles.childContainer}>
-          {childs.map(item => (
+          {/* {childs.map(item => (
             <TouchableOpacity
               onPress={onArrowPress}
               key={item?.id}
@@ -40,7 +41,7 @@ function EventHoliday() {
                 resizeMode="contain"
               />
             </TouchableOpacity>
-          ))}
+          ))} */}
         </View>
       </SafeAreaView>
     </BackgroundView>

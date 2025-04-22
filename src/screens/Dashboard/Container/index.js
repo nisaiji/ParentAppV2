@@ -1,14 +1,37 @@
 /* eslint-disable prettier/prettier */
-import React, {useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {Image, Text, View} from 'react-native';
 import styles from './styles';
 import BackgroundView from '../../../components/BackgroundView';
 import EventCalendar from '../../../components/cache/EventCache';
 import MyCalendar from '../../../components/calendar/Calendar';
 import childDummy from '../../../assets/images/childDummy.png';
+import {axiosClient} from '../../../services/axiosClient';
+import {EndPoints} from '../../../ParentApi';
+import {useDispatch} from 'react-redux';
+import {setData} from '../../../redux/authSlice';
 
 function Dashboard() {
-  const eventRef = useRef();
+  // const eventRef = useRef();
+  const dispatch = useDispatch();
+
+  const getInfo = async () => {
+    try {
+      const res = await axiosClient.get(EndPoints.GET_INFO);
+      if (res.data.statusCode) {
+        const data = res?.data?.result;
+        console.log(JSON.stringify(data));
+        // dispatch(setData(data));
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    getInfo();
+  }, []);
+
   return (
     <BackgroundView>
       <View style={styles.container}>

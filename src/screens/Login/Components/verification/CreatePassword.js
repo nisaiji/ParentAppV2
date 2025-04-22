@@ -20,6 +20,8 @@ import {EndPoints} from '../../../../ParentApi';
 import {errorToast, successToast} from '../../../../components/CustomToast';
 import {REGEX} from '../../../../utils/Rejex';
 import {globalStyle} from '../../../../theme/fonts';
+import {useDispatch} from 'react-redux';
+import { setAuth } from '../../../../redux/authSlice';
 
 export default function CreatePassword() {
   const [password, setPassword] = useState('');
@@ -27,6 +29,7 @@ export default function CreatePassword() {
   const [showNew, setShowNew] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const [t] = useTranslation();
 
   const onSubmit = async () => {
@@ -45,6 +48,7 @@ export default function CreatePassword() {
       });
       if (res?.data?.statusCode === 200) {
         successToast(res?.data?.result);
+        dispatch(setAuth({ passwordUpdated: true }));
         navigation.navigate(ROUTE.SUCCESS_PAGE, {
           message: t('passwordSuccess'),
           nextRoute: ROUTE.EMAIL_VERIFICATION,

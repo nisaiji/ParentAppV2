@@ -21,7 +21,7 @@ import {axiosClient} from '../../../../services/axiosClient';
 import {EndPoints} from '../../../../ParentApi';
 import {errorToast, successToast} from '../../../../components/CustomToast';
 import {useDispatch, useSelector} from 'react-redux';
-import {setChildList} from '../../../../redux/authSlice';
+import {setAuth, setChildList} from '../../../../redux/authSlice';
 
 export default function ChildDetail() {
   const [name, setName] = useState('');
@@ -45,6 +45,7 @@ export default function ChildDetail() {
           // console.log('res', res?.data?.result);
 
           dispatch(setChildList(res?.data?.result));
+          dispatch(setAuth({studentAdded: true}));
           successToast('Child Added');
           setName('');
           setId('');
