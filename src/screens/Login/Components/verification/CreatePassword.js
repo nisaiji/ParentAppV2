@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
   TextInput,
+  Keyboard,
 } from 'react-native';
 import show from '../../../../assets/images/show.png';
 import hide from '../../../../assets/images/hide.png';
@@ -36,14 +37,26 @@ export default function CreatePassword() {
 
   const onSubmit = async () => {
     try {
+      Keyboard.dismiss();
       if (!password) {
-        return errorToast(t('validation.requiredPassword'));
-      } else if (password.length < 8) {
-        return errorToast(t('validation.weakPassword'));
+        return errorToast(t('validation.newPassword'));
+      } else if (!REGEX.PASSWORD.test(password)) {
+        const missingRequirements = [];
+        if (!REGEX.UPPERCASE.test(password))
+          missingRequirements.push(t('validation.uppercase'));
+        if (!REGEX.NUMBER.test(password))
+          missingRequirements.push(t('validation.number'));
+        if (!REGEX.SPECIALCHAR.test(password))
+          missingRequirements.push(t('validation.specialChar'));
+        if (password.length < 8)
+          missingRequirements.push(t('validation.passLength'));
+        return errorToast(
+          `${t('validation.include')} ${missingRequirements.join(', ')}.`,
+        );
       } else if (!confirmPassword) {
-        return errorToast(t('validation.requiredConfirmPassword'));
+        return errorToast(t('validation.confirmPassword'));
       } else if (password !== confirmPassword) {
-        return errorToast(t('validation.passwordMismatch'));
+        return errorToast(t('validation.passNotMatch'));
       }
       setLoading(true);
       const res = await axiosClient.put(EndPoints.PASSWORD_UPDATE, {

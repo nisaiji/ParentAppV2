@@ -22,7 +22,7 @@ export const styles = StyleSheet.create({
     lineHeight: scale(20),
   },
   grayText: {
-    color: colors.DARKGRAY,
+    color: colors.COLOR_1,
     fontFamily: Fonts.REGULAR,
   },
   blueText: {

@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
   TextInput,
+  Keyboard,
 } from 'react-native';
 import leftArrow from '../../../../assets/images/leftArrow.png';
 import {styles} from './styles';
@@ -32,6 +33,7 @@ export default function ParentDetail() {
 
   const onSubmit = async () => {
     try {
+      Keyboard.dismiss()
       if (!name) {
         return errorToast(t('validation.fullname'));
       }

@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
   TextInput,
+  Keyboard,
 } from 'react-native';
 import {styles} from './styles';
 import {useNavigation} from '@react-navigation/native';
@@ -49,6 +50,7 @@ export default function OTPVerification() {
 
   const onSubmit = async () => {
     try {
+      Keyboard.dismiss()
       if (otp.join('').length !== 5) {
         return errorToast(t('validation.shortOtp'));
       }
@@ -78,6 +80,8 @@ export default function OTPVerification() {
       });
       if (res?.data?.statusCode === 200) {
         successToast(res?.data?.result);
+        setOtp(['', '', '', '', '']);
+        inputRefs.current[0]?.focus();
         setTimer(30);
         setIsResendDisabled(true);
       }
@@ -87,6 +91,10 @@ export default function OTPVerification() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    inputRefs.current[0]?.focus();
+  }, []);  
 
   // Countdown effect
   useEffect(() => {

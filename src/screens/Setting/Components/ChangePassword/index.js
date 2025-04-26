@@ -15,6 +15,7 @@ import {errorToast, successToast} from '../../../../components/CustomToast';
 import {useNavigation} from '@react-navigation/native';
 import {ROUTE} from '../../../../navigation/constant';
 import Loader from '../../../../components/Loader';
+import { REGEX } from '../../../../utils/Rejex';
 
 function ChangePassword() {
   const navigation = useNavigation();
@@ -32,17 +33,30 @@ function ChangePassword() {
     const newErrors = {};
 
     if (!oldPassword) {
-      newErrors.oldPassword = t('validation.requiredPassword');
+      newErrors.oldPassword = t('validation.oldPass');
     }
     if (!newPassword) {
-      newErrors.newPassword = t('validation.requiredNewPassword');
-    } else if (newPassword.length < 8) {
-      newErrors.newPassword = t('validation.weakPassword');
+      newErrors.newPassword = t('validation.newPassword');
+    } else if (oldPassword === newPassword) {
+      newErrors.newPassword = t('validation.samePassword');
+    } else if (!REGEX.PASSWORD.test(newPassword)) {
+      const missingRequirements = [];
+      if (!REGEX.UPPERCASE.test(newPassword))
+        missingRequirements.push(t('validation.uppercase'));
+      if (!REGEX.NUMBER.test(newPassword))
+        missingRequirements.push(t('validation.number'));
+      if (!REGEX.SPECIALCHAR.test(newPassword))
+        missingRequirements.push(t('validation.specialChar'));
+      if (newPassword.length < 8)
+        missingRequirements.push(t('validation.passLength'));
+      newErrors.newPassword = `${t(
+        'validation.include',
+      )} ${missingRequirements.join(', ')}.`;
     }
     if (!confirmPassword) {
-      newErrors.confirmPassword = t('validation.requiredConfirmPassword');
+      newErrors.confirmPassword = t('validation.confirmPassword');
     } else if (newPassword !== confirmPassword) {
-      newErrors.confirmPassword = t('validation.passwordMismatch');
+      newErrors.confirmPassword = t('validation.passNotMatch');
     }
 
     setErrors(newErrors);
@@ -85,7 +99,7 @@ function ChangePassword() {
       <BackgroundView>
         {loading && <Loader />}
         <SafeAreaView style={styles.container}>
-          <Header heading={t('title.updatePassword')} />
+          <Header heading={t('title.changePassword')} />
           <ScrollView
             style={styles.innerContainer}
             keyboardShouldPersistTaps="handled">

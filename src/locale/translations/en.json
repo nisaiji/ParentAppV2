@@ -47,12 +47,12 @@
     "parentDetail": {
       "name": "Name",
       "optionalName": "Co-parent's name (optional)",
-      "heading": "Parent Details"
+      "heading": "Parent details"
     },
     "childDetail": {
       "studentId": "Student ID (optional)",
       "verified": "Verified",
-      "heading": "Child Details"
+      "heading": "Child details"
     },
     "validation": {
       "requiredPhone": "Phone number is required",
@@ -61,19 +61,31 @@
       "shortOtp": "OTP number must be 5 digits long",
       "requiredEmail": "Email is required",
       "invalidEmail": "Please enter a valid email address",
-      "requiredPassword": "Password is required",
-      "weakPassword": "Password must be at least 8 characters",
-      "requiredNewPassword": "New Password is required",
-      "requiredConfirmPassword": "Please confirm your password",
-      "passwordMismatch": "New password and confirm password do not match",
+      "oldPass": "Current Password is required",
+      "password": "Password is required",
+      "newPassword": "New Password is required",
+      "confirmPassword": "Confirm Password is required",
+      "emailFormat": "Invalid Email format",
+      "phone": "Phone Number is required",
+      "phoneLength": "Phone Number must be 10 digit long",
+      "phoneStart": "Starting digit of Phone Number must be start with 6 to 9",
+      "uppercase": "One uppercase letter",
+      "number": "One number",
+      "specialChar": "One special character",
+      "passLength": "Password must have at least 8 characters",
+      "passLengthWithSymbol": "Password must have at least 8 characters with one uppercase letter, one number, one special character",
+      "include": "Password must include ",
+      "samePassword": "New password cannot be the same as the current password.",
+      "passNotMatch": "New Password and Confirm Password do not match.",
       "fullname": "Fullname is required",
       "maxChild": "Upto 5 child can be added"
     },
     "placeholder": {
+      "studentName": "Student's name",
       "parentName": "Father's / Mother's name",
       "emailAddress": "Email address",
       "enterPassword": "Enter password",
-      "oldPassword": "Enter old password",
+      "oldPassword": "Enter Current password",
       "createPassword": "Create new password",
       "confirmPassword": "Confirm new password",
       "id": "12 digit ID",
@@ -94,7 +106,7 @@
       "continue": "Continue",
       "verify": "Verify",
       "addChild": "Add Child",
-      "resendOtp": "Resend Otp",
+      "resendOtp": "Resend OTP in",
       "updateSave": "Update & Save",
       "update": "Update"
     },
@@ -119,12 +131,12 @@
       "contact": "Contact",
       "qualification": "Qualification",
       "occupation": "Occupation",
-      "oldPassword": "Old Password",
+      "oldPassword": "Current Password",
       "newPassword": "New Password",
       "confirmPassword": "Confirm Password"
     },
     "title": {
-      "updatePassword": "Update Password",
+      "changePassword": "Change Password",
       "editProfile": "Edit Profile",
       "childSetting": "Child Settings",
       "personalInfo": "Personal Information",

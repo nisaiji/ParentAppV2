@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
     width: scale(40),
     height: scale(40),
     marginRight: scale(5),
+    borderRadius: 100,
   },
   classContainer: {
     alignItems: 'center',

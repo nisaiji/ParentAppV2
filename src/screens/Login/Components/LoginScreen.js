@@ -66,6 +66,7 @@ export default function Login() {
 
   // console.log(token, status);
   const getStatus = async () => {
+    Keyboard.dismiss()
     if (!validatePhone()) return;
     try {
       setLoading(true);
@@ -90,6 +91,7 @@ export default function Login() {
   };
 
   const login = async () => {
+    Keyboard.dismiss()
     if (!validatePhone()) return;
 
     if (!password) {

@@ -1,5 +1,15 @@
 export const REGEX = {
-  PHONE: /^[6-9]\d{9}$/,
-  EMAIL: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i,
-  PASSWORD: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&^_-]{8,}$/,
+  // PHONE: /^[6-9]\d{9}$/,
+  // EMAIL: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i,
+  // PASSWORD: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&^_-]{8,}$/,
+  EMAIL: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+  USERNAME: /^[a-zA-Z0-9_.]{5,20}$/,
+  PHONE: /^\d{10}$/,
+  PHONE_LENGTH: /^[6-9]\d{9}$/,
+  PASSWORD: /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+  UPPERCASE: /(?=.*[A-Z])/,
+  NUMBER: /(?=.*\d)/,
+  SPECIALCHAR: /(?=.*[@$!%*?&])/,
+  PINCODE: /^\d{6}$/,
+  SPACE_BETWEEN: /^\S*$/,
 };

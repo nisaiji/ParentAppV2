@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
   TextInput,
+  Keyboard,
 } from 'react-native';
 import leftArrow from '../../../../assets/images/leftArrow.png';
 import {styles} from './styles';
@@ -51,6 +52,7 @@ export default function EmailOTPVerification() {
 
   const onSubmit = async () => {
     try {
+      Keyboard.dismiss()
       if (otp.join('').length !== 5) {
         return errorToast(t('validation.shortOtp'));
       }
@@ -80,6 +82,8 @@ export default function EmailOTPVerification() {
       });
       if (res?.data?.statusCode === 200) {
         successToast(res?.data?.result);
+        setOtp(['', '', '', '', '']);
+        inputRefs.current[0]?.focus();
         setTimer(30);
         setIsResendDisabled(true);
       }
@@ -89,6 +93,11 @@ export default function EmailOTPVerification() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    inputRefs.current[0]?.focus();
+  }, []);
+  
 
   // Countdown effect
   useEffect(() => {

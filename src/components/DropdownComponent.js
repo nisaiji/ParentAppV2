@@ -9,7 +9,7 @@ const DropdownComponent = ({
   desc,
   selectedValue,
   onSelect,
-  searchable = true,
+  searchable = false,
 }) => {
   const [value, setValue] = useState(selectedValue);
   const [isFocus, setIsFocus] = useState(false);

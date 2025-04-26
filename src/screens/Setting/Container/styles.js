@@ -1,27 +1,28 @@
-import { Size, Weight, Colors, Fonts } from '@src/theme/fonts';
-import { StyleSheet } from 'react-native';
-import { s, scale } from 'react-native-size-matters';
+import {Size, Weight, Colors, Fonts} from '@src/theme/fonts';
+import {StyleSheet} from 'react-native';
+import {s, scale} from 'react-native-size-matters';
 import colors from '../../../theme/colors';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: scale(10)
+    paddingTop: scale(10),
   },
   childImg: {
     width: scale(80),
     height: scale(80),
-    marginRight: scale(18)
+    marginRight: scale(18),
+    borderRadius: 100,
   },
   personalDetailContainer: {
     flexDirection: 'row',
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
     alignItems: 'center',
     marginHorizontal: scale(6),
-    marginBottom: scale(10)
+    marginBottom: scale(10),
   },
   parentDetailLeft: {
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   parentName: {
     color: colors.WHITE,
@@ -39,7 +40,7 @@ const styles = StyleSheet.create({
     height: scale(24),
   },
   listItemCointainer: {
-    marginTop: scale(27)
+    marginTop: scale(27),
   },
   itemContainer: {
     flexDirection: 'row',
@@ -49,34 +50,34 @@ const styles = StyleSheet.create({
     backgroundColor: colors.COLOR_1_40,
     borderRadius: scale(12),
   },
-  itemLeftContainer:{
-    flexDirection:'row',
+  itemLeftContainer: {
+    flexDirection: 'row',
   },
-  itemLabel:{
-    marginLeft: scale(10)
+  itemLabel: {
+    marginLeft: scale(10),
   },
-  mb16:{
-    marginBottom: scale(16)
+  mb16: {
+    marginBottom: scale(16),
   },
-  mb20:{
-    marginBottom: scale(20)
+  mb20: {
+    marginBottom: scale(20),
   },
-  mb40:{
-    marginBottom: scale(40)
+  mb40: {
+    marginBottom: scale(40),
   },
-  combinedBG:{
+  combinedBG: {
     backgroundColor: colors.COLOR_1_40,
     borderRadius: scale(12),
   },
-  combinedBGItem:{
+  combinedBGItem: {
     borderRadius: 0,
     backgroundColor: 'transparent',
   },
-  borderBottom:{
+  borderBottom: {
     backgroundColor: colors.COLOR_2_40,
     height: 1,
     width: '91%',
-    alignSelf:'center'
-  }
+    alignSelf: 'center',
+  },
 });
 export default styles;

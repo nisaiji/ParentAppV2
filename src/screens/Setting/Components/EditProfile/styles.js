@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
   childImg: {
     width: '100%',
     height: '100%',
+    borderRadius: 100,
   },
   pencilIconView: {
     width: scale(36),

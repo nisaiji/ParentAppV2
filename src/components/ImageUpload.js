@@ -120,7 +120,8 @@ export const openCamera = async t => {
       includeBase64: true, // Set to true to include base64
       compressImageQuality: 0.9, // Initial compression quality
       width: metrics.screenWidth - 20, // Resize to a smaller width
-      height: metrics.screenHeight - 180, // Resize to a smaller height
+      height: metrics.screenWidth - 20,
+      // height: metrics.screenHeight - 180, // Resize to a smaller height
       cropping: true, // Enable cropping after taking the picture
     });
 
@@ -181,7 +182,8 @@ export const openGallery = async t => {
       includeBase64: true, // Set to true to include base64
       compressImageQuality: 0.9, // Initial compression quality
       width: metrics.screenWidth - 20, // Resize to a smaller width
-      height: metrics.screenHeight - 180, // Resize to a smaller height
+      height: metrics.screenWidth - 20,
+      // height: metrics.screenHeight - 180, // Resize to a smaller height
       cropping: true, // Enable cropping after selecting the image
     });
 

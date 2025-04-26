@@ -11,6 +11,7 @@ import BackgroundView from '@src/components/BackgroundView';
 import Header from '../../../../components/Header';
 import childDummy from '../../../../assets/images/childDummy.png';
 import circlePencilIcon from '../../../../assets/images/circlePencil.png';
+import calendar from '../../../../assets/images/calendar.png';
 import DropdownComponent from '../../../../components/DropdownComponent';
 import {Colors} from '../../../../theme/fonts';
 import DatePicker from 'react-native-date-picker';
@@ -30,9 +31,8 @@ const EditChild = () => {
   const dispatch = useDispatch();
   const {currentChild} = useSelector(state => state.auth);
   const [t] = useTranslation();
-  const [dob, setDob] = useState(new Date());
+  const [date, setDate] = useState(new Date());
   const [open, setOpen] = useState(false);
-  // console.log(currentChild);
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -54,12 +54,12 @@ const EditChild = () => {
   ];
 
   const validationSchema = Yup.object().shape({
-    firstName: Yup.string().required('First name is required'),
-    lastName: Yup.string().required('Last name is required'),
+    firstName: Yup.string().trim().required('First name is required'),
+    lastName: Yup.string().trim().required('Last name is required'),
     gender: Yup.string().required('Please select a gender'),
     bloodGroup: Yup.string().required('Please select a blood group'),
-    // dob: Yup.number().required('Date of birth is required'),
-    address: Yup.string().required('Address is required'),
+    // dob: Yup.string().required('Date of birth is required'),
+    address: Yup.string().trim().required('Address is required'),
   });
   // console.log(currentChild);
 
@@ -119,12 +119,6 @@ const EditChild = () => {
                 style={styles.childImg}
                 resizeMode="contain"
               />
-              {/* <Image
-                onPress={() => setModalVisible(true)}
-                source={circlePencilIcon}
-                style={styles.pencilIcon}
-                resizeMode="contain"
-              /> */}
               <TouchableOpacity onPress={() => setModalVisible(true)}>
                 <Image
                   source={circlePencilIcon}
@@ -146,21 +140,11 @@ const EditChild = () => {
               validationSchema={validationSchema}
               onSubmit={async values => {
                 try {
-                  console.log('Form submitted with:', values);
-                  // Filter out only the fields that are filled
-                  // const payload = Object.fromEntries(
-                  //   Object.entries(values).filter(
-                  //     ([_, value]) =>
-                  //       value !== '' && value !== null && value !== undefined,
-                  //   ),
-                  // );
-                  // console.log({payload});
                   setLoading(true);
                   const res = await axiosClient.put(
                     `${EndPoints.UPDATE_STUDENT}/${currentChild?._id}`,
                     values,
                   );
-                  console.log('res', res.data);
 
                   if (res.data.statusCode === 200) {
                     successToast(res?.data?.result);
@@ -255,23 +239,33 @@ const EditChild = () => {
                       onPress={() => setOpen(true)}
                       style={styles.textInput}>
                       <Text style={styles.textInput2}>
-                        {dob ? moment(dob).format('DD/MM/YYYY') : 'DD/MM/YYYY'}
+                        {values.dob || 'DD/MM/YYYY'}
                       </Text>
+                      <Image
+                        source={calendar}
+                        style={{
+                          height: 30,
+                          width: 30,
+                          position: 'absolute',
+                          bottom: 10,
+                          right: 10,
+                        }}
+                      />
                     </TouchableOpacity>
-
                     <DatePicker
                       modal
                       open={open}
-                      date={dob}
+                      date={date}
                       mode="date"
                       theme="dark"
+                      maximumDate={new Date()}
                       onConfirm={date => {
                         setOpen(false);
-                        setDob(date);
+                        setDate(date);
+                        const formattedDate = moment(date).format('DD/MM/YYYY');
+                        setFieldValue('dob', formattedDate);
                       }}
-                      onCancel={() => {
-                        setOpen(false);
-                      }}
+                      onCancel={() => setOpen(false)}
                     />
                   </View>
 

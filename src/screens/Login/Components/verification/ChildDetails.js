@@ -92,11 +92,11 @@ export default function ChildDetail() {
           </View>
         ))} */}
         {/* name */}
-        <Text style={styles.label}>{t('childDetail.studentId')}</Text>
+        <Text style={styles.label}>{t('parentDetail.name')}</Text>
         <View style={styles.inputContainerWithIcon}>
           <TextInput
             style={styles.input}
-            placeholder={t('childDetail.studentId')}
+            placeholder={t('placeholder.studentName')}
             placeholderTextColor="#aaa"
             value={name}
             onChangeText={text => setName(text)}
