@@ -73,7 +73,7 @@
       "parentName": "Father's / Mother's name",
       "emailAddress": "Email address",
       "enterPassword": "Enter password",
-      "currentPassword": "Enter current password",
+      "oldPassword": "Enter old password",
       "createPassword": "Create new password",
       "confirmPassword": "Confirm new password",
       "id": "12 digit ID",
@@ -81,6 +81,8 @@
       "selectBloodGroup": "Select Blood Group",
       "firstname": "Student’s first name",
       "lastname": "Student’s last name",
+      "username": "Enter Username",
+      "fullname": "Enter Fullname",
       "address": "Complete address",
       "age": "Enter Age",
       "email": "Enter email",
@@ -99,11 +101,15 @@
     "options": {
       "male": "Male",
       "female": "Female",
-      "other": "Other"
+      "other": "Other",
+      "camera": "Camera",
+      "gallery": "Gallery"
     },
     "label": {
+      "username": "Username",
       "firstname": "First name",
       "lastname": "Last Name",
+      "fullname": "Full Name",
       "gender": "Gender",
       "bloodgroup": "Blood group",
       "dob": "Date of birth",
@@ -113,7 +119,7 @@
       "contact": "Contact",
       "qualification": "Qualification",
       "occupation": "Occupation",
-      "currentPassword": "Current Password",
+      "oldPassword": "Old Password",
       "newPassword": "New Password",
       "confirmPassword": "Confirm Password"
     },
@@ -121,7 +127,8 @@
       "updatePassword": "Update Password",
       "editProfile": "Edit Profile",
       "childSetting": "Child Settings",
-      "personalInfo": "Personal Information"
+      "personalInfo": "Personal Information",
+      "uploadPhoto": "Upload Photo"
     }
   }
 }

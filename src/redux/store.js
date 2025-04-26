@@ -1,8 +1,10 @@
-import { configureStore, combineReducers } from '@reduxjs/toolkit';
+import {configureStore, combineReducers} from '@reduxjs/toolkit';
 import authReducer from './authSlice';
+import dashBoardReducer from './dashBoardSlice';
 
 const appReducer = combineReducers({
   auth: authReducer,
+  dashboard: dashBoardReducer,
 });
 
 const rootReducer = (state, action) => {

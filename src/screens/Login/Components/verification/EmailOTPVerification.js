@@ -20,9 +20,11 @@ import {EndPoints} from '../../../../ParentApi';
 import {errorToast, successToast} from '../../../../components/CustomToast';
 import {globalStyle} from '../../../../theme/fonts';
 import {setAuth} from '../../../../redux/authSlice';
+import Loader from '../../../../components/Loader';
 
 export default function EmailOTPVerification() {
   const [otp, setOtp] = useState(['', '', '', '', '']);
+  const [loading, setLoading] = useState(false);
   const [timer, setTimer] = useState(30);
   const [isResendDisabled, setIsResendDisabled] = useState(true);
   const {status} = useSelector(state => state.auth);
@@ -52,6 +54,7 @@ export default function EmailOTPVerification() {
       if (otp.join('').length !== 5) {
         return errorToast(t('validation.shortOtp'));
       }
+      setLoading(true);
       const res = await axiosClient.put(EndPoints.EMAIL_OTP_VERIFY, {
         otp: Number(otp.join('')),
       });
@@ -64,11 +67,14 @@ export default function EmailOTPVerification() {
       }
     } catch (e) {
       errorToast(e);
+    } finally {
+      setLoading(false);
     }
   };
 
   const resendOtp = async () => {
     try {
+      setLoading(true);
       const res = await axiosClient.post(EndPoints.EMAIL_OTP_SEND, {
         phone: status?.phone,
       });
@@ -79,6 +85,8 @@ export default function EmailOTPVerification() {
       }
     } catch (e) {
       console.error(e);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -97,6 +105,7 @@ export default function EmailOTPVerification() {
 
   return (
     <BackgroundView>
+      {loading && <Loader />}
       <SafeAreaView style={styles.container}>
         {/* Header */}
         <Header heading={t('otp.otpVerification')} />

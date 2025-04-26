@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, {useEffect, useRef} from 'react';
-import {Image, Text, View} from 'react-native';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
 import styles from './styles';
 import BackgroundView from '../../../components/BackgroundView';
 import EventCalendar from '../../../components/cache/EventCache';
@@ -8,28 +8,20 @@ import MyCalendar from '../../../components/calendar/Calendar';
 import childDummy from '../../../assets/images/childDummy.png';
 import {axiosClient} from '../../../services/axiosClient';
 import {EndPoints} from '../../../ParentApi';
-import {useDispatch} from 'react-redux';
-import {setData} from '../../../redux/authSlice';
+import {useDispatch, useSelector} from 'react-redux';
+import {fetchAndSetData} from '../../../redux/authSlice';
+import {ROUTE} from '../../../navigation/constant';
+import {useNavigation} from '@react-navigation/native';
 
 function Dashboard() {
   // const eventRef = useRef();
+  const navigation = useNavigation();
   const dispatch = useDispatch();
-
-  const getInfo = async () => {
-    try {
-      const res = await axiosClient.get(EndPoints.GET_INFO);
-      if (res.data.statusCode) {
-        const data = res?.data?.result;
-        console.log(JSON.stringify(data));
-        // dispatch(setData(data));
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  const {currentChild} = useSelector(state => state.auth);
+  // console.log(currentChild);
 
   useEffect(() => {
-    getInfo();
+    dispatch(fetchAndSetData());
   }, []);
 
   return (
@@ -38,13 +30,22 @@ function Dashboard() {
         <View style={styles.flexRow}>
           <View>
             <Text style={styles.title1}>Hello,</Text>
-            <Text style={styles.title2}>Pooja sharma</Text>
+            <Text style={styles.title2}>
+              {currentChild?.firstname} {currentChild?.lastname}
+            </Text>
           </View>
-          <Image
-            source={childDummy}
-            style={styles.childImg}
-            resizeMode="contain"
-          />
+          <TouchableOpacity
+            onPress={() => navigation.navigate(ROUTE.EDIT_PROFILE)}>
+            <Image
+              source={
+                currentChild?.photo
+                  ? {uri: `data:image/jpeg;base64,${currentChild?.photo}`}
+                  : childDummy
+              }
+              style={styles.childImg}
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
         </View>
         <View style={styles.line} />
         {/* Calendar & Events */}
@@ -54,17 +55,26 @@ function Dashboard() {
           <View style={styles.flexRow}>
             <View style={styles.flexRow}>
               <Image
-                source={childDummy}
+                source={
+                  currentChild?.photo
+                    ? {uri: `data:image/jpeg;base64,${currentChild?.photo}`}
+                    : childDummy
+                }
                 style={styles.childImg}
                 resizeMode="contain"
               />
-              <Text style={styles.title3}>Pooja sharma</Text>
+              <Text style={styles.title3}>
+                {currentChild?.firstname} {currentChild?.lastname}
+              </Text>
             </View>
             <View style={styles.classContainer}>
-              <Text style={styles.classSec}>11th - C</Text>
+              <Text style={styles.classSec}>
+                {currentChild?.classId?.name} - {currentChild?.section?.name}
+              </Text>
             </View>
           </View>
-          <MyCalendar />
+          {/* <MyCalendar /> */}
+          <EventCalendar />
         </View>
       </View>
     </BackgroundView>

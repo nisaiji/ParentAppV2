@@ -9,22 +9,30 @@ import Header from '../../../../components/Header';
 import {useTranslation} from 'react-i18next';
 import show from '../../../../assets/images/show.png';
 import hide from '../../../../assets/images/hide.png';
+import {axiosClient} from '../../../../services/axiosClient';
+import {EndPoints} from '../../../../ParentApi';
+import {errorToast, successToast} from '../../../../components/CustomToast';
+import {useNavigation} from '@react-navigation/native';
+import {ROUTE} from '../../../../navigation/constant';
+import Loader from '../../../../components/Loader';
 
 function ChangePassword() {
-  const [currentPassword, setCurrentPassword] = useState('');
+  const navigation = useNavigation();
+  const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [showCurrent, setShowCurrent] = useState(false);
+  const [showOld, setShowOld] = useState(false);
   const [showNew, setShowNew] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const [t] = useTranslation();
 
   const validateForm = () => {
     const newErrors = {};
 
-    if (!currentPassword) {
-      newErrors.currentPassword = t('validation.requiredPassword');
+    if (!oldPassword) {
+      newErrors.oldPassword = t('validation.requiredPassword');
     }
     if (!newPassword) {
       newErrors.newPassword = t('validation.requiredNewPassword');
@@ -41,44 +49,69 @@ function ChangePassword() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     if (validateForm()) {
-      console.log('Password updated!');
+      // console.log('Password updated!');
       // API call or update logic here
+      try {
+        setLoading(true);
+        const res = await axiosClient.put(EndPoints.EDIT_PASSWORD, {
+          oldPassword: oldPassword,
+          newPassword,
+        });
+        // console.log(res.data);
+
+        if (res.data.statusCode === 200) {
+          successToast(res?.data?.result);
+          // navigation.navigate(ROUTE.TAB, {screen: ROUTE.SETTING});
+          navigation.navigate(ROUTE.TAB, {
+            screen: ROUTE.SETTING_STACK,
+            params: {
+              screen: ROUTE.SETTING,
+            },
+          });
+        }
+      } catch (e) {
+        // console.log(e);
+        errorToast(e);
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
   return (
     <GestureHandlerRootView>
       <BackgroundView>
+        {loading && <Loader />}
         <SafeAreaView style={styles.container}>
           <Header heading={t('title.updatePassword')} />
           <ScrollView
             style={styles.innerContainer}
             keyboardShouldPersistTaps="handled">
             {/* Current Password */}
-            <Text style={styles.label}>{t('label.currentPassword')}</Text>
+            <Text style={styles.label}>{t('label.oldPassword')}</Text>
             <View style={styles.inputContainerWithIcon}>
               <TextInput
                 style={styles.input}
-                placeholder={t('placeholder.currentPassword')}
+                placeholder={t('placeholder.oldPassword')}
                 placeholderTextColor="#aaa"
-                secureTextEntry={!showCurrent}
-                value={currentPassword}
-                onChangeText={setCurrentPassword}
+                secureTextEntry={!showOld}
+                value={oldPassword}
+                onChangeText={setOldPassword}
               />
               <TouchableOpacity
                 style={styles.eyeIcon}
-                onPress={() => setShowCurrent(!showCurrent)}>
+                onPress={() => setShowOld(!showOld)}>
                 <Image
-                  source={showCurrent ? hide : show}
+                  source={showOld ? hide : show}
                   style={styles.eyeIconImage}
                   resizeMode="contain"
                 />
               </TouchableOpacity>
             </View>
-            {errors.currentPassword && (
-              <Text style={styles.errorText}>{errors.currentPassword}</Text>
+            {errors.oldPassword && (
+              <Text style={styles.errorText}>{errors.oldPassword}</Text>
             )}
 
             {/* New Password */}

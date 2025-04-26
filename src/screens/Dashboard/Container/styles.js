@@ -40,12 +40,11 @@ const styles = StyleSheet.create({
     marginRight: scale(5),
   },
   classContainer: {
-    height: scale(32),
-    width: scale(71),
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: colors.BLUE15,
     borderRadius: scale(8),
+    padding: scale(7),
   },
   classSec: {
     fontSize: Size.font_14,

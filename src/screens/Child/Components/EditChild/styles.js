@@ -25,12 +25,11 @@ const styles = StyleSheet.create({
     color: colors.COLOR_2,
   },
   classContainer: {
-    height: scale(32),
-    width: scale(71),
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: colors.COLOR_1,
     borderRadius: scale(8),
+    padding: scale(7),
   },
   classSec: {
     fontSize: Size.font_14,

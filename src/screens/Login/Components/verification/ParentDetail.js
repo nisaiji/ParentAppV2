@@ -20,10 +20,12 @@ import {EndPoints} from '../../../../ParentApi';
 import {errorToast, successToast} from '../../../../components/CustomToast';
 import {useDispatch} from 'react-redux';
 import {setAuth} from '../../../../redux/authSlice';
+import Loader from '../../../../components/Loader';
 
 export default function ParentDetail() {
   const [name, setName] = useState('');
   const [optionalName, setOptionalName] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [t] = useTranslation();
@@ -33,6 +35,7 @@ export default function ParentDetail() {
       if (!name) {
         return errorToast(t('validation.fullname'));
       }
+      setLoading(true);
       const res = await axiosClient.put(EndPoints.UPDATE_PARENT_FULLNAME, {
         fullname: name,
       });
@@ -40,15 +43,18 @@ export default function ParentDetail() {
       if (res?.data?.statusCode === 200) {
         successToast(res?.data?.result);
         dispatch(setAuth({personalInfoUpdated: true}));
-        navigation.navigate(ROUTE.CHILD_DETAIL);
+        navigation.navigate(ROUTE.AUTH, {screen: ROUTE.CHILD_DETAIL});
       }
     } catch (e) {
       errorToast(e);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <BackgroundView>
+      {loading && <Loader />}
       <SafeAreaView style={styles.container}>
         {/* Header */}
         <Header heading={t('parentDetail.heading')} noBack />

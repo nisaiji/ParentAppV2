@@ -18,13 +18,14 @@ import {globalStyle} from '../../../theme/fonts';
 import {useNavigation} from '@react-navigation/native';
 import {ROUTE} from '../../../navigation/constant';
 import ConfirmPopup from '../../../components/ConfirmPopup';
-import {useDispatch} from 'react-redux';
-import { logout } from '../../../redux/authSlice';
+import {useDispatch, useSelector} from 'react-redux';
+import {logout} from '../../../redux/authSlice';
 
 function Setting() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [logoutPopup, setLogoutPopup] = useState(false);
+  const {data} = useSelector(state => state.auth);
 
   const onChangePassword = () => {
     navigation.navigate(ROUTE.CHANGE_PASSWORD);
@@ -56,12 +57,16 @@ function Setting() {
           <View style={styles.personalDetailContainer}>
             <View style={styles.parentDetailLeft}>
               <Image
-                source={childDummy}
+                source={
+                  data?.photo
+                    ? {uri: `data:image/jpeg;base64,${data?.photo}`}
+                    : childDummy
+                }
                 style={styles.childImg}
                 resizeMode="contain"
               />
               <View>
-                <Text style={styles.parentName}>Priyanka Sharma</Text>
+                <Text style={styles.parentName}>{data?.fullname}</Text>
                 <Text style={styles.parentLabel}>Parent</Text>
               </View>
             </View>

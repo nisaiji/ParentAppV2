@@ -21,11 +21,13 @@ import {errorToast, successToast} from '../../../../components/CustomToast';
 import {REGEX} from '../../../../utils/Rejex';
 import {globalStyle} from '../../../../theme/fonts';
 import {useDispatch} from 'react-redux';
-import { setAuth } from '../../../../redux/authSlice';
+import {setAuth} from '../../../../redux/authSlice';
+import Loader from '../../../../components/Loader';
 
 export default function CreatePassword() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [loading, setLoading] = useState(false);
   const [showNew, setShowNew] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const navigation = useNavigation();
@@ -43,12 +45,13 @@ export default function CreatePassword() {
       } else if (password !== confirmPassword) {
         return errorToast(t('validation.passwordMismatch'));
       }
+      setLoading(true);
       const res = await axiosClient.put(EndPoints.PASSWORD_UPDATE, {
         password,
       });
       if (res?.data?.statusCode === 200) {
         successToast(res?.data?.result);
-        dispatch(setAuth({ passwordUpdated: true }));
+        dispatch(setAuth({passwordUpdated: true}));
         navigation.navigate(ROUTE.SUCCESS_PAGE, {
           message: t('passwordSuccess'),
           nextRoute: ROUTE.EMAIL_VERIFICATION,
@@ -56,11 +59,14 @@ export default function CreatePassword() {
       }
     } catch (e) {
       errorToast(e);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <BackgroundView>
+      {loading && <Loader />}
       <SafeAreaView style={styles.container}>
         {/* Header */}
         <Header heading={t('createPassword.heading')} noBack={true} />

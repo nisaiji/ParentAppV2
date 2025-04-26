@@ -11,44 +11,94 @@ import Header from '../../../../components/Header';
 import childDummy from '../../../../assets/images/childDummy.png';
 import circlePencilIcon from '../../../../assets/images/circlePencil.png';
 import DropdownComponent from '../../../../components/DropdownComponent';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
+import {useDispatch, useSelector} from 'react-redux';
+import {axiosClient} from '../../../../services/axiosClient';
+import {EndPoints} from '../../../../ParentApi';
+import {errorToast, successToast} from '../../../../components/CustomToast';
+import {useNavigation} from '@react-navigation/native';
+import {ROUTE} from '../../../../navigation/constant';
+import ImagePickerModal from '../../../../components/ImagePickerModal';
+import {fetchAndSetData} from '../../../../redux/authSlice';
+import Loader from '../../../../components/Loader';
 
 function EditProfile() {
   const [t] = useTranslation();
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const {data} = useSelector(state => state.auth);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
   const genderOptions = [
     {label: 'Male', value: 'Male'},
     {label: 'Female', value: 'Female'},
     {label: 'Other', value: 'Other'},
   ];
+  // console.log(data);
 
   const validationSchema = Yup.object().shape({
-    firstName: Yup.string().required('First name is required'),
-    lastName: Yup.string().required('Last name is required'),
-    gender: Yup.string().required('Please select a gender'),
-    age: Yup.number()
-      .required('Age is required')
-      .min(1, 'Age must be at least 1')
-      .max(150, 'Age must be realistic'),
-    email: Yup.string().email('Invalid email').required('Email is required'),
-    contact: Yup.string().required('Contact is required'),
-    qualification: Yup.string().required('Qualification is required'),
-    occupation: Yup.string().required('Occupation is required'),
-    address: Yup.string().required('Address is required'),
+    username: Yup.string().required('Username is required'),
+    fullname: Yup.string().required('Full name is required'),
+    // gender: Yup.string().required('Please select a gender'),
+    // age: Yup.number()
+    //   .required('Age is required')
+    //   .min(1, 'Age must be at least 1')
+    //   .max(150, 'Age must be realistic'),
+    // email: Yup.string().email('Invalid email').required('Email is required'),
+    // contact: Yup.string().required('Contact is required'),
+    // qualification: Yup.string().required('Qualification is required'),
+    // occupation: Yup.string().required('Occupation is required'),
+    // address: Yup.string().required('Address is required'),
   });
+
+  /**
+   * Uploads a new profile image.
+   * @param {string} base64Image - The image in base64 format.
+   * @param {string} method - Upload method.
+   */
+  const uploadImage = async (base64Image, method) => {
+    try {
+      setLoading(true);
+      const res = await axiosClient.put(EndPoints.PARENT_PHOTO_UPLOAD, {
+        photo: base64Image,
+        method,
+      });
+      // console.log('res', res.data);
+
+      if (res?.data?.statusCode === 200) {
+        dispatch(fetchAndSetData());
+        successToast('Profile Photo Uploaded Successfully');
+      }
+    } catch (e) {
+      // console.log({e});
+
+      errorToast(e);
+    } finally {
+      setLoading(false);
+      setModalVisible(false);
+    }
+  };
 
   return (
     <GestureHandlerRootView>
       <BackgroundView>
+        {loading && <Loader />}
         <SafeAreaView style={styles.container}>
           <Header heading={t('title.editProfile')} />
           <ScrollView style={styles.innerContainer}>
             <View style={styles.childImgContainer}>
               <Image
-                source={childDummy}
+                source={
+                  data?.photo
+                    ? {uri: `data:image/jpeg;base64,${data?.photo}`}
+                    : childDummy
+                }
                 style={styles.childImg}
                 resizeMode="contain"
               />
-              <TouchableOpacity style={styles.pencilIconView}>
+              <TouchableOpacity
+                onPress={() => setModalVisible(true)}
+                style={styles.pencilIconView}>
                 <Image
                   source={circlePencilIcon}
                   style={styles.pencilIcon}
@@ -59,19 +109,52 @@ function EditProfile() {
 
             <Formik
               initialValues={{
-                firstName: '',
-                lastName: '',
-                gender: '',
-                age: '',
-                email: '',
-                contact: '',
-                qualification: '',
-                occupation: '',
-                address: '',
+                username: data?.username || '',
+                fullname: data?.fullname || '',
+                gender: data?.gender || '',
+                age: data?.age || '',
+                // email: data?.email || '',
+                // contact: data?.phone || '',
+                qualification: data?.qualification || '',
+                occupation: data?.occupation || '',
+                address: data?.address || '',
               }}
               validationSchema={validationSchema}
-              onSubmit={values => {
-                console.log('Submitted Profile:', values);
+              onSubmit={async values => {
+                // console.log('Submitted Profile:', values);
+                try {
+                  // Filter out only the fields that are filled
+                  const payload = Object.fromEntries(
+                    Object.entries(values).filter(
+                      ([_, value]) =>
+                        value !== '' && value !== null && value !== undefined,
+                    ),
+                  );
+                  // console.log({payload});
+                  setLoading(true);
+                  const res = await axiosClient.put(
+                    EndPoints.UPDATE_PARENT,
+                    payload,
+                  );
+                  // console.log(res.data);
+
+                  if (res.data.statusCode === 200) {
+                    successToast(res?.data?.result);
+                    dispatch(fetchAndSetData());
+                    // navigation.navigate(ROUTE.TAB, {screen: ROUTE.SETTING});
+                    navigation.navigate(ROUTE.TAB, {
+                      screen: ROUTE.SETTING_STACK,
+                      params: {
+                        screen: ROUTE.SETTING,
+                      },
+                    });
+                  }
+                } catch (e) {
+                  // console.log({e});
+                  errorToast(e);
+                } finally {
+                  setLoading(false);
+                }
               }}>
               {({
                 handleChange,
@@ -88,32 +171,32 @@ function EditProfile() {
                   </Text>
 
                   <View style={styles.formInput}>
-                    <Text style={styles.label}>{t('label.firstname')}</Text>
+                    <Text style={styles.label}>{t('label.username')}</Text>
                     <TextInput
                       style={styles.textInput}
-                      placeholder={t('placeholder.firstname')}
+                      placeholder={t('placeholder.username')}
                       placeholderTextColor={styles.placeholderText}
-                      onChangeText={handleChange('firstName')}
-                      onBlur={handleBlur('firstName')}
-                      value={values.firstName}
+                      onChangeText={handleChange('username')}
+                      onBlur={handleBlur('username')}
+                      value={values.username}
                     />
-                    {touched.firstName && errors.firstName && (
-                      <Text style={styles.errorText}>{errors.firstName}</Text>
+                    {touched.username && errors.username && (
+                      <Text style={styles.errorText}>{errors.username}</Text>
                     )}
                   </View>
 
                   <View style={styles.formInput}>
-                    <Text style={styles.label}>{t('label.lastname')}</Text>
+                    <Text style={styles.label}>{t('label.fullname')}</Text>
                     <TextInput
                       style={styles.textInput}
-                      placeholder={t('placeholder.lastname')}
+                      placeholder={t('placeholder.fullname')}
                       placeholderTextColor={styles.placeholderText}
-                      onChangeText={handleChange('lastName')}
-                      onBlur={handleBlur('lastName')}
-                      value={values.lastName}
+                      onChangeText={handleChange('fullname')}
+                      onBlur={handleBlur('fullname')}
+                      value={values.fullname}
                     />
-                    {touched.lastName && errors.lastName && (
-                      <Text style={styles.errorText}>{errors.lastName}</Text>
+                    {touched.fullname && errors.fullname && (
+                      <Text style={styles.errorText}>{errors.fullname}</Text>
                     )}
                   </View>
 
@@ -146,7 +229,7 @@ function EditProfile() {
                     )}
                   </View>
 
-                  <View style={styles.formInput}>
+                  {/* <View style={styles.formInput}>
                     <Text style={styles.label}>{t('label.email')}</Text>
                     <TextInput
                       style={styles.textInput}
@@ -159,9 +242,9 @@ function EditProfile() {
                     {touched.email && errors.email && (
                       <Text style={styles.errorText}>{errors.email}</Text>
                     )}
-                  </View>
+                  </View> */}
 
-                  <View style={styles.formInput}>
+                  {/* <View style={styles.formInput}>
                     <Text style={styles.label}>{t('label.contact')}</Text>
                     <TextInput
                       style={styles.textInput}
@@ -175,7 +258,7 @@ function EditProfile() {
                     {touched.contact && errors.contact && (
                       <Text style={styles.errorText}>{errors.contact}</Text>
                     )}
-                  </View>
+                  </View> */}
 
                   <View style={styles.formInput}>
                     <Text style={styles.label}>{t('label.qualification')}</Text>
@@ -230,11 +313,20 @@ function EditProfile() {
                   <TouchableOpacity
                     style={styles.button}
                     onPress={handleSubmit}>
-                    <Text style={styles.buttonLabel}>{t('button.updateSave')}</Text>
+                    <Text style={styles.buttonLabel}>
+                      {t('button.updateSave')}
+                    </Text>
                   </TouchableOpacity>
                 </View>
               )}
             </Formik>
+            {/* Modal for choosing camera or gallery */}
+            <ImagePickerModal
+              visible={modalVisible}
+              onClose={() => setModalVisible(false)}
+              onUpload={uploadImage}
+              hasPhoto={data?.photo}
+            />
           </ScrollView>
         </SafeAreaView>
       </BackgroundView>

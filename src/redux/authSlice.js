@@ -1,23 +1,18 @@
-// authSlice.js
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import {axiosClient} from '../services/axiosClient';
+import {EndPoints} from '../ParentApi';
 
-/**
- * Async thunk to check if the user is logged in.
- * Retrieves tokens from AsyncStorage, decodes the JWT, and returns user details.
- */
+// Check login status
 export const isLogin = createAsyncThunk('auth/isLogin', async () => {
   try {
     const token = await AsyncStorage.getItem('accessToken');
     if (token) {
       const status = await AsyncStorage.getItem('status');
-      const childsStr = await AsyncStorage.getItem('childs');
-      const childs = childsStr ? JSON.parse(childsStr) : [];
 
       return {
         token,
         status: status ? JSON.parse(status) : {},
-        childs,
       };
     }
     return null;
@@ -27,97 +22,117 @@ export const isLogin = createAsyncThunk('auth/isLogin', async () => {
   }
 });
 
-export const setChildList = createAsyncThunk(
-  'auth/setChildList',
-  async child => {
+// Set token
+export const setToken = createAsyncThunk('auth/setToken', async ({token}) => {
+  await AsyncStorage.setItem('accessToken', token);
+  return token;
+});
+
+// Set auth object
+export const setAuth = createAsyncThunk('auth/setAuth', async data => {
+  const existing = await AsyncStorage.getItem('status');
+  const parsed = existing ? JSON.parse(existing) : {};
+  const mergedData = {...parsed, ...data};
+  await AsyncStorage.setItem('status', JSON.stringify(mergedData));
+  return mergedData;
+});
+
+// Set the current child
+export const setCurrentChild = createAsyncThunk(
+  'auth/setCurrentChild',
+  async ({child}) => {
+    await AsyncStorage.setItem('currentChild', JSON.stringify(child));
+    return child;
+  },
+);
+
+export const fetchAndSetData = createAsyncThunk(
+  'auth/fetchAndSetData',
+  async (_, {dispatch}) => {
     try {
-      const existingStr = await AsyncStorage.getItem('childs');
-      const existing = existingStr ? JSON.parse(existingStr) : child;
+      const res = await axiosClient.get(EndPoints.GET_INFO);
 
-      // Add the new child to the array
-      const updatedChilds = [...existing, child];
+      if (!res.data.statusCode === 200) return;
 
-      // Store the updated array as a string in AsyncStorage
-      await AsyncStorage.setItem('childs', JSON.stringify(updatedChilds));
+      const data = res?.data?.result;
+      // console.log('data', JSON.stringify(data));
+      let currentChild;
+      let currentIndex;
+      if (data) {
+        await AsyncStorage.setItem('data', JSON.stringify(data));
 
-      // Return the updated array for Redux
-      return updatedChilds;
+        const students = data.students || [];
+
+        let indexStr = await AsyncStorage.getItem('currentChildIndex');
+        currentIndex = indexStr ? parseInt(indexStr, 10) : 0;
+
+        if (currentIndex >= students.length) {
+          currentIndex = 0;
+        }
+
+        currentChild = students[currentIndex] || null;
+
+        if (currentChild) {
+          await AsyncStorage.setItem(
+            'currentChild',
+            JSON.stringify(currentChild),
+          );
+          await AsyncStorage.setItem(
+            'currentChildIndex',
+            currentIndex.toString(),
+          );
+          dispatch(setCurrentChild.fulfilled(currentChild));
+        }
+      }
+
+      return {
+        data,
+        currentChild,
+        currentIndex,
+      };
     } catch (error) {
+      console.log('Error in fetchAndSetData:', error);
       throw error;
     }
   },
 );
-export const setData = createAsyncThunk('auth/setData', async newData => {
-  try {
-    const existingData = await AsyncStorage.getItem('data');
-    const existing = existingData ? JSON.parse(existingData) : newData;
 
-    // Add the new data to the array
-    const updatedData = [...existing, newData];
+export const updateCurrentChildByIndex = createAsyncThunk(
+  'auth/updateCurrentChildByIndex',
+  async (index, {getState}) => {
+    const state = getState().auth;
+    const students = state.data?.students || [];
 
-    // Store the updated array as a string in AsyncStorage
-    await AsyncStorage.setItem('data', JSON.stringify(updatedData));
+    if (index < 0 || index >= students.length) {
+      return;
+    }
 
-    // Return the updated array for Redux
-    return updatedData;
-  } catch (error) {
-    throw error;
-  }
-});
+    const currentChild = students[index];
 
-// Async thunk to store auth status in AsyncStorage
-export const setAuth = createAsyncThunk('auth/setAuth', async data => {
-  try {
-    const existing = await AsyncStorage.getItem('status');
-    const parsed = existing ? JSON.parse(existing) : {};
-    const mergedData = {...parsed, ...data};
+    await AsyncStorage.setItem('currentChildIndex', index.toString());
+    await AsyncStorage.setItem('currentChild', JSON.stringify(currentChild));
 
-    await AsyncStorage.setItem('status', JSON.stringify(mergedData));
-    return mergedData;
-  } catch (error) {
-    throw error;
-  }
-});
+    return {index, currentChild};
+  },
+);
 
-export const setToken = createAsyncThunk('auth/setToken', async ({token}) => {
-  try {
-    // console.log('Saving token to AsyncStorage:', token);
-    await AsyncStorage.setItem('accessToken', token);
-    return token;
-  } catch (error) {
-    // console.error('AsyncStorage error:', error);
-    throw error;
-  }
-});
-export const setCurrnetChild = createAsyncThunk('auth/setCurrnetChild', async ({child}) => {
-  try {
-    await AsyncStorage.setItem('currnetChild', child);
-    return child;
-  } catch (error) {
-    // console.error('AsyncStorage error:', error);
-    throw error;
-  }
-});
-
+// Logout and clear all data
 export const logout = createAsyncThunk('auth/logout', async (_, {dispatch}) => {
-  try {
-    await AsyncStorage.clear();
-    dispatch({type: 'RESET_APP'}); // Reset Redux state
-    return {};
-  } catch (error) {
-    console.error('Error during logout:', error);
-    throw error;
-  }
+  await AsyncStorage.clear();
+  dispatch({type: 'RESET_APP'}); // Reset Redux state
+  return {};
 });
 
+// Initial state
 const initialState = {
   status: {},
-  childs: [],
   token: null,
-  data: [],
-  currentChild:{}
+  data: {},
+  currentChild: null,
+  currentChildIndex: 0,
 };
 
+// Slice
 const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -128,28 +143,33 @@ const authSlice = createSlice({
         if (action.payload) {
           state.token = action.payload.token;
           state.status = action.payload.status;
-          state.childs = action.payload.childs;
         }
-      })
-      .addCase(setAuth.fulfilled, (state, action) => {
-        state.status = action.payload;
-      })
-      .addCase(setChildList.fulfilled, (state, action) => {
-        state.childs = action.payload;
-      })
-      .addCase(setData.fulfilled, (state, action) => {
-        state.data = action.payload;
       })
       .addCase(setToken.fulfilled, (state, action) => {
         state.token = action.payload;
       })
-      .addCase(setCurrnetChild.fulfilled, (state, action) => {
-        state.currnetChild = action.payload;
+      .addCase(setAuth.fulfilled, (state, action) => {
+        state.status = action.payload;
+      })
+      .addCase(setCurrentChild.fulfilled, (state, action) => {
+        state.currentChild = action.payload;
+      })
+      .addCase(fetchAndSetData.fulfilled, (state, action) => {
+        state.data = action.payload.data;
+        state.currentChild = action.payload.currentChild;
+        state.currentChildIndex = action.payload.currentIndex;
+      });
+    builder
+      .addCase(updateCurrentChildByIndex.fulfilled, (state, action) => {
+        state.currentChildIndex = action.payload.index;
+        state.currentChild = action.payload.currentChild;
       })
       .addCase(logout.fulfilled, state => {
         state.token = null;
         state.status = {};
-        state.childs = [];
+        state.data = {};
+        state.currentChild = null;
+        state.currentChildIndex = 0;
       });
   },
 });

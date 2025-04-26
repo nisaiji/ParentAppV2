@@ -4,7 +4,7 @@ import FastImage from 'react-native-fast-image';
 
 export default function Loader() {
   return (
-    <View>
+    <View style={styles.loading}>
       <FastImage
         style={{height: 50, width: 50}}
         source={require('@src/assets/images/Loader.gif')}
@@ -13,3 +13,19 @@ export default function Loader() {
     </View>
   );
 }
+
+const styles = {
+  loading: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    opacity: 0.5,
+    zIndex: 100,
+  },
+};

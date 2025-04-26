@@ -15,11 +15,26 @@ import DropdownComponent from '../../../../components/DropdownComponent';
 import {Colors} from '../../../../theme/fonts';
 import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
+import {useDispatch, useSelector} from 'react-redux';
+import ImagePickerModal from '../../../../components/ImagePickerModal';
+import {axiosClient} from '../../../../services/axiosClient';
+import {EndPoints} from '../../../../ParentApi';
+import {errorToast, successToast} from '../../../../components/CustomToast';
+import {fetchAndSetData} from '../../../../redux/authSlice';
+import {useNavigation} from '@react-navigation/native';
+import {ROUTE} from '../../../../navigation/constant';
+import Loader from '../../../../components/Loader';
 
 const EditChild = () => {
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const {currentChild} = useSelector(state => state.auth);
   const [t] = useTranslation();
   const [dob, setDob] = useState(new Date());
   const [open, setOpen] = useState(false);
+  // console.log(currentChild);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const genderOptions = [
     {label: t('options.male'), value: 'Male'},
@@ -46,44 +61,122 @@ const EditChild = () => {
     dob: Yup.string().required('Date of birth is required'),
     address: Yup.string().required('Address is required'),
   });
+  // console.log(currentChild);
+
+  /**
+   * Uploads a new profile image.
+   * @param {string} base64Image - The image in base64 format.
+   * @param {string} method - Upload method.
+   */
+  const uploadImage = async (base64Image, method) => {
+    try {
+      setLoading(true);
+      const res = await axiosClient.put(
+        `${EndPoints.CHILD_PHOTO_UPDATE}/${currentChild?._id}`,
+        {
+          photo: base64Image,
+          method,
+        },
+      );
+
+      if (res?.data?.statusCode === 200) {
+        dispatch(fetchAndSetData());
+        successToast('Profile Photo Uploaded Successfully');
+      }
+    } catch (e) {
+      errorToast(e);
+    } finally {
+      setLoading(false);
+      setModalVisible(false);
+    }
+  };
 
   return (
     <GestureHandlerRootView>
       <BackgroundView>
+        {loading && <Loader />}
         <SafeAreaView style={styles.container}>
           <Header heading={t('title.childSetting')} />
           <ScrollView style={styles.innerContainer}>
             <View style={styles.header}>
-              <Text style={styles.schoolName}>IPS Academy</Text>
+              <Text style={styles.schoolName}>
+                {currentChild?.admin?.schoolName}
+              </Text>
               <View style={styles.classContainer}>
-                <Text style={styles.classSec}>11th - C</Text>
+                <Text style={styles.classSec}>
+                  {currentChild?.classId?.name} - {currentChild?.section?.name}
+                </Text>
               </View>
             </View>
             <View style={styles.childImgContainer}>
               <Image
-                source={childDummy}
+                source={
+                  currentChild?.photo
+                    ? {uri: `data:image/jpeg;base64,${currentChild?.photo}`}
+                    : childDummy
+                }
                 style={styles.childImg}
                 resizeMode="contain"
               />
-              <Image
+              {/* <Image
+                onPress={() => setModalVisible(true)}
                 source={circlePencilIcon}
                 style={styles.pencilIcon}
                 resizeMode="contain"
-              />
+              /> */}
+              <TouchableOpacity onPress={() => setModalVisible(true)}>
+                <Image
+                  source={circlePencilIcon}
+                  style={styles.pencilIcon}
+                  resizeMode="contain"
+                />
+              </TouchableOpacity>
             </View>
 
             <Formik
               initialValues={{
-                firstName: '',
-                lastName: '',
-                gender: '',
-                bloodGroup: '',
-                dob: '',
-                address: '',
+                firstName: currentChild?.firstname || '',
+                lastName: currentChild?.lastname || '',
+                gender: currentChild?.gender || '',
+                bloodGroup: currentChild?.bloodGroup || '',
+                dob: currentChild?.dob || '',
+                address: currentChild?.address || '',
               }}
               validationSchema={validationSchema}
-              onSubmit={values => {
+              onSubmit={async values => {
                 console.log('Form submitted with:', values);
+                try {
+                  // Filter out only the fields that are filled
+                  // const payload = Object.fromEntries(
+                  //   Object.entries(values).filter(
+                  //     ([_, value]) =>
+                  //       value !== '' && value !== null && value !== undefined,
+                  //   ),
+                  // );
+                  // console.log({payload});
+                  setLoading(true);
+                  const res = await axiosClient.put(
+                    `${EndPoints.UPDATE_STUDENT}/${currentChild?._id}`,
+                    payload,
+                  );
+                  console.log('res', res.data);
+
+                  if (res.data.statusCode === 200) {
+                    successToast(res?.data?.result);
+                    dispatch(fetchAndSetData());
+                    navigation.navigate(ROUTE.TAB, {
+                      screen: ROUTE.CHILD_STACK,
+                      params: {
+                        screen: ROUTE.CHILD,
+                      },
+                    });
+                  }
+                } catch (e) {
+                  console.log({e});
+                  errorToast(e);
+                } finally {
+                  setLoading(false);
+                }
               }}>
               {({
                 handleChange,
@@ -209,6 +302,13 @@ const EditChild = () => {
                 </View>
               )}
             </Formik>
+            {/* Modal for choosing camera or gallery */}
+            <ImagePickerModal
+              visible={modalVisible}
+              onClose={() => setModalVisible(false)}
+              onUpload={uploadImage}
+              hasPhoto={currentChild?.photo}
+            />
           </ScrollView>
         </SafeAreaView>
       </BackgroundView>

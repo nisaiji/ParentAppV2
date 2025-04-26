@@ -21,7 +21,8 @@ import {axiosClient} from '../../../../services/axiosClient';
 import {EndPoints} from '../../../../ParentApi';
 import {errorToast, successToast} from '../../../../components/CustomToast';
 import {useDispatch, useSelector} from 'react-redux';
-import {setAuth, setChildList} from '../../../../redux/authSlice';
+import {setAuth} from '../../../../redux/authSlice';
+import Loader from '../../../../components/Loader';
 
 export default function ChildDetail() {
   const [name, setName] = useState('');
@@ -29,33 +30,36 @@ export default function ChildDetail() {
   const [t] = useTranslation();
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const childs = useSelector(state => state.auth.childs) || [];
+  const [loading, setLoading] = useState(false);
+  // const childs = useSelector(state => state.auth.childs) || [];
 
   const addChild = async () => {
-    if (childs.length < 5) {
-      try {
-        if (!name) {
-          return errorToast(t('validation.fullname'));
-        }
-        const res = await axiosClient.put(EndPoints.ADD_STUDENT, {
-          studentName: name,
-        });
-        // console.log(res.data);
-        if (res?.data?.statusCode === 200) {
-          // console.log('res', res?.data?.result);
-
-          dispatch(setChildList(res?.data?.result));
-          dispatch(setAuth({studentAdded: true}));
-          successToast('Child Added');
-          setName('');
-          setId('');
-        }
-      } catch (e) {
-        errorToast(e);
+    // if (childs.length < 5) {
+    try {
+      if (!name) {
+        return errorToast(t('validation.fullname'));
       }
-    } else {
-      errorToast('validation.maxChild');
+      setLoading(true);
+      const res = await axiosClient.put(EndPoints.ADD_STUDENT, {
+        studentName: name,
+      });
+      // console.log(res.data);
+      if (res?.data?.statusCode === 200) {
+        // console.log('res', res?.data?.result);
+
+        dispatch(setAuth({studentAdded: true}));
+        successToast('Child Added');
+        setName('');
+        setId('');
+      }
+    } catch (e) {
+      errorToast(e);
+    } finally {
+      setLoading(false);
     }
+    // } else {
+    //   errorToast('validation.maxChild');
+    // }
   };
 
   const onSubmit = () => {
@@ -70,10 +74,11 @@ export default function ChildDetail() {
 
   return (
     <BackgroundView>
+      {loading && <Loader />}
       <SafeAreaView style={styles.container}>
         {/* Header */}
         <Header heading={t('childDetail.heading')} noBack />
-        {childs.map((item, i) => (
+        {/* {childs.map((item, i) => (
           <View style={styles.verifiedContainer} key={i}>
             <Text style={styles.nameText}>
               {item?.firstname} {item?.lastname}
@@ -85,7 +90,7 @@ export default function ChildDetail() {
               <Image source={verifyed} style={styles.verifiedIcon} />
             </View>
           </View>
-        ))}
+        ))} */}
         {/* name */}
         <Text style={styles.label}>{t('childDetail.studentId')}</Text>
         <View style={styles.inputContainerWithIcon}>
@@ -116,7 +121,7 @@ export default function ChildDetail() {
           <Image source={add} style={styles.addIcon} resizeMode="contain" />
           <Text style={styles.addChildText}>{t('button.addChild')}</Text>
         </TouchableOpacity>
-        {childs?.length > 0 && (
+        {/* {childs?.length > 0 && (
           <TouchableOpacity
             onPress={onSubmit}
             style={[styles.continueButton, {marginTop: 28}]}>
@@ -124,7 +129,7 @@ export default function ChildDetail() {
               {name?.length ? t('button.verify') : t('button.continue')}
             </Text>
           </TouchableOpacity>
-        )}
+        )} */}
       </SafeAreaView>
     </BackgroundView>
   );

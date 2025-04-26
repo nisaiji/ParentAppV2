@@ -19,11 +19,13 @@ import {EndPoints} from '../../../../ParentApi';
 import {errorToast, successToast} from '../../../../components/CustomToast';
 import {setToken} from '../../../../redux/authSlice';
 import {globalStyle} from '../../../../theme/fonts';
+import Loader from '../../../../components/Loader';
 
 export default function OTPVerification() {
   const [otp, setOtp] = useState(['', '', '', '', '']);
   const [timer, setTimer] = useState(30);
   const [isResendDisabled, setIsResendDisabled] = useState(true);
+  const [loading, setLoading] = useState(false);
   const {status} = useSelector(state => state.auth);
   const inputRefs = useRef([]);
   const navigation = useNavigation();
@@ -50,6 +52,7 @@ export default function OTPVerification() {
       if (otp.join('').length !== 5) {
         return errorToast(t('validation.shortOtp'));
       }
+      setLoading(true);
       const res = await axiosClient.put(EndPoints.OTP_VERIFY, {
         phone: status?.phone,
         otp: Number(otp.join('')),
@@ -58,15 +61,18 @@ export default function OTPVerification() {
       if (res?.data?.statusCode === 200) {
         dispatch(setToken({token: res?.data?.result?.token}));
         successToast(res?.data?.result?.messsage);
-        navigation.navigate(ROUTE.CREATE_PASSWORD);
+        navigation.navigate(ROUTE.AUTH, {screen: ROUTE.CREATE_PASSWORD});
       }
     } catch (e) {
       errorToast(e);
+    } finally {
+      setLoading(false);
     }
   };
 
   const resendOtp = async () => {
     try {
+      setLoading(true);
       const res = await axiosClient.post(EndPoints.OTP_SEND, {
         phone: status?.phone,
       });
@@ -77,6 +83,8 @@ export default function OTPVerification() {
       }
     } catch (err) {
       console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -95,6 +103,7 @@ export default function OTPVerification() {
 
   return (
     <SafeAreaView style={styles.container}>
+      {loading && <Loader />}
       <BackgroundView>
         {/* Header */}
         <Header heading={t('otp.otpVerification')} />

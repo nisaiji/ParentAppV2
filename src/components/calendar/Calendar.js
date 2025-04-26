@@ -65,14 +65,24 @@ const MyCalendar = forwardRef((props, ref) => {
         customStyles: {
           container: {
             backgroundColor: 'transparent',
-            borderColor: colors.RED,
+            borderColor:
+              curr?.teacherAttendance === 'present'
+                ? colors.GREEN
+                : curr?.teacherAttendance === 'absent'
+                ? colors.RED
+                : '',
             borderWidth: 2,
             borderRadius: 20,
             alignItems: 'center',
             justifyContent: 'center',
           },
           text: {
-            color: colors.RED,
+            color:
+              curr?.teacherAttendance === 'present'
+                ? colors.GREEN
+                : curr?.teacherAttendance === 'absent'
+                ? colors.RED
+                : '',
             fontFamily: Fonts.REGULAR,
           },
         },
@@ -85,11 +95,12 @@ const MyCalendar = forwardRef((props, ref) => {
         ...dates[today],
         customStyles: {
           container: {
-            backgroundColor: colors.PURPLE1,
+            borderColor: colors.BLUE,
+            borderWidth: 2,
             borderRadius: 20,
           },
           text: {
-            color: 'white',
+            color: colors.BLUE,
             fontFamily: Fonts.REGULAR,
           },
         },
@@ -176,6 +187,35 @@ const MyCalendar = forwardRef((props, ref) => {
         enableSwipeMonths={true}
         renderHeader={renderHeader}
         renderArrow={renderArrow}
+        dayComponent={({date, state}) => {
+          const isSunday = moment(date?.dateString).day() === 0;
+          const marked = markedDates?.[date?.dateString]?.customStyles;
+
+          return (
+            <View
+              style={[
+                {
+                  width: scale(30),
+                  height: scale(30),
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderRadius: 20,
+                },
+                marked?.container,
+              ]}>
+              <Text
+                style={[
+                  {
+                    fontFamily: Fonts.REGULAR,
+                    color: isSunday ? 'yellow' : colors.WHITE,
+                  },
+                  marked?.text,
+                ]}>
+                {date.day}
+              </Text>
+            </View>
+          );
+        }}
         theme={{
           calendarBackground: colors.calendarBackground,
           dayTextColor: 'white',

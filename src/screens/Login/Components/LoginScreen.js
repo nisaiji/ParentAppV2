@@ -35,8 +35,10 @@ import {EndPoints} from '../../../ParentApi';
 import {errorToast, successToast} from '../../../components/CustomToast';
 import {setAuth, setToken} from '../../../redux/authSlice';
 import {REGEX} from '../../../utils/Rejex';
+import Loader from '../../../components/Loader';
 
 export default function Login() {
+  const [loading, setLoading] = useState(false);
   const [phone, setPhone] = useState('7771872012');
   const [password, setPassword] = useState('Test@123');
   const [showPasswordInput, setShowPasswordInput] = useState(false);
@@ -66,6 +68,7 @@ export default function Login() {
   const getStatus = async () => {
     if (!validatePhone()) return;
     try {
+      setLoading(true);
       const res = await axiosClient.post(EndPoints.GET_STATUS, {phone});
       const data = res?.data?.result;
       dispatch(setAuth({...data, phone}));
@@ -76,11 +79,13 @@ export default function Login() {
         const otpRes = await axiosClient.post(EndPoints.OTP_SEND, {phone});
         if (otpRes?.data?.statusCode === 200) {
           successToast(otpRes?.data?.result);
-          navigation.navigate(ROUTE.OTP);
+          navigation.navigate(ROUTE.AUTH, {screen: ROUTE.OTP});
         }
       }
     } catch (e) {
       errorToast(e);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -94,7 +99,11 @@ export default function Login() {
     }
 
     try {
-      const res = await axiosClient.post(EndPoints.LOGIN, {phone, password});
+      setLoading(true);
+      const res = await axiosClient.post(EndPoints.LOGIN, {
+        user: phone,
+        password,
+      });
       if (res?.data?.statusCode === 200) {
         const token = res?.data?.result?.accessToken;
         // console.log(token);
@@ -106,10 +115,10 @@ export default function Login() {
 
         if (!emailVerified) {
           // console.log('email');
-          navigation.navigate(ROUTE.EMAIL_VERIFICATION);
+          navigation.navigate(ROUTE.AUTH, {screen: ROUTE.EMAIL_VERIFICATION});
         } else if (!personalInfoUpdated) {
           // console.log('parent');
-          navigation.navigate(ROUTE.PARENT_DETAIL);
+          navigation.navigate(ROUTE.AUTH, {screen: ROUTE.PARENT_DETAIL});
         } else {
           // console.log('tab');
           navigation.navigate(ROUTE.TAB);
@@ -117,6 +126,8 @@ export default function Login() {
       }
     } catch (e) {
       errorToast(e);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -125,6 +136,7 @@ export default function Login() {
       style={{flex: 1}}
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       keyboardVerticalOffset={Platform.OS === 'ios' ? 60 : 0}>
+      {loading && <Loader />}
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView
           contentContainerStyle={styles.scrollContainer}

@@ -64,6 +64,12 @@ export const EndPoints = {
   EMAIL_OTP_VERIFY: 'v2/parent/emailVerify',
   PASSWORD_UPDATE: 'v2/parent/password',
   UPDATE_PARENT_FULLNAME: 'v2/parent/fullname',
+  UPDATE_PARENT: 'v2/parent',
+  UPDATE_STUDENT: 'v2/student/parent',
   ADD_STUDENT: 'v2/parent/add',
   GET_INFO: 'v2/parent',
+  EDIT_PASSWORD: 'v2/parent/password/edit',
+  PARENT_PHOTO_UPLOAD: 'v2/parent/photo-upload',
+  STUDENT_PHOTO_UPLOAD: 'v2/student/parent/photo-upload',
+  GET_ATTENDANCE: 'v2/student/parent/get-attendance',
 };

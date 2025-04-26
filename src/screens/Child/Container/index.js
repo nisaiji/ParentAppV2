@@ -8,40 +8,48 @@ import rightArrow from '../../../assets/images/rightArrow.png';
 import childDummy from '../../../assets/images/childDummy.png';
 import {useNavigation} from '@react-navigation/native';
 import {ROUTE} from '../../../navigation/constant';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {updateCurrentChildByIndex} from '../../../redux/authSlice';
 
 function EventHoliday() {
-  // const data = useSelector(state => state.auth.data);
-  // console.log(JSON.stringify(data));
-  // const [childs, setChilds] = useState(data?.students);
+  const dispatch = useDispatch();
   const navigation = useNavigation();
+  const {data} = useSelector(state => state.auth);
 
-  const onArrowPress = () => {
+  const onArrowPress = index => {
+    dispatch(updateCurrentChildByIndex(index));
     navigation.navigate(ROUTE.EDIT_CHILD);
   };
+
   return (
     <BackgroundView>
       <SafeAreaView style={styles.container}>
         <Header noBack heading="Your Child" />
         <View style={styles.childContainer}>
-          {/* {childs.map(item => (
+          {data?.students.map((item, index) => (
             <TouchableOpacity
-              onPress={onArrowPress}
-              key={item?.id}
+              onPress={() => onArrowPress(index)}
+              key={index}
               style={styles.childCard}>
               <Image
-                source={childDummy}
+                source={
+                  item?.photo
+                    ? {uri: `data:image/jpeg;base64,${item?.photo}`}
+                    : childDummy
+                }
                 style={styles.childImg}
                 resizeMode="contain"
               />
-              <Text style={styles.childName}>{item?.name}</Text>
+              <Text style={styles.childName}>
+                {item?.firstname} {item?.lastname}
+              </Text>
               <Image
                 source={rightArrow}
                 style={styles.rightArrow}
                 resizeMode="contain"
               />
             </TouchableOpacity>
-          ))} */}
+          ))}
         </View>
       </SafeAreaView>
     </BackgroundView>

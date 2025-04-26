@@ -20,9 +20,11 @@ import {useDispatch} from 'react-redux';
 import {setAuth} from '../../../../redux/authSlice';
 import {errorToast, successToast} from '../../../../components/CustomToast';
 import {REGEX} from '../../../../utils/Rejex';
+import Loader from '../../../../components/Loader';
 
 export default function EmailVerification() {
   const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
   const [t] = useTranslation();
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -34,19 +36,23 @@ export default function EmailVerification() {
       } else if (!REGEX.EMAIL.test(email)) {
         return errorToast(t('validation.invalidEmail'));
       }
+      setLoading(true);
       const res = await axiosClient.post(EndPoints.EMAIL_OTP_SEND, {email});
       if (res?.data?.statusCode === 200) {
         dispatch(setAuth({email}));
         successToast(res?.data?.result);
-        navigation.navigate(ROUTE.EMAIL_OTP_VERIFICATION);
+        navigation.navigate(ROUTE.AUTH, {screen: ROUTE.EMAIL_OTP_VERIFICATION});
       }
     } catch (e) {
       errorToast(e);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <BackgroundView>
+      {loading && <Loader />}
       <SafeAreaView style={styles.container}>
         {/* Header */}
         <Header heading={t('emailVerification.heading')} />
