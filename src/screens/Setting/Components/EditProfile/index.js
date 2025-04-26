@@ -21,6 +21,7 @@ import {ROUTE} from '../../../../navigation/constant';
 import ImagePickerModal from '../../../../components/ImagePickerModal';
 import {fetchAndSetData} from '../../../../redux/authSlice';
 import Loader from '../../../../components/Loader';
+import {globalStyle} from '../../../../theme/fonts';
 
 function EditProfile() {
   const [t] = useTranslation();
@@ -98,6 +99,7 @@ function EditProfile() {
               />
               <TouchableOpacity
                 onPress={() => setModalVisible(true)}
+                hitSlop={globalStyle.hitSlop10}
                 style={styles.pencilIconView}>
                 <Image
                   source={circlePencilIcon}

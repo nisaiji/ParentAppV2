@@ -58,7 +58,7 @@ const EditChild = () => {
     lastName: Yup.string().required('Last name is required'),
     gender: Yup.string().required('Please select a gender'),
     bloodGroup: Yup.string().required('Please select a blood group'),
-    dob: Yup.string().required('Date of birth is required'),
+    // dob: Yup.number().required('Date of birth is required'),
     address: Yup.string().required('Address is required'),
   });
   // console.log(currentChild);
@@ -72,7 +72,7 @@ const EditChild = () => {
     try {
       setLoading(true);
       const res = await axiosClient.put(
-        `${EndPoints.CHILD_PHOTO_UPDATE}/${currentChild?._id}`,
+        `${EndPoints.STUDENT_PHOTO_UPLOAD}/${currentChild?._id}`,
         {
           photo: base64Image,
           method,
@@ -84,6 +84,7 @@ const EditChild = () => {
         successToast('Profile Photo Uploaded Successfully');
       }
     } catch (e) {
+      console.log({e});
       errorToast(e);
     } finally {
       setLoading(false);
@@ -144,8 +145,8 @@ const EditChild = () => {
               }}
               validationSchema={validationSchema}
               onSubmit={async values => {
-                console.log('Form submitted with:', values);
                 try {
+                  console.log('Form submitted with:', values);
                   // Filter out only the fields that are filled
                   // const payload = Object.fromEntries(
                   //   Object.entries(values).filter(
@@ -157,7 +158,7 @@ const EditChild = () => {
                   setLoading(true);
                   const res = await axiosClient.put(
                     `${EndPoints.UPDATE_STUDENT}/${currentChild?._id}`,
-                    payload,
+                    values,
                   );
                   console.log('res', res.data);
 

@@ -12,6 +12,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {fetchAndSetData} from '../../../redux/authSlice';
 import {ROUTE} from '../../../navigation/constant';
 import {useNavigation} from '@react-navigation/native';
+import {globalStyle} from '../../../theme/fonts';
 
 function Dashboard() {
   // const eventRef = useRef();
@@ -35,7 +36,15 @@ function Dashboard() {
             </Text>
           </View>
           <TouchableOpacity
-            onPress={() => navigation.navigate(ROUTE.EDIT_PROFILE)}>
+            hitSlop={globalStyle.hitSlop10}
+            onPress={() =>
+              navigation.navigate(ROUTE.TAB, {
+                screen: ROUTE.SETTING_STACK,
+                params: {
+                  screen: ROUTE.EDIT_PROFILE,
+                },
+              })
+            }>
             <Image
               source={
                 currentChild?.photo

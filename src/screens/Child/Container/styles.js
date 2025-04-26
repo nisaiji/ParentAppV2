@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     paddingTop: scale(10)
   },
   childContainer: {
-    marginTop: scale(45)
+    marginTop: scale(0)
   },
   childCard: {
     flexDirection: 'row',
