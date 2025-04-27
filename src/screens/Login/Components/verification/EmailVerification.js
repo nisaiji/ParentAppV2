@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import leftArrow from '../../../../assets/images/leftArrow.png';
 import {styles} from './styles';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {ROUTE} from '../../../../navigation/constant';
 import BackgroundView from '../../../../components/BackgroundView';
 import {useTranslation} from 'react-i18next';
@@ -29,6 +29,7 @@ export default function EmailVerification() {
   const [t] = useTranslation();
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const route = useRoute()
 
   const onSubmit = async () => {
     try {
@@ -43,7 +44,7 @@ export default function EmailVerification() {
       if (res?.data?.statusCode === 200) {
         dispatch(setAuth({email}));
         successToast(res?.data?.result);
-        navigation.navigate(ROUTE.AUTH, {screen: ROUTE.EMAIL_OTP_VERIFICATION});
+        navigation.navigate(ROUTE.AUTH, {screen: ROUTE.EMAIL_OTP_VERIFICATION, params:route?.params});
       }
     } catch (e) {
       errorToast(e);

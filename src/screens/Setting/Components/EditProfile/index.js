@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
-import {Text, View, Image, TextInput, TouchableOpacity} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {GestureHandlerRootView, ScrollView} from 'react-native-gesture-handler';
-import {Formik} from 'formik';
+import React, { useState } from 'react';
+import { Text, View, Image, TextInput, TouchableOpacity } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { GestureHandlerRootView, ScrollView } from 'react-native-gesture-handler';
+import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 import styles from './styles';
@@ -11,29 +11,31 @@ import Header from '../../../../components/Header';
 import childDummy from '../../../../assets/images/childDummy.png';
 import circlePencilIcon from '../../../../assets/images/circlePencil.png';
 import DropdownComponent from '../../../../components/DropdownComponent';
-import {useTranslation} from 'react-i18next';
-import {useDispatch, useSelector} from 'react-redux';
-import {axiosClient} from '../../../../services/axiosClient';
-import {EndPoints} from '../../../../ParentApi';
-import {errorToast, successToast} from '../../../../components/CustomToast';
-import {useNavigation} from '@react-navigation/native';
-import {ROUTE} from '../../../../navigation/constant';
+import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+import { axiosClient } from '../../../../services/axiosClient';
+import { EndPoints } from '../../../../ParentApi';
+import { errorToast, successToast } from '../../../../components/CustomToast';
+import { useNavigation } from '@react-navigation/native';
+import { ROUTE } from '../../../../navigation/constant';
 import ImagePickerModal from '../../../../components/ImagePickerModal';
-import {fetchAndSetData} from '../../../../redux/authSlice';
+import { fetchAndSetData } from '../../../../redux/authSlice';
 import Loader from '../../../../components/Loader';
-import {globalStyle} from '../../../../theme/fonts';
+import { globalStyle } from '../../../../theme/fonts';
+
+import pencilIcon from '../../../../assets/images/pencilIcon.png';
 
 function EditProfile() {
   const [t] = useTranslation();
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const {data} = useSelector(state => state.auth);
+  const { data } = useSelector(state => state.auth);
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const genderOptions = [
-    {label: 'Male', value: 'Male'},
-    {label: 'Female', value: 'Female'},
-    {label: 'Other', value: 'Other'},
+    { label: 'Male', value: 'Male' },
+    { label: 'Female', value: 'Female' },
+    { label: 'Other', value: 'Other' },
   ];
   // console.log(data);
 
@@ -80,6 +82,21 @@ function EditProfile() {
     }
   };
 
+  const onEditEmail = () => {
+    navigation.navigate(ROUTE.AUTH, { screen: ROUTE.EMAIL_VERIFICATION, params:{
+        mainStackNavigator: ROUTE.TAB, 
+        tabNavigator: ROUTE.SETTING_STACK,
+        routes: [
+          { name: ROUTE.SETTING },      // 👈 push Settings first
+          { name: ROUTE.EDIT_PROFILE }     // 👈 then EditProfile second
+        ]
+    } });
+  }
+
+  const onEditPhoneNumber = () => {
+    navigation.navigate(ROUTE.AUTH, { screen: ROUTE.PHONE_NUMBER_VERIFICATION });
+  }
+
   return (
     <GestureHandlerRootView>
       <BackgroundView>
@@ -91,7 +108,7 @@ function EditProfile() {
               <Image
                 source={
                   data?.photo
-                    ? {uri: `data:image/jpeg;base64,${data?.photo}`}
+                    ? { uri: `data:image/jpeg;base64,${data?.photo}` }
                     : childDummy
                 }
                 style={styles.childImg}
@@ -231,9 +248,20 @@ function EditProfile() {
                     )}
                   </View>
 
-                  {/* <View style={styles.formInput}>
-                    <Text style={styles.label}>{t('label.email')}</Text>
+                  <View style={styles.formInput}>
+                    <View style={styles.emailLabelContainer}><Text style={[styles.label,{marginBottom: 0}]}>{t('label.email')}</Text>
+                      <TouchableOpacity
+                        onPress={onEditEmail}
+                        style={styles.pencilIconCotainer}>
+                        <Image
+                          source={pencilIcon}
+                          style={styles.pencilIcon}
+                          resizeMode="contain"
+                        />
+                      </TouchableOpacity>
+                    </View>
                     <TextInput
+                      readOnly
                       style={styles.textInput}
                       placeholder={t('placeholder.email')}
                       placeholderTextColor={styles.placeholderText}
@@ -241,14 +269,22 @@ function EditProfile() {
                       onBlur={handleBlur('email')}
                       value={values.email}
                     />
-                    {touched.email && errors.email && (
-                      <Text style={styles.errorText}>{errors.email}</Text>
-                    )}
-                  </View> */}
+                  </View>
 
-                  {/* <View style={styles.formInput}>
-                    <Text style={styles.label}>{t('label.contact')}</Text>
+                  <View style={styles.formInput}>
+                  <View style={styles.emailLabelContainer}><Text style={[styles.label, {marginBottom:0}]}>{t('label.contact')}</Text>
+                      <TouchableOpacity
+                        onPress={onEditPhoneNumber}
+                        style={styles.pencilIconCotainer}>
+                        <Image
+                          source={pencilIcon}
+                          style={styles.pencilIcon}
+                          resizeMode="contain"
+                        />
+                      </TouchableOpacity>
+                    </View>
                     <TextInput
+                      readOnly
                       style={styles.textInput}
                       placeholder={t('placeholder.contact')}
                       placeholderTextColor={styles.placeholderText}
@@ -257,10 +293,7 @@ function EditProfile() {
                       onBlur={handleBlur('contact')}
                       value={values.contact}
                     />
-                    {touched.contact && errors.contact && (
-                      <Text style={styles.errorText}>{errors.contact}</Text>
-                    )}
-                  </View> */}
+                  </View>
 
                   <View style={styles.formInput}>
                     <Text style={styles.label}>{t('label.qualification')}</Text>

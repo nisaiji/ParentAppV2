@@ -39,6 +39,10 @@
       "heading": "Email Verification",
       "verifyEmail": "Verify your email"
     },
+    "phoneVerification": {
+      "heading": "Phone Verification",
+      "verifyPhone": "Verify your phone number"
+    },
     "createPassword": {
       "heading": "Create Password",
       "newPassword": "New Password",

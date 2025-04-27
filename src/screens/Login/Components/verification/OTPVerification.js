@@ -31,6 +31,7 @@ export default function OTPVerification() {
   const { status } = useSelector(state => state.auth);
   const inputRefs = useRef([]);
   const navigation = useNavigation();
+  const route = useRoute()
   const [t] = useTranslation();
   const dispatch = useDispatch();
   const handleChange = (text, index) => {
@@ -49,6 +50,28 @@ export default function OTPVerification() {
     }
   };
 
+  const goToRouteName = () => {
+    const {mainStackNavigator, tabNavigator, routes} = route;
+    navigation.reset({
+      index: 1,  // Important: set index to 1 (means we are at second screen)
+      routes: [
+        {
+          name: mainStackNavigator,
+          state: {
+            routes: [
+              {
+                name: tabNavigator,
+                state: {
+                  routes
+                }
+              }
+            ]
+          }
+        }
+      ]
+    });
+  }
+
   const onSubmit = async () => {
     try {
       Keyboard.dismiss()
@@ -64,7 +87,11 @@ export default function OTPVerification() {
       if (res?.data?.statusCode === 200) {
         dispatch(setToken({ token: res?.data?.result?.token }));
         successToast(res?.data?.result?.messsage);
+        if(route?.params?.routes){
+          goToRouteName()
+        }else{
         navigation.navigate(ROUTE.AUTH, { screen: ROUTE.CREATE_PASSWORD });
+        }
       }
     } catch (e) {
       errorToast(e);

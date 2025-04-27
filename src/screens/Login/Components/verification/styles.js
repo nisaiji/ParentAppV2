@@ -49,6 +49,12 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     fontFamily: Fonts.BOLD,
   },
+  phoneNumberContainer:{
+    flexDirection: 'row',
+    // paddingHorizontal: scale(12),
+    alignItems: 'center',
+    marginTop: scale(20),
+  },
   inputContainer: {
     flexDirection: 'row',
     backgroundColor: '#66666680',
@@ -56,6 +62,13 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: scale(12),
     marginTop: scale(20),
+  },
+  inputContainer1:{
+    paddingHorizontal: scale(12),
+    backgroundColor: '#66666680',
+    borderRadius: scale(12),
+    width: scale(220),
+    marginLeft: scale(10)
   },
   input: {
     flex: 1,
@@ -152,5 +165,30 @@ export const styles = StyleSheet.create({
     width: scale(16),
     height: scale(16),
     resizeMode: 'contain',
+  },
+  countryCodeContainer: {
+    borderRadius: scale(12),
+    backgroundColor: colors.BACKGROUND_COLOR,
+    flexDirection: 'row',
+    width: scale(100),
+    height: scale(50),
+    paddingVertical: scale(16),
+    paddingHorizontal: scale(12),
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: scale(10),
+  },
+  flag: {
+    width: scale(24),
+    height: scale(20),
+  },
+  code: {
+    color: colors.WHITE,
+    fontSize: Size.font_14,
+    fontFamily: Fonts.BOLD,
+  },
+  downArrow: {
+    width: scale(14),
+    height: scale(8),
   },
 });

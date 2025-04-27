@@ -1,6 +1,7 @@
 export const ROUTE = {
   SPLASH: 'Splash',
   LOGIN: 'Login',
+  PHONE_NUMBER_VERIFICATION:"PhoneNumberVerification",
   OTP: 'OTP',
   EMAIL_VERIFICATION: 'EmailVerification',
   EMAIL_OTP_VERIFICATION: 'Email_OTP',

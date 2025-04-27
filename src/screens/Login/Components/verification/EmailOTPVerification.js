@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import leftArrow from '../../../../assets/images/leftArrow.png';
 import {styles} from './styles';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {ROUTE} from '../../../../navigation/constant';
 import BackgroundView from '../../../../components/BackgroundView';
 import Header from '../../../../components/Header';
@@ -31,6 +31,7 @@ export default function EmailOTPVerification() {
   const {status} = useSelector(state => state.auth);
   const inputRefs = useRef([]);
   const navigation = useNavigation();
+  const route = useRoute();
   const dispatch = useDispatch();
   const [t] = useTranslation();
 
@@ -50,6 +51,28 @@ export default function EmailOTPVerification() {
     }
   };
 
+  const goToRouteName = () => {
+    const {mainStackNavigator, tabNavigator, routes} = route;
+    navigation.reset({
+      index: 1,  // Important: set index to 1 (means we are at second screen)
+      routes: [
+        {
+          name: mainStackNavigator,
+          state: {
+            routes: [
+              {
+                name: tabNavigator,
+                state: {
+                  routes
+                }
+              }
+            ]
+          }
+        }
+      ]
+    });
+  }
+
   const onSubmit = async () => {
     try {
       Keyboard.dismiss()
@@ -62,10 +85,14 @@ export default function EmailOTPVerification() {
       });
       if (res?.data?.statusCode === 200) {
         successToast(res?.data?.result?.messsage);
-        dispatch(setAuth({emailVerified: true}));
+        if(route?.params?.routes){
+          goToRouteName()
+        }else{
+          dispatch(setAuth({emailVerified: true}));
         navigation.navigate(ROUTE.AUTH, {
           screen: ROUTE.PARENT_DETAIL,
         });
+        }
       }
     } catch (e) {
       errorToast(e);

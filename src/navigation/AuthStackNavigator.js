@@ -8,6 +8,7 @@ import EmailOTPVerification from '../screens/Login/Components/verification/Email
 import ParentDetail from '../screens/Login/Components/verification/ParentDetail';
 import SuccessGif from '../components/SuccessGif';
 import ChildDetail from '../screens/Login/Components/verification/ChildDetails';
+import PhoneNumberVerification from '../screens/Login/Components/verification/PhoneNumberVerification';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,6 +24,11 @@ export default function AuthStackNavigator() {
         name={ROUTE.OTP}
         options={{headerShown: false}}
         component={OTPVerification}
+      />
+      <Stack.Screen
+        name={ROUTE.PHONE_NUMBER_VERIFICATION}
+        options={{headerShown: false}}
+        component={PhoneNumberVerification}
       />
       <Stack.Screen
         name={ROUTE.EMAIL_VERIFICATION}

@@ -103,5 +103,14 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.BOLD,
     fontSize: Size.font_18,
   },
+  emailLabelContainer:{
+    flexDirection:'row',
+    justifyContent:'space-between',
+    alignItems:'center',
+  },
+  pencilIconCotainer:{
+    width: scale(24),
+    height: scale(24)
+  }
 });
 export default styles;
