@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, {useEffect, useRef} from 'react';
-import {Image, Text, TouchableOpacity, View} from 'react-native';
+import {Image, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import styles from './styles';
 import BackgroundView from '../../../components/BackgroundView';
 import EventCalendar from '../../../components/cache/EventCache';
@@ -18,8 +18,7 @@ function Dashboard() {
   // const eventRef = useRef();
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const {currentChild} = useSelector(state => state.auth);
-  // console.log(currentChild);
+  const {data} = useSelector(state => state.auth);
 
   useEffect(() => {
     dispatch(fetchAndSetData());
@@ -31,9 +30,7 @@ function Dashboard() {
         <View style={styles.flexRow}>
           <View>
             <Text style={styles.title1}>Hello,</Text>
-            <Text style={styles.title2}>
-              {currentChild?.firstname} {currentChild?.lastname}
-            </Text>
+            <Text style={styles.title2}>{data?.fullname}</Text>
           </View>
           <TouchableOpacity
             hitSlop={globalStyle.hitSlop10}
@@ -47,8 +44,8 @@ function Dashboard() {
             }>
             <Image
               source={
-                currentChild?.photo
-                  ? {uri: `data:image/jpeg;base64,${currentChild?.photo}`}
+                data?.photo
+                  ? {uri: `data:image/jpeg;base64,${data?.photo}`}
                   : childDummy
               }
               style={styles.childImg}
@@ -57,34 +54,36 @@ function Dashboard() {
           </TouchableOpacity>
         </View>
         <View style={styles.line} />
-        {/* Calendar & Events */}
-        {/* <EventCalendar ref={eventRef} /> */}
-
-        <View style={styles.calendarContainer}>
-          <View style={styles.flexRow}>
-            <View style={styles.flexRow}>
-              <Image
-                source={
-                  currentChild?.photo
-                    ? {uri: `data:image/jpeg;base64,${currentChild?.photo}`}
-                    : childDummy
-                }
-                style={styles.childImg}
-                resizeMode="contain"
-              />
-              <Text style={styles.title3}>
-                {currentChild?.firstname} {currentChild?.lastname}
-              </Text>
+        <ScrollView>
+          {/* Calendar & Events */}
+          {data?.students?.map((child, index) => (
+            <View key={index} style={styles.calendarContainer}>
+              <View style={styles.flexRow}>
+                <View style={styles.flexRow}>
+                  <Image
+                    source={
+                      child?.photo
+                        ? {uri: `data:image/jpeg;base64,${child?.photo}`}
+                        : childDummy
+                    }
+                    style={styles.childImg}
+                    resizeMode="contain"
+                  />
+                  <Text style={styles.title3}>
+                    {child?.firstname} {child?.lastname}
+                  </Text>
+                </View>
+                <View style={styles.classContainer}>
+                  <Text style={styles.classSec}>
+                    {child?.classId?.name} - {child?.section?.name}
+                  </Text>
+                </View>
+              </View>
+              {/* <MyCalendar /> */}
+              <EventCalendar childId={child?._id} />
             </View>
-            <View style={styles.classContainer}>
-              <Text style={styles.classSec}>
-                {currentChild?.classId?.name} - {currentChild?.section?.name}
-              </Text>
-            </View>
-          </View>
-          {/* <MyCalendar /> */}
-          <EventCalendar />
-        </View>
+          ))}
+        </ScrollView>
       </View>
     </BackgroundView>
   );

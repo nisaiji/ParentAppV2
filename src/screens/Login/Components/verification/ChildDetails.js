@@ -31,24 +31,21 @@ export default function ChildDetail() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
-  // const childs = useSelector(state => state.auth.childs) || [];
+  const [childs, setChilds] = useState([]);
 
   const addChild = async () => {
-    // if (childs.length < 5) {
     try {
       if (!name) {
         return errorToast(t('validation.fullname'));
       }
       setLoading(true);
-      const res = await axiosClient.put(EndPoints.ADD_STUDENT, {
+      const res = await axiosClient.put(EndPoints.CHECK_VALID_STUDENT, {
         studentName: name,
       });
-      // console.log(res.data);
+      // console.log('res', res?.data?.result);
       if (res?.data?.statusCode === 200) {
-        // console.log('res', res?.data?.result);
-
-        dispatch(setAuth({studentAdded: true}));
-        successToast('Child Added');
+        setChilds([...childs, res?.data?.result]);
+        successToast('Child verified');
         setName('');
         setId('');
       }
@@ -57,19 +54,34 @@ export default function ChildDetail() {
     } finally {
       setLoading(false);
     }
-    // } else {
-    //   errorToast('validation.maxChild');
-    // }
   };
 
-  const onSubmit = () => {
-    navigation.navigate(ROUTE.TAB, {
-      screen: ROUTE.SUCCESS_PAGE,
-      params: {
-        message: t('passwordSuccess'),
-        nextRoute: ROUTE.PARENT_DETAIL,
-      },
-    });
+  const onSubmit = async () => {
+    try {
+      setLoading(true);
+      const studentIds = childs.map(item => item._id);
+      const res = await axiosClient.put(EndPoints.ADD_STUDENT, {
+        studentIds,
+      });
+      // console.log('res', res?.data?.result);
+      if (res?.data?.statusCode === 200) {
+        dispatch(setAuth({studentAdded: true}));
+        successToast(res?.data?.result);
+        setName('');
+        setId('');
+        navigation.navigate(ROUTE.TAB, {
+          screen: ROUTE.SUCCESS_PAGE,
+          params: {
+            message: t('passwordSuccess'),
+            nextRoute: ROUTE.PARENT_DETAIL,
+          },
+        });
+      }
+    } catch (e) {
+      errorToast(e);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -78,7 +90,7 @@ export default function ChildDetail() {
       <SafeAreaView style={styles.container}>
         {/* Header */}
         <Header heading={t('childDetail.heading')} noBack />
-        {/* {childs.map((item, i) => (
+        {childs.map((item, i) => (
           <View style={styles.verifiedContainer} key={i}>
             <Text style={styles.nameText}>
               {item?.firstname} {item?.lastname}
@@ -90,7 +102,7 @@ export default function ChildDetail() {
               <Image source={verifyed} style={styles.verifiedIcon} />
             </View>
           </View>
-        ))} */}
+        ))}
         {/* name */}
         <Text style={styles.label}>{t('parentDetail.name')}</Text>
         <View style={styles.inputContainerWithIcon}>
@@ -121,15 +133,13 @@ export default function ChildDetail() {
           <Image source={add} style={styles.addIcon} resizeMode="contain" />
           <Text style={styles.addChildText}>{t('button.addChild')}</Text>
         </TouchableOpacity>
-        {/* {childs?.length > 0 && (
+        {childs?.length > 0 && (
           <TouchableOpacity
             onPress={onSubmit}
             style={[styles.continueButton, {marginTop: 28}]}>
-            <Text style={styles.continueText}>
-              {name?.length ? t('button.verify') : t('button.continue')}
-            </Text>
+            <Text style={styles.continueText}>{t('button.continue')}</Text>
           </TouchableOpacity>
-        )} */}
+        )}
       </SafeAreaView>
     </BackgroundView>
   );

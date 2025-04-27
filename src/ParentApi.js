@@ -66,6 +66,7 @@ export const EndPoints = {
   UPDATE_PARENT_FULLNAME: 'v2/parent/fullname',
   UPDATE_PARENT: 'v2/parent',
   UPDATE_STUDENT: 'v2/student/parent',
+  CHECK_VALID_STUDENT: 'v2/parent/check-valid-student',
   ADD_STUDENT: 'v2/parent/add',
   GET_INFO: 'v2/parent',
   EDIT_PASSWORD: 'v2/parent/password/edit',

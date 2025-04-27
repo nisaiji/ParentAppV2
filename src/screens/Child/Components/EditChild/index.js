@@ -58,7 +58,7 @@ const EditChild = () => {
     lastName: Yup.string().trim().required('Last name is required'),
     gender: Yup.string().required('Please select a gender'),
     bloodGroup: Yup.string().required('Please select a blood group'),
-    // dob: Yup.string().required('Date of birth is required'),
+    dob: Yup.string().required('Date of birth is required'),
     address: Yup.string().trim().required('Address is required'),
   });
   // console.log(currentChild);
@@ -129,6 +129,7 @@ const EditChild = () => {
             </View>
 
             <Formik
+              enableReinitialize
               initialValues={{
                 firstName: currentChild?.firstname || '',
                 lastName: currentChild?.lastname || '',

@@ -10,8 +10,11 @@ const DASHBOARD_MONTHLY_EVENTS_KEY = 'dashboardMonthlyEvents';
  * Retrieves stored monthly events from AsyncStorage.
  * @returns {Promise<Object>} - Returns stored monthly events or an empty object if not found.
  */
-const getStoredMonthlyEvents = async () =>
-  JSON.parse(await AsyncStorage.getItem(DASHBOARD_MONTHLY_EVENTS_KEY)) || {};
+const getStoredMonthlyEvents = async () => {
+  // JSON.parse(await AsyncStorage.getItem(DASHBOARD_MONTHLY_EVENTS_KEY)) || {};
+  const events = await AsyncStorage.getItem(DASHBOARD_MONTHLY_EVENTS_KEY);
+  return events ? JSON.parse(events) : {};
+};
 
 /**
  * Saves monthly events data to AsyncStorage.
@@ -70,7 +73,12 @@ export const initializeDashboardData = createAsyncThunk(
     const lastDashboardSync = await getStoredLastDashboardSync();
     // console.log('lastDashboardSync', lastDashboardSync);
 
-    dispatch(updateMonthlyEvents(monthlyEvents));
+    // Instead of dispatching all at once, loop through each childId
+    Object.entries(monthlyEvents).forEach(([childId, events]) => {
+      dispatch(updateMonthlyEvents({childId, events}));
+    });
+
+    // dispatch(updateMonthlyEvents(monthlyEvents));
     dispatch(updatelastDashboardUpdatedAt(lastDashboardSync));
   },
 );
@@ -100,8 +108,9 @@ const dashboardSlice = createSlice({
      * @param {Object} action - Action containing new monthly events data.
      */
     updateMonthlyEvents: (state, action) => {
-      state.monthlyEvents = action.payload;
-      saveMonthlyEvents(action.payload); // Save to AsyncStorage
+      const {childId, events} = action.payload;
+      state.monthlyEvents[childId] = events;
+      saveMonthlyEvents(state.monthlyEvents);
     },
   },
   extraReducers: builder => {

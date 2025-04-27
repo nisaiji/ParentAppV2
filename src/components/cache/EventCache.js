@@ -33,11 +33,11 @@ import {axiosClient} from '../../services/axiosClient';
  * @param {React.Ref} ref - Forwarded reference for parent-controlled actions.
  */
 const EventCalendar = forwardRef((props, ref) => {
+  const {childId} = props;
   const dispatch = useDispatch();
   const {monthlyEvents, lastDashboardUpdatedAt} = useSelector(
     state => state.dashboard,
   );
-  const {currentChild} = useSelector(state => state.auth);
   const [selectedMonth, setSelectedMonth] = useState(moment().month());
   const [selectedYear, setSelectedYear] = useState(moment().year());
   const [eventLoading, setEventLoading] = useState(false);
@@ -59,9 +59,11 @@ const EventCalendar = forwardRef((props, ref) => {
    * Resets the calendar view to the current month and fetches updated events.
    */
   useEffect(() => {
-    calendarRef?.current?.goToCurrentMonth();
-    eventForDashboard(selectedMonth, selectedYear);
-  }, [lastDashboardUpdatedAt, currentChild?._id]);
+    if (childId) {
+      calendarRef?.current?.goToCurrentMonth();
+      eventForDashboard(selectedMonth, selectedYear);
+    }
+  }, [lastDashboardUpdatedAt, childId]);
 
   /**
    * Handles when the user changes the month in the calendar.
@@ -119,7 +121,9 @@ const EventCalendar = forwardRef((props, ref) => {
    * @param {number} currentYear - The selected year.
    */
   const eventForDashboard = async (currentMonth, currentYear) => {
-    const storedMonths = Object.keys(monthlyEvents);
+    const childEvents = monthlyEvents[childId] || {};
+
+    const storedMonths = Object.keys(childEvents);
     const isWithinRange = isMonthInRange(
       currentMonth,
       currentYear,
@@ -132,14 +136,14 @@ const EventCalendar = forwardRef((props, ref) => {
         currentYear,
       );
       try {
-        if (currentChild?._id) {
+        if (childId) {
           setEventLoading(true);
-          // console.log('api call', currentChild?._id);
+          // console.log('api call', childId);
 
           const response = await axiosClient.post(EndPoints.GET_ATTENDANCE, {
             startTime: newMonthRange[0]?.startTime,
             endTime: newMonthRange[newMonthRange.length - 1]?.endTime,
-            studentId: currentChild?._id,
+            studentId: childId,
           });
           // console.log('res', response?.data);
 
@@ -159,7 +163,13 @@ const EventCalendar = forwardRef((props, ref) => {
               },
             );
 
-            dispatch(updateMonthlyEvents(grouped));
+            // dispatch(updateMonthlyEvents(grouped));
+            dispatch(
+              updateMonthlyEvents({
+                childId: childId,
+                events: grouped,
+              }),
+            );
           }
         }
       } catch (e) {
@@ -180,7 +190,7 @@ const EventCalendar = forwardRef((props, ref) => {
           <MyCalendar
             selectedMonthYear={`${selectedYear}-${selectedMonth + 1}`}
             events={
-              monthlyEvents[
+              monthlyEvents?.[childId]?.[
                 moment({year: selectedYear, month: selectedMonth}).format(
                   'YYYY-MM',
                 )

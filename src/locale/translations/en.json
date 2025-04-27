@@ -106,7 +106,8 @@
       "continue": "Continue",
       "verify": "Verify",
       "addChild": "Add Child",
-      "resendOtp": "Resend OTP in",
+      "resendOtpIn": "Resend OTP in",
+      "resendOtp": "Resend OTP",
       "updateSave": "Update & Save",
       "update": "Update"
     },
