@@ -34,7 +34,6 @@ const styles = StyleSheet.create({
     addIcon: {
         height: scale(24),
         width: scale(24),
-        marginRight: scale(8)
     }
 });
 

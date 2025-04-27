@@ -82,13 +82,13 @@ const styles = StyleSheet.create({
   headerText: {
     color: Colors.WHITE,
     fontSize: Size.font_24,
-    fontFamily: Fonts.MEDIUM,
+    fontFamily: Fonts.BOLD,
     top: scale(20),
   },
   subHeaderText: {
     color: Colors.WHITE,
     fontSize: Size.font_24,
-    fontFamily: Fonts.MEDIUM,
+    fontFamily: Fonts.BOLD,
     top: scale(14),
   },
 });
