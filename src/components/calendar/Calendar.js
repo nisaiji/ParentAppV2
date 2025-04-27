@@ -224,7 +224,7 @@ const MyCalendar = forwardRef((props, ref) => {
           arrowColor: 'white',
           textDayHeaderFontSize: scale(12),
           textDayFontSize: scale(12),
-          textDayFontFamily: Fonts.MEDIUM,
+          textDayFontFamily: Fonts.BOLD,
           'stylesheet.day.single': {
             base: {
               width: scale(32),
@@ -234,7 +234,7 @@ const MyCalendar = forwardRef((props, ref) => {
             },
             text: {
               fontSize: scale(20),
-              fontFamily: Fonts.MEDIUM,
+              fontFamily: Fonts.BOLD,
               color: colors.WHITE,
             },
           },

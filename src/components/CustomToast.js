@@ -9,7 +9,7 @@ export const errorToast = message => {
   //   type: 'danger',
   //   dangerColor: Colors.ERROR,
   //   placement: 'bottom',
-  //   textStyle: {fontSize: Size.font_14, fontFamily: Fonts.MEDIUM},
+  //   textStyle: {fontSize: Size.font_14, fontFamily: Fonts.BOLD},
   // });
   if (message) {
     return ToastAndroid.show(message, ToastAndroid.LONG, ToastAndroid.TOP);
@@ -24,7 +24,7 @@ export const warningToast = message => {
       type: 'warning',
       warningColor: Colors.WARNING,
       placement: 'bottom',
-      textStyle: {fontSize: Size.font_14, fontFamily: Fonts.MEDIUM},
+      textStyle: {fontSize: Size.font_14, fontFamily: Fonts.BOLD},
     });
   }
 };
@@ -37,7 +37,7 @@ export const successToast = message => {
       type: 'success',
       successColor: Colors.SUCCESS,
       placement: 'bottom',
-      textStyle: {fontSize: Size.font_14, fontFamily: Fonts.MEDIUM},
+      textStyle: {fontSize: Size.font_14, fontFamily: Fonts.BOLD},
     });
   }
 };

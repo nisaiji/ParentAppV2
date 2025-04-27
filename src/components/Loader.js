@@ -24,8 +24,7 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'white',
-    opacity: 0.5,
+    backgroundColor: 'transparent',
     zIndex: 100,
   },
 };

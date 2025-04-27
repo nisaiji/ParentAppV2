@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   View,
   Text,
@@ -8,26 +8,27 @@ import {
   TextInput,
   Keyboard,
 } from 'react-native';
-import {styles} from './styles';
-import {useNavigation} from '@react-navigation/native';
-import {ROUTE} from '../../../../navigation/constant';
+import { styles } from './styles';
+import { useNavigation } from '@react-navigation/native';
+import { ROUTE } from '../../../../navigation/constant';
 import BackgroundView from '../../../../components/BackgroundView';
 import Header from '../../../../components/Header';
-import {useTranslation} from 'react-i18next';
-import {useDispatch, useSelector} from 'react-redux';
-import {axiosClient} from '../../../../services/axiosClient';
-import {EndPoints} from '../../../../ParentApi';
-import {errorToast, successToast} from '../../../../components/CustomToast';
-import {setToken} from '../../../../redux/authSlice';
-import {globalStyle} from '../../../../theme/fonts';
+import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+import { axiosClient } from '../../../../services/axiosClient';
+import { EndPoints } from '../../../../ParentApi';
+import { errorToast, successToast } from '../../../../components/CustomToast';
+import { setToken } from '../../../../redux/authSlice';
+import { globalStyle } from '../../../../theme/fonts';
 import Loader from '../../../../components/Loader';
+import CustomButton from '../../../../components/CustomButton';
 
 export default function OTPVerification() {
   const [otp, setOtp] = useState(['', '', '', '', '']);
   const [timer, setTimer] = useState(30);
   const [isResendDisabled, setIsResendDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
-  const {status} = useSelector(state => state.auth);
+  const { status } = useSelector(state => state.auth);
   const inputRefs = useRef([]);
   const navigation = useNavigation();
   const [t] = useTranslation();
@@ -61,9 +62,9 @@ export default function OTPVerification() {
       });
 
       if (res?.data?.statusCode === 200) {
-        dispatch(setToken({token: res?.data?.result?.token}));
+        dispatch(setToken({ token: res?.data?.result?.token }));
         successToast(res?.data?.result?.messsage);
-        navigation.navigate(ROUTE.AUTH, {screen: ROUTE.CREATE_PASSWORD});
+        navigation.navigate(ROUTE.AUTH, { screen: ROUTE.CREATE_PASSWORD });
       }
     } catch (e) {
       errorToast(e);
@@ -94,7 +95,7 @@ export default function OTPVerification() {
 
   useEffect(() => {
     inputRefs.current[0]?.focus();
-  }, []);  
+  }, []);
 
   // Countdown effect
   useEffect(() => {
@@ -138,7 +139,7 @@ export default function OTPVerification() {
         </View>
 
         {/* resend otp */}
-        <View style={{flexDirection: 'row'}}>
+        <View style={{ flexDirection: 'row' }}>
           <Text style={styles.grayText}>
             {isResendDisabled ? t('otp.resendOtpIn') + timer + 's' : ''}
           </Text>
@@ -150,11 +151,11 @@ export default function OTPVerification() {
             </TouchableOpacity>
           )}
         </View>
-
         {/* Continue Button */}
-        <TouchableOpacity onPress={onSubmit} style={styles.continueButton}>
-          <Text style={styles.continueText}>{t('button.continue')}</Text>
-        </TouchableOpacity>
+        <CustomButton
+          onPress={onSubmit}
+          btnStyle={styles.continueButton}
+          label={t('button.continue')} />
       </BackgroundView>
     </SafeAreaView>
   );

@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
   },
   message: {
     color: colors.COLOR_2,
-    fontFamily: Fonts.MEDIUM,
+    fontFamily: Fonts.BOLD,
     fontSize: Size.font_14,
     marginBottom: scale(24)
   },

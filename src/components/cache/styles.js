@@ -39,7 +39,7 @@ export const styles = StyleSheet.create({
   },
   eventDate: {
     marginTop: scale(0),
-    fontFamily: Fonts.MEDIUM,
+    fontFamily: Fonts.BOLD,
     color: colors.GRAY50,
     fontSize: Size.font_16,
   },
@@ -79,7 +79,7 @@ export const styles = StyleSheet.create({
     left: scale(10),
   },
   eventDate1: {
-    fontFamily: Fonts.MEDIUM,
+    fontFamily: Fonts.BOLD,
     color: colors.GRAY50,
     fontSize: Size.font_12,
   },
@@ -91,7 +91,7 @@ export const styles = StyleSheet.create({
   cardDescription: {
     fontSize: 14,
     color: '#666',
-    fontFamily: Fonts.MEDIUM,
+    fontFamily: Fonts.BOLD,
   },
   cardContent: {
     flexDirection: 'row',

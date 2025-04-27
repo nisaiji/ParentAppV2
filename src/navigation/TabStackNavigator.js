@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
   },
   label: {
     color: colors.WHITE,
-    fontFamily: Fonts.MEDIUM,
+    fontFamily: Fonts.BOLD,
     fontSize: Size.font_16,
   },
 });

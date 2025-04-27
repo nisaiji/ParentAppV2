@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
 
   label: {
     marginBottom: scale(10),
-    fontFamily: Fonts.MEDIUM,
+    fontFamily: Fonts.BOLD,
     fontSize: Size.font_14,
   },
   textInput: {
@@ -82,14 +82,14 @@ const styles = StyleSheet.create({
     borderColor: colors.COLOR_3,
     borderRadius: scale(10),
     paddingLeft: scale(8),
-    fontFamily: Fonts.MEDIUM,
+    fontFamily: Fonts.BOLD,
     fontSize: Size.font_14,
   },
   textInput2: {
     paddingVertical: scale(10),
     fontSize: Size.font_14,
     paddingLeft: scale(8),
-    fontFamily: Fonts.MEDIUM,
+    fontFamily: Fonts.BOLD,
     color: Colors.WHITE,
   },
   errorText: {
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
     fontSize: Size.font_12,
     paddingLeft: scale(8),
-    fontFamily: Fonts.MEDIUM,
+    fontFamily: Fonts.BOLD,
   },
   placeholderText: {
     color: colors.COLOR_3,

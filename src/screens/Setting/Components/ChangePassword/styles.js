@@ -13,14 +13,14 @@ const styles = StyleSheet.create({
   label: {
     color: colors.WHITE,
     fontSize: Size.font_16,
-    fontFamily: Fonts.MEDIUM,
+    fontFamily: Fonts.BOLD,
   },
   input: {
     flex: 1,
     color: colors.WHITE,
     fontSize: Size.font_14,
     paddingVertical: scale(12),
-    fontFamily: Fonts.MEDIUM,
+    fontFamily: Fonts.BOLD,
   },
   inputContainerWithIcon: {
     flexDirection: 'row',
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     marginTop: -20,
     marginBottom: 10,
     marginLeft: 6,
-    fontFamily: Fonts.MEDIUM,
+    fontFamily: Fonts.BOLD,
   },
   continueButton: {
     marginTop: scale(28),

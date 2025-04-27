@@ -75,7 +75,7 @@ export const styles = StyleSheet.create({
     color: colors.WHITE,
     fontSize: Size.font_14,
     paddingVertical: scale(12),
-    fontFamily: Fonts.MEDIUM,
+    fontFamily: Fonts.BOLD,
   },
   crossIcon: {
     height: scale(24),

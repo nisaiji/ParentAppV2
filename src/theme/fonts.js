@@ -22,14 +22,8 @@ const Size = {
 };
 
 const Fonts = {
-  REGULAR: 'Satoshi-Regular',
-  BOLD: 'Satoshi-Bold',
-  LIGHT: 'Satoshi-Light',
-  ITALIC: 'Satoshi-Italic',
-  MEDIUM: 'Satoshi-Medium',
-
-  BOLD_ITALIC: 'Satoshi-BoldItalic',
-  MEDIUM_ITALIC: 'Satoshi-MediumItalic',
+  REGULAR: 'Helvetica',
+  BOLD: 'Helvetica-Bold',
 };
 
 const Weight = {

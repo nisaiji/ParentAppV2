@@ -11,14 +11,14 @@ export const styles = StyleSheet.create({
   subtitle: {
     color: colors.WHITE,
     fontSize: Size.font_16,
-    fontFamily: Fonts.MEDIUM,
+    fontFamily: Fonts.BOLD,
     width: '85%',
     lineHeight: scale(24),
   },
   label: {
     color: colors.WHITE,
     fontSize: Size.font_16,
-    fontFamily: Fonts.MEDIUM,
+    fontFamily: Fonts.BOLD,
     lineHeight: scale(20),
   },
   grayText: {
@@ -47,7 +47,7 @@ export const styles = StyleSheet.create({
     color: colors.WHITE,
     fontSize: Size.font_20,
     textAlign: 'center',
-    fontFamily: Fonts.MEDIUM,
+    fontFamily: Fonts.BOLD,
   },
   inputContainer: {
     flexDirection: 'row',
@@ -62,7 +62,7 @@ export const styles = StyleSheet.create({
     color: colors.WHITE,
     fontSize: Size.font_14,
     paddingVertical: scale(12),
-    fontFamily: Fonts.MEDIUM,
+    fontFamily: Fonts.BOLD,
   },
   inputContainerWithIcon: {
     flexDirection: 'row',
@@ -112,12 +112,12 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     gap: 10,
+    backgroundColor: 'transparent'
   },
   addChildText: {
     fontFamily: Fonts.BOLD,
-    color: colors.DISABLE_COLOR,
+    color: colors.WHITE,
     fontSize: Size.font_16,
-    color: '#fff',
   },
   addIcon: {
     height: scale(24),
