@@ -24,6 +24,7 @@ import Loader from '../../../../components/Loader';
 import { globalStyle } from '../../../../theme/fonts';
 
 import pencilIcon from '../../../../assets/images/pencilIcon.png';
+import colors from '../../../../theme/colors';
 
 function EditProfile() {
   const [t] = useTranslation();
@@ -40,7 +41,7 @@ function EditProfile() {
   // console.log(data);
 
   const validationSchema = Yup.object().shape({
-    username: Yup.string().required('Username is required'),
+    // username: Yup.string().required('Username is required'),
     fullname: Yup.string().required('Full name is required'),
     // gender: Yup.string().required('Please select a gender'),
     // age: Yup.number()
@@ -128,7 +129,7 @@ function EditProfile() {
 
             <Formik
               initialValues={{
-                username: data?.username || '',
+                // username: data?.username || '',
                 fullname: data?.fullname || '',
                 gender: data?.gender || '',
                 age: data?.age || '',
@@ -189,12 +190,12 @@ function EditProfile() {
                     {t('title.personalInfo')}
                   </Text>
 
-                  <View style={styles.formInput}>
+                  {/* <View style={styles.formInput}>
                     <Text style={styles.label}>{t('label.username')}</Text>
                     <TextInput
                       style={styles.textInput}
                       placeholder={t('placeholder.username')}
-                      placeholderTextColor={styles.placeholderText}
+                      placeholderTextColor={colors.COLOR_3}
                       onChangeText={handleChange('username')}
                       onBlur={handleBlur('username')}
                       value={values.username}
@@ -202,14 +203,14 @@ function EditProfile() {
                     {touched.username && errors.username && (
                       <Text style={styles.errorText}>{errors.username}</Text>
                     )}
-                  </View>
+                  </View> */}
 
                   <View style={styles.formInput}>
                     <Text style={styles.label}>{t('label.fullname')}</Text>
                     <TextInput
                       style={styles.textInput}
                       placeholder={t('placeholder.fullname')}
-                      placeholderTextColor={styles.placeholderText}
+                      placeholderTextColor={colors.COLOR_3}
                       onChangeText={handleChange('fullname')}
                       onBlur={handleBlur('fullname')}
                       value={values.fullname}
@@ -237,7 +238,7 @@ function EditProfile() {
                     <TextInput
                       style={styles.textInput}
                       placeholder={t('placeholder.age')}
-                      placeholderTextColor={styles.placeholderText}
+                      placeholderTextColor={colors.COLOR_3}
                       keyboardType="numeric"
                       onChangeText={handleChange('age')}
                       onBlur={handleBlur('age')}
@@ -264,7 +265,7 @@ function EditProfile() {
                       readOnly
                       style={styles.textInput}
                       placeholder={t('placeholder.email')}
-                      placeholderTextColor={styles.placeholderText}
+                      placeholderTextColor={colors.COLOR_3}
                       onChangeText={handleChange('email')}
                       onBlur={handleBlur('email')}
                       value={values.email}
@@ -287,7 +288,7 @@ function EditProfile() {
                       readOnly
                       style={styles.textInput}
                       placeholder={t('placeholder.contact')}
-                      placeholderTextColor={styles.placeholderText}
+                      placeholderTextColor={colors.COLOR_3}
                       keyboardType="phone-pad"
                       onChangeText={handleChange('contact')}
                       onBlur={handleBlur('contact')}
@@ -300,7 +301,7 @@ function EditProfile() {
                     <TextInput
                       style={styles.textInput}
                       placeholder={t('placeholder.qualification')}
-                      placeholderTextColor={styles.placeholderText}
+                      placeholderTextColor={colors.COLOR_3}
                       onChangeText={handleChange('qualification')}
                       onBlur={handleBlur('qualification')}
                       value={values.qualification}
@@ -317,7 +318,7 @@ function EditProfile() {
                     <TextInput
                       style={styles.textInput}
                       placeholder={t('placeholder.occupation')}
-                      placeholderTextColor={styles.placeholderText}
+                      placeholderTextColor={colors.COLOR_3}
                       onChangeText={handleChange('occupation')}
                       onBlur={handleBlur('occupation')}
                       value={values.occupation}
@@ -335,7 +336,7 @@ function EditProfile() {
                       style={styles.textInput}
                       textAlignVertical="top"
                       placeholder={t('placeholder.address')}
-                      placeholderTextColor={styles.placeholderText}
+                      placeholderTextColor={colors.COLOR_3}
                       onChangeText={handleChange('address')}
                       onBlur={handleBlur('address')}
                       value={values.address}

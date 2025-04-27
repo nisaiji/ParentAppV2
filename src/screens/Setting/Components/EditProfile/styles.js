@@ -66,11 +66,11 @@ const styles = StyleSheet.create({
   formInput: {
     marginTop: scale(15),
   },
-
   label: {
     marginBottom: scale(10),
     fontFamily: Fonts.BOLD,
     fontSize: Size.font_14,
+    color: colors.COLOR_3,
   },
   textInput: {
     borderWidth: 1,
@@ -79,6 +79,7 @@ const styles = StyleSheet.create({
     paddingLeft: scale(8),
     fontFamily: Fonts.BOLD,
     fontSize: Size.font_14,
+    color:colors.WHITE
   },
   placeholderText: {
     color: colors.COLOR_3,
@@ -107,6 +108,7 @@ const styles = StyleSheet.create({
     flexDirection:'row',
     justifyContent:'space-between',
     alignItems:'center',
+    marginBottom: scale(10),
   },
   pencilIconCotainer:{
     width: scale(24),

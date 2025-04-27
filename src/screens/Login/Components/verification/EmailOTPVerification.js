@@ -80,12 +80,12 @@ export default function EmailOTPVerification() {
         return errorToast(t('validation.shortOtp'));
       }
       setLoading(true);
-      const res = await axiosClient.put(EndPoints.EMAIL_OTP_VERIFY, {
+      const res = await axiosClient.put(route?.params ? EndPoints.EMAIL_OTP_VERIFY : EndPoints.EMAIL_OTP_VERIFY, { //to do add new api end point to re verify email to do add new end point to re verify email at if condition
         otp: Number(otp.join('')),
       });
       if (res?.data?.statusCode === 200) {
         successToast(res?.data?.result?.messsage);
-        if(route?.params?.routes){
+        if(route?.params){
           goToRouteName()
         }else{
           dispatch(setAuth({emailVerified: true}));

@@ -24,6 +24,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setAuth } from '../../../../redux/authSlice';
 import Loader from '../../../../components/Loader';
 import CustomButton from '../../../../components/CustomButton';
+import { scale } from 'react-native-size-matters';
 
 export default function ChildDetail() {
   const [name, setName] = useState('');
@@ -66,7 +67,6 @@ export default function ChildDetail() {
       const res = await axiosClient.put(EndPoints.CHECK_VALID_STUDENT, {
         studentName: name,
       });
-      // console.log('res', res?.data?.result);
       if (res?.data?.statusCode === 200) {
         setChilds([...childs, res?.data?.result]);
         successToast('Child verified');
@@ -153,7 +153,7 @@ export default function ChildDetail() {
             />
           </View></>}
         {/* Continue or add child */}
-        {childs?.length === 0 && <TouchableOpacity
+        {childs?.length > 0 && <TouchableOpacity
           onPress={onContinue}
           style={[styles.continueButton, { marginTop: 28 }]}>
           <Text style={styles.continueText}>
@@ -168,10 +168,9 @@ export default function ChildDetail() {
           label={t('button.addChild')} /> : <CustomButton
           disabled={name?.length === 0}
           onPress={addChild}
-          btnStyle={[styles.addChildButton, { marginBottom: 0 }]}
-          btnLabelStyle={styles.addChildText}
-          source={add}
-          label={t('button.addChild')} />}
+          btnStyle={[styles.continueButton, {marginTop:scale(28)}]}
+          btnLabelStyle={styles.continueText}
+          label={t('button.verify')} />}
       </SafeAreaView>
     </BackgroundView>
   );

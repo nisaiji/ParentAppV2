@@ -9,7 +9,7 @@ import {
   Keyboard,
 } from 'react-native';
 import { styles } from './styles';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { ROUTE } from '../../../../navigation/constant';
 import BackgroundView from '../../../../components/BackgroundView';
 import Header from '../../../../components/Header';
@@ -87,7 +87,7 @@ export default function OTPVerification() {
       if (res?.data?.statusCode === 200) {
         dispatch(setToken({ token: res?.data?.result?.token }));
         successToast(res?.data?.result?.messsage);
-        if(route?.params?.routes){
+        if(route?.params){
           goToRouteName()
         }else{
         navigation.navigate(ROUTE.AUTH, { screen: ROUTE.CREATE_PASSWORD });

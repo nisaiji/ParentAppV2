@@ -1,10 +1,11 @@
 import React from 'react';
-import {Image, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {Image, StyleSheet, Text, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import leftArrow from '../assets/images/leftArrow.png'; // or use vector icon
 import {scale} from 'react-native-size-matters';
 import colors from '../theme/colors';
 import {Fonts, Size, globalStyle} from '../theme/fonts';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const Header = ({noBack = false, heading = '', style = {}}) => {
   const navigation = useNavigation();
@@ -20,7 +21,8 @@ const Header = ({noBack = false, heading = '', style = {}}) => {
           <TouchableOpacity
             onPress={onBack}
             style={styles.backWrapper}
-            hitSlop={globalStyle.hitSlop10}>
+            hitSlop={globalStyle.hitSlop10}
+            >
             <Image
               source={leftArrow}
               style={styles.backButton}
@@ -44,8 +46,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   backWrapper: {
-    width: scale(24),
-    height: scale(24),
+    width: scale(40),
+    height: scale(40),
     justifyContent: 'center',
     alignItems: 'center',
   },
