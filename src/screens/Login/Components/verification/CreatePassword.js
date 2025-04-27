@@ -76,13 +76,16 @@ export default function CreatePassword() {
       setLoading(false);
     }
   };
+  const goBack = () => {
+    navigation.navigate(ROUTE.LOGIN)
+  }
 
   return (
     <BackgroundView>
       {loading && <Loader />}
       <SafeAreaView style={styles.container}>
         {/* Header */}
-        <Header heading={t('createPassword.heading')} noBack={true} />
+        <Header heading={t('createPassword.heading')} goBack={goBack}/>
 
         {/* New Password */}
         <Text style={styles.label}>{t('createPassword.newPassword')}</Text>
