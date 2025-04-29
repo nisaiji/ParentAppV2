@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { Text, View, Image, TextInput, TouchableOpacity } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { GestureHandlerRootView, ScrollView } from 'react-native-gesture-handler';
-import { Formik } from 'formik';
+import React, {useState} from 'react';
+import {Text, View, Image, TextInput, TouchableOpacity} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {GestureHandlerRootView, ScrollView} from 'react-native-gesture-handler';
+import {Formik} from 'formik';
 import * as Yup from 'yup';
 
 import styles from './styles';
@@ -11,17 +11,17 @@ import Header from '../../../../components/Header';
 import childDummy from '../../../../assets/images/childDummy.png';
 import circlePencilIcon from '../../../../assets/images/circlePencil.png';
 import DropdownComponent from '../../../../components/DropdownComponent';
-import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
-import { axiosClient } from '../../../../services/axiosClient';
-import { EndPoints } from '../../../../ParentApi';
-import { errorToast, successToast } from '../../../../components/CustomToast';
-import { useNavigation } from '@react-navigation/native';
-import { ROUTE } from '../../../../navigation/constant';
+import {useTranslation} from 'react-i18next';
+import {useDispatch, useSelector} from 'react-redux';
+import {axiosClient} from '../../../../services/axiosClient';
+import {EndPoints} from '../../../../ParentApi';
+import {errorToast, successToast} from '../../../../components/CustomToast';
+import {useNavigation} from '@react-navigation/native';
+import {ROUTE} from '../../../../navigation/constant';
 import ImagePickerModal from '../../../../components/ImagePickerModal';
-import { fetchAndSetData } from '../../../../redux/authSlice';
+import {fetchAndSetData} from '../../../../redux/authSlice';
 import Loader from '../../../../components/Loader';
-import { globalStyle } from '../../../../theme/fonts';
+import {globalStyle} from '../../../../theme/fonts';
 
 import pencilIcon from '../../../../assets/images/pencilIcon.png';
 import colors from '../../../../theme/colors';
@@ -30,15 +30,15 @@ function EditProfile() {
   const [t] = useTranslation();
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const { data } = useSelector(state => state.auth);
+  const {data} = useSelector(state => state.auth);
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const genderOptions = [
-    { label: 'Male', value: 'Male' },
-    { label: 'Female', value: 'Female' },
-    { label: 'Other', value: 'Other' },
+    {label: 'Male', value: 'Male'},
+    {label: 'Female', value: 'Female'},
+    {label: 'Other', value: 'Other'},
   ];
-  // console.log(data);
+  console.log(data);
 
   const validationSchema = Yup.object().shape({
     // username: Yup.string().required('Username is required'),
@@ -84,19 +84,22 @@ function EditProfile() {
   };
 
   const onEditEmail = () => {
-    navigation.navigate(ROUTE.AUTH, { screen: ROUTE.EMAIL_VERIFICATION, params:{
-        mainStackNavigator: ROUTE.TAB, 
+    navigation.navigate(ROUTE.AUTH, {
+      screen: ROUTE.EMAIL_VERIFICATION,
+      params: {
+        mainStackNavigator: ROUTE.TAB,
         tabNavigator: ROUTE.SETTING_STACK,
         routes: [
-          { name: ROUTE.SETTING },      // 👈 push Settings first
-          { name: ROUTE.EDIT_PROFILE }     // 👈 then EditProfile second
-        ]
-    } });
-  }
+          {name: ROUTE.SETTING}, // 👈 push Settings first
+          {name: ROUTE.EDIT_PROFILE}, // 👈 then EditProfile second
+        ],
+      },
+    });
+  };
 
   const onEditPhoneNumber = () => {
-    navigation.navigate(ROUTE.AUTH, { screen: ROUTE.PHONE_NUMBER_VERIFICATION });
-  }
+    navigation.navigate(ROUTE.AUTH, {screen: ROUTE.PHONE_NUMBER_VERIFICATION});
+  };
 
   return (
     <GestureHandlerRootView>
@@ -109,7 +112,7 @@ function EditProfile() {
               <Image
                 source={
                   data?.photo
-                    ? { uri: `data:image/jpeg;base64,${data?.photo}` }
+                    ? {uri: `data:image/jpeg;base64,${data?.photo}`}
                     : childDummy
                 }
                 style={styles.childImg}
@@ -128,8 +131,9 @@ function EditProfile() {
             </View>
 
             <Formik
+              enableReinitialize
               initialValues={{
-                // username: data?.username || '',
+                username: data?.username || 'tempuser',
                 fullname: data?.fullname || '',
                 gender: data?.gender || '',
                 age: data?.age || '',
@@ -250,7 +254,10 @@ function EditProfile() {
                   </View>
 
                   <View style={styles.formInput}>
-                    <View style={styles.emailLabelContainer}><Text style={[styles.label,{marginBottom: 0}]}>{t('label.email')}</Text>
+                    <View style={styles.emailLabelContainer}>
+                      <Text style={[styles.label, {marginBottom: 0}]}>
+                        {t('label.email')}
+                      </Text>
                       <TouchableOpacity
                         onPress={onEditEmail}
                         style={styles.pencilIconCotainer}>
@@ -268,12 +275,15 @@ function EditProfile() {
                       placeholderTextColor={colors.COLOR_3}
                       onChangeText={handleChange('email')}
                       onBlur={handleBlur('email')}
-                      value={values.email}
+                      value={data?.email}
                     />
                   </View>
 
                   <View style={styles.formInput}>
-                  <View style={styles.emailLabelContainer}><Text style={[styles.label, {marginBottom:0}]}>{t('label.contact')}</Text>
+                    <View style={styles.emailLabelContainer}>
+                      <Text style={[styles.label, {marginBottom: 0}]}>
+                        {t('label.contact')}
+                      </Text>
                       <TouchableOpacity
                         onPress={onEditPhoneNumber}
                         style={styles.pencilIconCotainer}>
@@ -292,7 +302,7 @@ function EditProfile() {
                       keyboardType="phone-pad"
                       onChangeText={handleChange('contact')}
                       onBlur={handleBlur('contact')}
-                      value={values.contact}
+                      value={data.phone}
                     />
                   </View>
 

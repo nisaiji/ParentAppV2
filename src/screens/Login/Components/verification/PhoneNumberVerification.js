@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -8,21 +8,22 @@ import {
   Keyboard,
   Image,
 } from 'react-native';
-import { styles } from './styles';
-import { useNavigation } from '@react-navigation/native';
-import { ROUTE } from '../../../../navigation/constant';
+import {styles} from './styles';
+import {useNavigation} from '@react-navigation/native';
+import {ROUTE} from '../../../../navigation/constant';
 import BackgroundView from '../../../../components/BackgroundView';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 import Header from '../../../../components/Header';
-import { axiosClient } from '../../../../services/axiosClient';
-import { EndPoints } from '../../../../ParentApi';
-import { useDispatch } from 'react-redux';
-import { setAuth } from '../../../../redux/authSlice';
-import { errorToast, successToast } from '../../../../components/CustomToast';
-import { REGEX } from '../../../../utils/Rejex';
+import {axiosClient} from '../../../../services/axiosClient';
+import {EndPoints} from '../../../../ParentApi';
+import {useDispatch} from 'react-redux';
+import {setAuth} from '../../../../redux/authSlice';
+import {errorToast, successToast} from '../../../../components/CustomToast';
+import {REGEX} from '../../../../utils/Rejex';
 import Loader from '../../../../components/Loader';
 import indianFlag from '../../../../assets/images/indianFlag.png';
 import downArrow from '../../../../assets/images/downArrow.png';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function PhoneNumberVerification() {
   const [phone, setPhone] = useState('');
@@ -47,21 +48,23 @@ export default function PhoneNumberVerification() {
 
   const onSubmit = async () => {
     try {
-      Keyboard.dismiss()
+      Keyboard.dismiss();
       if (!validatePhone()) return;
       setLoading(true);
-      const otpRes = await axiosClient.post(EndPoints.OTP_SEND, { phone });
+      const otpRes = await axiosClient.post(EndPoints.OTP_SEND_UPDATE, {phone});
       if (otpRes?.data?.statusCode === 200) {
         successToast(otpRes?.data?.result);
+        await AsyncStorage.setItem('phoneUpdate', phone);
         navigation.navigate(ROUTE.AUTH, {
-          screen: ROUTE.OTP, params: {
-            mainStackNavigator: ROUTE.TAB, 
+          screen: ROUTE.OTP,
+          params: {
+            mainStackNavigator: ROUTE.TAB,
             tabNavigator: ROUTE.SETTING_STACK,
             routes: [
-              { name: ROUTE.SETTING },      // 👈 push Settings first
-              { name: ROUTE.EDIT_PROFILE }     // 👈 then EditProfile second
-            ]
-          }
+              {name: ROUTE.SETTING}, // 👈 push Settings first
+              {name: ROUTE.EDIT_PROFILE}, // 👈 then EditProfile second
+            ],
+          },
         });
       }
     } catch (e) {

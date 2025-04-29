@@ -37,6 +37,30 @@ export const setAuth = createAsyncThunk('auth/setAuth', async data => {
   return mergedData;
 });
 
+// Update phone in auth.data
+export const updatePhoneInData = createAsyncThunk(
+  'auth/updatePhoneInData',
+  async (phone, {getState}) => {
+    const existing = await AsyncStorage.getItem('data');
+    const parsed = existing ? JSON.parse(existing) : {};
+    const updated = {...parsed, phone};
+    await AsyncStorage.setItem('data', JSON.stringify(updated));
+    return updated;
+  },
+);
+
+// Update email in auth.data
+export const updateEmailInData = createAsyncThunk(
+  'auth/updateEmailInData',
+  async (email, {getState}) => {
+    const existing = await AsyncStorage.getItem('data');
+    const parsed = existing ? JSON.parse(existing) : {};
+    const updated = {...parsed, email};
+    await AsyncStorage.setItem('data', JSON.stringify(updated));
+    return updated;
+  },
+);
+
 // Set the current child
 export const setCurrentChild = createAsyncThunk(
   'auth/setCurrentChild',
@@ -170,6 +194,12 @@ const authSlice = createSlice({
         state.data = {};
         state.currentChild = null;
         state.currentChildIndex = 0;
+      })
+      .addCase(updatePhoneInData.fulfilled, (state, action) => {
+        state.data = action.payload;
+      })
+      .addCase(updateEmailInData.fulfilled, (state, action) => {
+        state.data = action.payload;
       });
   },
 });

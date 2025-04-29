@@ -9,6 +9,7 @@ import i18n from './src/locale/i18n.js';
 import BackgroundView from './src/components/BackgroundView.js';
 import store from './src/redux/store.js';
 import {Provider} from 'react-redux';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export default function App() {
   useEffect(() => {
@@ -22,11 +23,13 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <I18nextProvider i18n={i18n}>
-        <ToastProvider>
-          <Navigation />
-        </ToastProvider>
-      </I18nextProvider>
+      <GestureHandlerRootView style={{flex: 1}}>
+        <I18nextProvider i18n={i18n}>
+          <ToastProvider>
+            <Navigation />
+          </ToastProvider>
+        </I18nextProvider>
+      </GestureHandlerRootView>
     </Provider>
   );
 }

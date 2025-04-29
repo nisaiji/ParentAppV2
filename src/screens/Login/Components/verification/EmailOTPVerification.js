@@ -20,8 +20,9 @@ import {axiosClient} from '../../../../services/axiosClient';
 import {EndPoints} from '../../../../ParentApi';
 import {errorToast, successToast} from '../../../../components/CustomToast';
 import {globalStyle} from '../../../../theme/fonts';
-import {setAuth} from '../../../../redux/authSlice';
+import {setAuth, updateEmailInData} from '../../../../redux/authSlice';
 import Loader from '../../../../components/Loader';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function EmailOTPVerification() {
   const [otp, setOtp] = useState(['', '', '', '', '']);
@@ -52,9 +53,9 @@ export default function EmailOTPVerification() {
   };
 
   const goToRouteName = () => {
-    const {mainStackNavigator, tabNavigator, routes} = route;
+    const {mainStackNavigator, tabNavigator, routes} = route.params;
     navigation.reset({
-      index: 1,  // Important: set index to 1 (means we are at second screen)
+      index: 1,
       routes: [
         {
           name: mainStackNavigator,
@@ -63,35 +64,50 @@ export default function EmailOTPVerification() {
               {
                 name: tabNavigator,
                 state: {
-                  routes
-                }
-              }
-            ]
-          }
-        }
-      ]
+                  routes,
+                },
+              },
+            ],
+          },
+        },
+      ],
     });
-  }
+  };
 
   const onSubmit = async () => {
     try {
-      Keyboard.dismiss()
+      Keyboard.dismiss();
       if (otp.join('').length !== 5) {
         return errorToast(t('validation.shortOtp'));
       }
       setLoading(true);
-      const res = await axiosClient.put(route?.params ? EndPoints.EMAIL_OTP_VERIFY : EndPoints.EMAIL_OTP_VERIFY, { //to do add new api end point to re verify email to do add new end point to re verify email at if condition
-        otp: Number(otp.join('')),
-      });
-      if (res?.data?.statusCode === 200) {
-        successToast(res?.data?.result?.messsage);
-        if(route?.params){
-          goToRouteName()
-        }else{
-          dispatch(setAuth({emailVerified: true}));
-        navigation.navigate(ROUTE.AUTH, {
-          screen: ROUTE.PARENT_DETAIL,
+      let email;
+      let res;
+      if (route?.params) {
+        email = await AsyncStorage.getItem('emailUpdate');
+        res = await axiosClient.put(EndPoints.EMAIL_OTP_VERIFY_UPDATE, {
+          email,
+          otp: Number(otp.join('')),
         });
+      } else {
+        res = await axiosClient.put(EndPoints.EMAIL_OTP_VERIFY, {
+          otp: Number(otp.join('')),
+        });
+      }
+      // console.log('res is', res.data);
+
+      if (res?.data?.statusCode === 200) {
+        if (route?.params) {
+          dispatch(updateEmailInData(email));
+          successToast(res?.data?.result);
+          await AsyncStorage.removeItem('emailUpdate');
+          goToRouteName();
+        } else {
+          successToast(res?.data?.result?.messsage);
+          dispatch(setAuth({emailVerified: true}));
+          navigation.navigate(ROUTE.AUTH, {
+            screen: ROUTE.PARENT_DETAIL,
+          });
         }
       }
     } catch (e) {
@@ -124,7 +140,6 @@ export default function EmailOTPVerification() {
   useEffect(() => {
     inputRefs.current[0]?.focus();
   }, []);
-  
 
   // Countdown effect
   useEffect(() => {

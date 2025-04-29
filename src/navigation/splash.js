@@ -58,8 +58,10 @@ export default function Splash() {
       });
       return;
     }
-
-    navigation.navigate(ROUTE.TAB);
+    navigation.reset({
+      index: 0,
+      routes: [{name: ROUTE.TAB}],
+    });
   };
 
   return (

@@ -49,7 +49,7 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     fontFamily: Fonts.BOLD,
   },
-  phoneNumberContainer:{
+  phoneNumberContainer: {
     flexDirection: 'row',
     // paddingHorizontal: scale(12),
     alignItems: 'center',
@@ -63,12 +63,12 @@ export const styles = StyleSheet.create({
     borderRadius: scale(12),
     marginTop: scale(20),
   },
-  inputContainer1:{
+  inputContainer1: {
     paddingHorizontal: scale(12),
     backgroundColor: '#66666680',
     borderRadius: scale(12),
     width: scale(220),
-    marginLeft: scale(10)
+    marginLeft: scale(10),
   },
   input: {
     flex: 1,
@@ -125,7 +125,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     gap: 10,
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
   },
   addChildText: {
     fontFamily: Fonts.BOLD,

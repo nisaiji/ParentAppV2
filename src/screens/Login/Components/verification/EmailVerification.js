@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -9,19 +9,20 @@ import {
   Keyboard,
 } from 'react-native';
 import leftArrow from '../../../../assets/images/leftArrow.png';
-import { styles } from './styles';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { ROUTE } from '../../../../navigation/constant';
+import {styles} from './styles';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {ROUTE} from '../../../../navigation/constant';
 import BackgroundView from '../../../../components/BackgroundView';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 import Header from '../../../../components/Header';
-import { axiosClient } from '../../../../services/axiosClient';
-import { EndPoints } from '../../../../ParentApi';
-import { useDispatch } from 'react-redux';
-import { setAuth } from '../../../../redux/authSlice';
-import { errorToast, successToast } from '../../../../components/CustomToast';
-import { REGEX } from '../../../../utils/Rejex';
+import {axiosClient} from '../../../../services/axiosClient';
+import {EndPoints} from '../../../../ParentApi';
+import {useDispatch} from 'react-redux';
+import {setAuth} from '../../../../redux/authSlice';
+import {errorToast, successToast} from '../../../../components/CustomToast';
+import {REGEX} from '../../../../utils/Rejex';
 import Loader from '../../../../components/Loader';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function EmailVerification() {
   const [email, setEmail] = useState('');
@@ -29,25 +30,40 @@ export default function EmailVerification() {
   const [t] = useTranslation();
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const route = useRoute()
+  const route = useRoute();
 
   const onSubmit = async () => {
     try {
-      Keyboard.dismiss()
+      Keyboard.dismiss();
       if (!email) {
         return errorToast(t('validation.requiredEmail'));
       } else if (!REGEX.EMAIL.test(email)) {
         return errorToast(t('validation.invalidEmail'));
       }
       setLoading(true);
-      const res = await axiosClient.post(route?.params ? EndPoints.EMAIL_OTP_SEND : EndPoints.EMAIL_OTP_SEND, { email }); // to do add new end point to re verify email at if condition
+      const res = await axiosClient.post(
+        route?.params
+          ? EndPoints.EMAIL_OTP_SEND_UPDATE
+          : EndPoints.EMAIL_OTP_SEND,
+        {email},
+      ); // to do add new end point to re verify email at if condition
+      // console.log('res is', res.data);
+
       if (res?.data?.statusCode === 200) {
-        dispatch(setAuth({ email }));
         successToast(res?.data?.result);
-        navigation.navigate(ROUTE.AUTH, { screen: ROUTE.EMAIL_OTP_VERIFICATION, params: route?.params });
+        if (route?.params) {
+          await AsyncStorage.setItem('emailUpdate', email);
+        } else {
+          dispatch(setAuth({email}));
+        }
+        navigation.navigate(ROUTE.AUTH, {
+          screen: ROUTE.EMAIL_OTP_VERIFICATION,
+          params: route?.params,
+        });
       }
     } catch (e) {
-      errorToast(e);
+      // errorToast(e);
+      console.log({e});
     } finally {
       setLoading(false);
     }
@@ -55,9 +71,9 @@ export default function EmailVerification() {
 
   const goBack = () => {
     if (route?.params) {
-      const { mainStackNavigator, tabNavigator, routes } = route;
+      const {mainStackNavigator, tabNavigator, routes} = route;
       navigation.reset({
-        index: 1,  // Important: set index to 1 (means we are at second screen)
+        index: 1, // Important: set index to 1 (means we are at second screen)
         routes: [
           {
             name: mainStackNavigator,
@@ -66,18 +82,18 @@ export default function EmailVerification() {
                 {
                   name: tabNavigator,
                   state: {
-                    routes
-                  }
-                }
-              ]
-            }
-          }
-        ]
+                    routes,
+                  },
+                },
+              ],
+            },
+          },
+        ],
       });
-    }else{
-      navigation.goBack()
+    } else {
+      navigation.goBack();
     }
-  }
+  };
 
   return (
     <BackgroundView>

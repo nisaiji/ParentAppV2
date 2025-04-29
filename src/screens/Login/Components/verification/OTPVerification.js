@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   View,
   Text,
@@ -8,30 +8,31 @@ import {
   TextInput,
   Keyboard,
 } from 'react-native';
-import { styles } from './styles';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { ROUTE } from '../../../../navigation/constant';
+import {styles} from './styles';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {ROUTE} from '../../../../navigation/constant';
 import BackgroundView from '../../../../components/BackgroundView';
 import Header from '../../../../components/Header';
-import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
-import { axiosClient } from '../../../../services/axiosClient';
-import { EndPoints } from '../../../../ParentApi';
-import { errorToast, successToast } from '../../../../components/CustomToast';
-import { setToken } from '../../../../redux/authSlice';
-import { globalStyle } from '../../../../theme/fonts';
+import {useTranslation} from 'react-i18next';
+import {useDispatch, useSelector} from 'react-redux';
+import {axiosClient} from '../../../../services/axiosClient';
+import {EndPoints} from '../../../../ParentApi';
+import {errorToast, successToast} from '../../../../components/CustomToast';
+import {setToken, updatePhoneInData} from '../../../../redux/authSlice';
+import {globalStyle} from '../../../../theme/fonts';
 import Loader from '../../../../components/Loader';
 import CustomButton from '../../../../components/CustomButton';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function OTPVerification() {
   const [otp, setOtp] = useState(['', '', '', '', '']);
   const [timer, setTimer] = useState(30);
   const [isResendDisabled, setIsResendDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
-  const { status } = useSelector(state => state.auth);
+  const {status} = useSelector(state => state.auth);
   const inputRefs = useRef([]);
   const navigation = useNavigation();
-  const route = useRoute()
+  const route = useRoute();
   const [t] = useTranslation();
   const dispatch = useDispatch();
   const handleChange = (text, index) => {
@@ -51,9 +52,9 @@ export default function OTPVerification() {
   };
 
   const goToRouteName = () => {
-    const {mainStackNavigator, tabNavigator, routes} = route;
+    const {mainStackNavigator, tabNavigator, routes} = route.params;
     navigation.reset({
-      index: 1,  // Important: set index to 1 (means we are at second screen)
+      index: 1,
       routes: [
         {
           name: mainStackNavigator,
@@ -62,35 +63,44 @@ export default function OTPVerification() {
               {
                 name: tabNavigator,
                 state: {
-                  routes
-                }
-              }
-            ]
-          }
-        }
-      ]
+                  routes,
+                },
+              },
+            ],
+          },
+        },
+      ],
     });
-  }
+  };
 
   const onSubmit = async () => {
     try {
-      Keyboard.dismiss()
+      Keyboard.dismiss();
       if (otp.join('').length !== 5) {
         return errorToast(t('validation.shortOtp'));
       }
       setLoading(true);
-      const res = await axiosClient.put(EndPoints.OTP_VERIFY, {
-        phone: status?.phone,
-        otp: Number(otp.join('')),
-      });
+      const phoneNumber = route?.params
+        ? await AsyncStorage.getItem('phoneUpdate')
+        : status?.phone;
+      const res = await axiosClient.put(
+        route?.params ? EndPoints.OTP_VERIFY_UPDATE : EndPoints.OTP_VERIFY,
+        {
+          phone: phoneNumber,
+          otp: Number(otp.join('')),
+        },
+      );
 
       if (res?.data?.statusCode === 200) {
-        dispatch(setToken({ token: res?.data?.result?.token }));
-        successToast(res?.data?.result?.messsage);
-        if(route?.params){
-          goToRouteName()
-        }else{
-        navigation.navigate(ROUTE.AUTH, { screen: ROUTE.CREATE_PASSWORD });
+        dispatch(setToken({token: res?.data?.result?.token}));
+        if (route?.params) {
+          dispatch(updatePhoneInData(phoneNumber));
+          successToast(res?.data?.result);
+          await AsyncStorage.removeItem('phoneUpdate');
+          goToRouteName();
+        } else {
+          successToast(res?.data?.result?.messsage);
+          navigation.navigate(ROUTE.AUTH, {screen: ROUTE.CREATE_PASSWORD});
         }
       }
     } catch (e) {
@@ -166,7 +176,7 @@ export default function OTPVerification() {
         </View>
 
         {/* resend otp */}
-        <View style={{ flexDirection: 'row' }}>
+        <View style={{flexDirection: 'row'}}>
           <Text style={styles.grayText}>
             {isResendDisabled ? t('otp.resendOtpIn') + timer + 's' : ''}
           </Text>
@@ -182,7 +192,8 @@ export default function OTPVerification() {
         <CustomButton
           onPress={onSubmit}
           btnStyle={styles.continueButton}
-          label={t('button.continue')} />
+          label={t('button.continue')}
+        />
       </BackgroundView>
     </SafeAreaView>
   );
