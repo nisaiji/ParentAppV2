@@ -3,6 +3,8 @@ import React, {
   useEffect,
   useImperativeHandle,
   forwardRef,
+  useRef,
+  useCallback,
 } from 'react';
 import {View, Text, Image, Alert} from 'react-native';
 import {Calendar} from 'react-native-calendars';
@@ -26,11 +28,13 @@ import {Fonts} from '@src/theme/fonts';
  */
 const MyCalendar = forwardRef((props, ref) => {
   const {events, onMonthChange} = props;
+  const [isBlinking, setIsBlinking] = useState(true);
   const [markedDates, setMarkedDates] = useState({});
   const [currentMonth, setCurrentMonth] = useState(
     moment().format('MMMM YYYY'),
   );
   const [calendarKey, setCalendarKey] = useState(0);
+  const eventsRef = useRef(events);
 
   // Allow parent components to trigger 'refresh' and 'goToCurrentMonth' methods via ref
   useImperativeHandle(ref, () => ({
@@ -50,69 +54,99 @@ const MyCalendar = forwardRef((props, ref) => {
     },
   }));
 
+  useEffect(() => {
+    eventsRef.current = events;
+  }, [events]);
+
   /**
    * Marks event dates and highlights the current date on the calendar.
    * @param {Array} eventList - The list of events to mark.
    */
-  const markEvents = eventList => {
+  const markEvents = useCallback(() => {
+    const eventList = eventsRef.current;
     const dates = {};
     const today = moment().format('YYYY-MM-DD');
 
     // Iterate over events and assign dots for holidays and events
-    events?.forEach(curr => {
+    eventList?.forEach(curr => {
       const formattedDate = moment(curr.date).format('YYYY-MM-DD');
+      const isToday = formattedDate === today;
+      const isPresentToday = isToday && curr?.teacherAttendance === 'present';
+      const isAbsentToday = isToday && curr?.teacherAttendance === 'absent';
+      const isBlinkToday = isPresentToday || isAbsentToday;
+
+      let containerStyle = {
+        borderRadius: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+      };
+      let textStyle = {
+        fontFamily: Fonts.REGULAR,
+      };
+
+      if (isBlinkToday) {
+        if (isBlinking) {
+          containerStyle = {
+            ...containerStyle,
+            backgroundColor: 'transparent',
+            borderColor: colors.BLUE,
+            borderWidth: 2,
+          };
+          textStyle = {
+            ...textStyle,
+            color: colors.BLUE,
+          };
+        } else {
+          containerStyle = {
+            ...containerStyle,
+            backgroundColor: isPresentToday ? colors.GREEN : colors.RED,
+          };
+          textStyle = {
+            ...textStyle,
+            color: colors.WHITE,
+          };
+        }
+      } else {
+        const isPresent = curr?.teacherAttendance === 'present';
+        const isAbsent = curr?.teacherAttendance === 'absent';
+        containerStyle = {
+          ...containerStyle,
+          backgroundColor: 'transparent',
+          borderColor: isPresent ? colors.GREEN : isAbsent ? colors.RED : '',
+          borderWidth: isPresent || isAbsent ? 2 : 0,
+        };
+        textStyle = {
+          ...textStyle,
+          color: isPresent
+            ? colors.GREEN
+            : isAbsent
+            ? colors.RED
+            : colors.WHITE,
+        };
+      }
+
       dates[formattedDate] = {
         customStyles: {
-          container: {
-            backgroundColor: 'transparent',
-            borderColor:
-              curr?.teacherAttendance === 'present'
-                ? colors.GREEN
-                : curr?.teacherAttendance === 'absent'
-                ? colors.RED
-                : '',
-            borderWidth: 2,
-            borderRadius: 20,
-            alignItems: 'center',
-            justifyContent: 'center',
-          },
-          text: {
-            color:
-              curr?.teacherAttendance === 'present'
-                ? colors.GREEN
-                : curr?.teacherAttendance === 'absent'
-                ? colors.RED
-                : '',
-            fontFamily: Fonts.REGULAR,
-          },
+          container: containerStyle,
+          text: textStyle,
         },
       };
     });
 
-    // Mark the current date with custom styles
-    if (today) {
-      dates[today] = {
-        ...dates[today],
-        customStyles: {
-          container: {
-            borderColor: colors.BLUE,
-            borderWidth: 2,
-            borderRadius: 20,
-          },
-          text: {
-            color: colors.BLUE,
-            fontFamily: Fonts.REGULAR,
-          },
-        },
-      };
-    }
-
     setMarkedDates(dates);
-  };
+  }, [isBlinking]);
 
   useEffect(() => {
-    markEvents(events);
-  }, [events]);
+    const interval = setInterval(() => {
+      setIsBlinking(prev => !prev);
+    }, 1000); // toggles every 500ms
+
+    return () => clearInterval(interval); // cleanup on unmount
+  }, []);
+
+  useEffect(() => {
+    markEvents();
+  }, [markEvents]);
 
   /**
    * Handles the month change event triggered by the calendar.

@@ -109,8 +109,13 @@ const dashboardSlice = createSlice({
      */
     updateMonthlyEvents: (state, action) => {
       const {childId, events} = action.payload;
-      state.monthlyEvents[childId] = events;
-      saveMonthlyEvents(state.monthlyEvents);
+      if (childId) {
+        state.monthlyEvents[childId] = events;
+        saveMonthlyEvents(state.monthlyEvents);
+      } else {
+        state.monthlyEvents = {};
+        saveMonthlyEvents({});
+      }
     },
   },
   extraReducers: builder => {

@@ -1,6 +1,13 @@
 /* eslint-disable prettier/prettier */
-import React, {useEffect, useRef} from 'react';
-import {Image, ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {
+  Image,
+  RefreshControl,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import styles from './styles';
 import BackgroundView from '../../../components/BackgroundView';
 import EventCalendar from '../../../components/cache/EventCache';
@@ -13,16 +20,38 @@ import {fetchAndSetData} from '../../../redux/authSlice';
 import {ROUTE} from '../../../navigation/constant';
 import {useNavigation} from '@react-navigation/native';
 import {globalStyle} from '../../../theme/fonts';
+import {
+  updatelastDashboardUpdatedAt,
+  updateMonthlyEvents,
+} from '../../../redux/dashBoardSlice';
 
 function Dashboard() {
   // const eventRef = useRef();
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const {data} = useSelector(state => state.auth);
+  const [refreshing, setRefreshing] = useState(false);
+  const eventRef = useRef();
 
   useEffect(() => {
     dispatch(fetchAndSetData());
   }, []);
+
+  /**
+   * Handles refreshing the dashboard.
+   */
+  const onRefresh = () => {
+    setRefreshing(true);
+
+    if (eventRef?.current) {
+      eventRef?.current?.onRefresh();
+    }
+
+    dispatch(updateMonthlyEvents({childId: null, events: {}}));
+    dispatch(updatelastDashboardUpdatedAt());
+
+    setRefreshing(false);
+  };
 
   return (
     <BackgroundView>
@@ -54,7 +83,10 @@ function Dashboard() {
           </TouchableOpacity>
         </View>
         <View style={styles.line} />
-        <ScrollView>
+        <ScrollView
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }>
           {/* Calendar & Events */}
           {data?.students?.map((child, index) => (
             <View key={index} style={styles.calendarContainer}>
@@ -80,7 +112,7 @@ function Dashboard() {
                 </View>
               </View>
               {/* <MyCalendar /> */}
-              <EventCalendar childId={child?._id} />
+              <EventCalendar childId={child?._id} ref={eventRef} />
             </View>
           ))}
         </ScrollView>

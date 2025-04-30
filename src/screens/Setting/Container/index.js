@@ -33,6 +33,7 @@ function Setting() {
   const onEditProfile = () => {
     navigation.navigate(ROUTE.EDIT_PROFILE);
   };
+
   const onLogout = () => {
     dispatch(logout());
     navigation.reset({
@@ -46,6 +47,17 @@ function Setting() {
           },
         },
       ],
+    });
+  };
+
+  const onAddChild = () => {
+    navigation.navigate(ROUTE.AUTH, {
+      screen: ROUTE.CHILD_DETAIL,
+      params: {
+        mainStackNavigator: ROUTE.TAB,
+        tabNavigator: ROUTE.SETTING_STACK,
+        routes: [{name: ROUTE.SETTING}],
+      },
     });
   };
 
@@ -81,6 +93,31 @@ function Setting() {
               />
             </TouchableOpacity>
           </View>
+          <View style={styles.listItemCointainer}>
+            <Text style={[styles.parentName, styles.mb16]}>
+              Child Settings
+            </Text>
+            <TouchableOpacity onPress={onAddChild}>
+              <View style={styles.itemContainer}>
+                <View style={styles.itemLeftContainer}>
+                  <Image
+                    source={passwordIcon}
+                    style={styles.pencilIcon}
+                    resizeMode="contain"
+                  />
+                  <Text style={[styles.parentName, styles.itemLabel]}>
+                    Add Child
+                  </Text>
+                </View>
+                <Image
+                  source={rightArrow}
+                  style={styles.pencilIcon}
+                  resizeMode="contain"
+                />
+              </View>
+            </TouchableOpacity>
+          </View>
+
           <View style={styles.listItemCointainer}>
             <Text style={[styles.parentName, styles.mb16]}>
               Account Settings

@@ -53,6 +53,7 @@ const colors = {
   RED: '#DD1C1A',
   PURPLE: '#33005B',
   DARKGRAY: 'gray',
+  YELLOW: 'yellow',
   LIGHT_YELLOW: 'rgb(255,255,240)',
   CREAM: '#FFFFF0',
   BLACK1: '#0F0616',

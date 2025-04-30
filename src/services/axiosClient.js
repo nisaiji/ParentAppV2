@@ -7,9 +7,9 @@ import {checkInternetConnection} from '../utils/handler';
 
 // Base URL for API requests
 // const baseURL = 'http://192.168.232.214:4000/';
-// const baseURL = 'http://192.168.29.79:4000/';
+const baseURL = 'http://192.168.29.79:4000/';
 // const baseURL = 'https://api.sharedri.com/';
-const baseURL = 'https://development-api.nisaiji.com/';
+// const baseURL = 'https://development-api.nisaiji.com/';
 
 let isShowingNoInternetToast = false;
 
