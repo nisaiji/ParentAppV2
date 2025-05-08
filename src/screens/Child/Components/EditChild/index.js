@@ -84,7 +84,7 @@ const EditChild = () => {
         successToast('Profile Photo Uploaded Successfully');
       }
     } catch (e) {
-      console.log({e});
+      // console.log({e});
       errorToast(e);
     } finally {
       setLoading(false);
@@ -158,7 +158,7 @@ const EditChild = () => {
                     });
                   }
                 } catch (e) {
-                  console.log({e});
+                  // console.log({e});
                   errorToast(e);
                 } finally {
                   setLoading(false);
@@ -268,6 +268,9 @@ const EditChild = () => {
                       }}
                       onCancel={() => setOpen(false)}
                     />
+                    {touched.dob && errors.dob && (
+                      <Text style={styles.errorText}>{errors.dob}</Text>
+                    )}
                   </View>
 
                   <View style={styles.formInput}>

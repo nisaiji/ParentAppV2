@@ -174,7 +174,7 @@ const EventCalendar = forwardRef((props, ref) => {
         }
       } catch (e) {
         errorToast(e);
-        console.log({e});
+        // console.log({e});
       } finally {
         setEventLoading(false);
       }

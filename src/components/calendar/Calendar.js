@@ -28,13 +28,14 @@ import {Fonts} from '@src/theme/fonts';
  */
 const MyCalendar = forwardRef((props, ref) => {
   const {events, onMonthChange} = props;
-  const [isBlinking, setIsBlinking] = useState(true);
   const [markedDates, setMarkedDates] = useState({});
   const [currentMonth, setCurrentMonth] = useState(
     moment().format('MMMM YYYY'),
   );
   const [calendarKey, setCalendarKey] = useState(0);
   const eventsRef = useRef(events);
+  const [blinkColorIndex, setBlinkColorIndex] = useState(0);
+  const blinkColors = [colors.BLUE, colors.GREEN, colors.RED];
 
   // Allow parent components to trigger 'refresh' and 'goToCurrentMonth' methods via ref
   useImperativeHandle(ref, () => ({
@@ -66,64 +67,71 @@ const MyCalendar = forwardRef((props, ref) => {
     const eventList = eventsRef.current;
     const dates = {};
     const today = moment().format('YYYY-MM-DD');
-
-    // Iterate over events and assign dots for holidays and events
+    const blinkColor = blinkColors[blinkColorIndex];
+    let todayMarked = false;
+    if (eventList.length === 0) {
+      todayMarked = false;
+    }
     eventList?.forEach(curr => {
       const formattedDate = moment(curr.date).format('YYYY-MM-DD');
       const isToday = formattedDate === today;
-      const isPresentToday = isToday && curr?.teacherAttendance === 'present';
-      const isAbsentToday = isToday && curr?.teacherAttendance === 'absent';
-      const isBlinkToday = isPresentToday || isAbsentToday;
+      const isPresent = curr?.teacherAttendance === 'present';
+      const isAbsent = curr?.teacherAttendance === 'absent';
+      if (isToday) todayMarked = true;
 
       let containerStyle = {
         borderRadius: 20,
         alignItems: 'center',
         justifyContent: 'center',
-      };
-      let textStyle = {
-        fontFamily: Fonts.REGULAR,
-      };
-
-      if (isBlinkToday) {
-        if (isBlinking) {
-          containerStyle = {
-            ...containerStyle,
-            backgroundColor: 'transparent',
-            borderColor: colors.BLUE,
-            borderWidth: 2,
-          };
-          textStyle = {
-            ...textStyle,
-            color: colors.BLUE,
-          };
-        } else {
-          containerStyle = {
-            ...containerStyle,
-            backgroundColor: isPresentToday ? colors.GREEN : colors.RED,
-          };
-          textStyle = {
-            ...textStyle,
-            color: colors.WHITE,
-          };
-        }
-      } else {
-        const isPresent = curr?.teacherAttendance === 'present';
-        const isAbsent = curr?.teacherAttendance === 'absent';
-        containerStyle = {
-          ...containerStyle,
-          backgroundColor: 'transparent',
-          borderColor: isPresent ? colors.GREEN : isAbsent ? colors.RED : '',
-          borderWidth: isPresent || isAbsent ? 2 : 0,
-        };
-        textStyle = {
-          ...textStyle,
-          color: isPresent
+        backgroundColor: isToday
+          ? isPresent
             ? colors.GREEN
             : isAbsent
             ? colors.RED
-            : colors.WHITE,
-        };
-      }
+            : 'transparent'
+          : 'transparent',
+        borderColor:
+          !isToday && (isPresent || isAbsent)
+            ? isPresent
+              ? colors.GREEN
+              : colors.RED
+            : undefined,
+        borderWidth: !isToday && (isPresent || isAbsent) ? 2 : 0,
+      };
+      let textStyle = {
+        fontFamily: Fonts.REGULAR,
+        color: isToday
+          ? isPresent || isAbsent
+            ? colors.WHITE
+            : colors.WHITE
+          : isPresent
+          ? colors.GREEN
+          : isAbsent
+          ? colors.RED
+          : colors.WHITE,
+      };
+      // if (isPresentToday || isAbsentToday) {
+      //   containerStyle.backgroundColor = isPresentToday
+      //     ? colors.GREEN
+      //     : colors.RED;
+      //   textStyle.color = colors.WHITE;
+      // } else {
+      //   const isPresent = curr?.teacherAttendance === 'present';
+      //   const isAbsent = curr?.teacherAttendance === 'absent';
+
+      //   containerStyle = {
+      //     ...containerStyle,
+      //     backgroundColor: 'transparent',
+      //     borderColor: isPresent ? colors.GREEN : isAbsent ? colors.RED : '',
+      //     borderWidth: isPresent || isAbsent ? 2 : 0,
+      //   };
+
+      //   textStyle.color = isPresent
+      //     ? colors.GREEN
+      //     : isAbsent
+      //     ? colors.RED
+      //     : colors.WHITE;
+      // }
 
       dates[formattedDate] = {
         customStyles: {
@@ -133,20 +141,53 @@ const MyCalendar = forwardRef((props, ref) => {
       };
     });
 
+    if (!todayMarked) {
+      const blinkStyle =
+        blinkColor === colors.BLUE
+          ? {
+              container: {
+                borderRadius: 20,
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'transparent',
+                borderColor: colors.BLUE,
+                borderWidth: 2,
+              },
+              text: {
+                fontFamily: Fonts.REGULAR,
+                color: colors.BLUE,
+              },
+            }
+          : {
+              container: {
+                borderRadius: 20,
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: blinkColor,
+              },
+              text: {
+                fontFamily: Fonts.REGULAR,
+                color: colors.WHITE,
+              },
+            };
+
+      dates[today] = {customStyles: blinkStyle};
+    }
+
     setMarkedDates(dates);
-  }, [isBlinking]);
+  }, [blinkColorIndex]);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setIsBlinking(prev => !prev);
-    }, 1000); // toggles every 500ms
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setBlinkColorIndex(prev => (prev + 1) % blinkColors.length);
+  //   }, 1000); // toggles every 500ms
 
-    return () => clearInterval(interval); // cleanup on unmount
-  }, []);
+  //   return () => clearInterval(interval); // cleanup on unmount
+  // }, []);
 
   useEffect(() => {
     markEvents();
-  }, [markEvents]);
+  }, [blinkColorIndex]);
 
   /**
    * Handles the month change event triggered by the calendar.

@@ -54,12 +54,13 @@ export default function ParentDetail() {
     }
   };
 
+  
   return (
     <BackgroundView>
       {loading && <Loader />}
       <SafeAreaView style={styles.container}>
         {/* Header */}
-        <Header heading={t('parentDetail.heading')} noBack />
+        <Header heading={t('parentDetail.heading')} />
 
         {/* New Password */}
         <Text style={styles.label}>{t('parentDetail.name')}</Text>

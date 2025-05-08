@@ -115,7 +115,7 @@ export const fetchAndSetData = createAsyncThunk(
         currentIndex,
       };
     } catch (error) {
-      console.log('Error in fetchAndSetData:', error);
+      // console.log('Error in fetchAndSetData:', error);
       throw error;
     }
   },

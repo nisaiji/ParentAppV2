@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -7,6 +7,8 @@ import {
   SafeAreaView,
   TextInput,
   Alert,
+  BackHandler,
+  ScrollView,
 } from 'react-native';
 import leftArrow from '../../../../assets/images/leftArrow.png';
 import add from '../../../../assets/images/add.png';
@@ -21,7 +23,7 @@ import {axiosClient} from '../../../../services/axiosClient';
 import {EndPoints} from '../../../../ParentApi';
 import {errorToast, successToast} from '../../../../components/CustomToast';
 import {useDispatch, useSelector} from 'react-redux';
-import {setAuth} from '../../../../redux/authSlice';
+import {fetchAndSetData, setAuth} from '../../../../redux/authSlice';
 import Loader from '../../../../components/Loader';
 import CustomButton from '../../../../components/CustomButton';
 import {scale} from 'react-native-size-matters';
@@ -44,12 +46,13 @@ export default function ChildDetail() {
       const res = await axiosClient.put(EndPoints.ADD_STUDENT, {
         studentIds: childs.map(item => item?._id),
       });
-      console.log('res is ', res.data);
+      // console.log('res is ', res.data);
 
       if (res?.data?.statusCode === 200) {
         if (route?.params) {
           goToRouteName();
         }
+        dispatch(fetchAndSetData());
         dispatch(setAuth({studentAdded: true}));
         successToast('Child Added');
         setName('');
@@ -109,44 +112,42 @@ export default function ChildDetail() {
     });
   };
 
-  // const onSubmit = async () => {
-  //   try {
-  //     setLoading(true);
-  //     const studentIds = childs.map(item => item._id);
-  //     const res = await axiosClient.put(EndPoints.ADD_STUDENT, {
-  //       studentIds,
-  //     });
-  //     // console.log('res', res?.data?.result);
-  //     if (res?.data?.statusCode === 200) {
-  //       dispatch(setAuth({studentAdded: true}));
-  //       successToast(res?.data?.result);
-  //       setName('');
-  //       setId('');
-  //       setChilds([]);
-  //       setShowField(true);
-  //       navigation.navigate(ROUTE.TAB, {
-  //         screen: ROUTE.SUCCESS_PAGE,
-  //         params: {
-  //           message: t('passwordSuccess'),
-  //           nextRoute: ROUTE.PARENT_DETAIL,
-  //         },
-  //       });
-  //     }
-  //   } catch (e) {
-  //     errorToast(e);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      () => {
+        navigation.goBack();
+        return true;
+      },
+    );
+
+    return () => {
+      backHandler.remove();
+    };
+  }, []);
 
   return (
     <BackgroundView>
       {loading && <Loader />}
       <SafeAreaView style={styles.container}>
         {/* Header */}
-        <Header heading={t('childDetail.heading')} noBack />
-        {route?.params &&
-          data?.students.map((item, i) => (
+        <Header heading={t('childDetail.heading')} />
+        <ScrollView>
+          {route?.params &&
+            data?.students.map((item, i) => (
+              <View style={styles.verifiedContainer} key={i}>
+                <Text style={styles.nameText}>
+                  {item?.firstname} {item?.lastname}
+                </Text>
+                <View style={styles.verifiedWrapper}>
+                  <Text style={styles.verifyedText}>
+                    {t('childDetail.verified')}
+                  </Text>
+                  <Image source={verifyed} style={styles.verifiedIcon} />
+                </View>
+              </View>
+            ))}
+          {childs.map((item, i) => (
             <View style={styles.verifiedContainer} key={i}>
               <Text style={styles.nameText}>
                 {item?.firstname} {item?.lastname}
@@ -159,70 +160,58 @@ export default function ChildDetail() {
               </View>
             </View>
           ))}
-        {childs.map((item, i) => (
-          <View style={styles.verifiedContainer} key={i}>
-            <Text style={styles.nameText}>
-              {item?.firstname} {item?.lastname}
-            </Text>
-            <View style={styles.verifiedWrapper}>
-              <Text style={styles.verifyedText}>
-                {t('childDetail.verified')}
-              </Text>
-              <Image source={verifyed} style={styles.verifiedIcon} />
-            </View>
-          </View>
-        ))}
-        {/* name */}
-        {showField && (
-          <>
-            <Text style={styles.label}>{t('parentDetail.name')}</Text>
-            <View style={styles.inputContainerWithIcon}>
-              <TextInput
-                style={styles.input}
-                placeholder={t('placeholder.studentName')}
-                placeholderTextColor="#aaa"
-                value={name}
-                onChangeText={text => setName(text)}
-              />
-            </View>
-            {/* Student id */}
-            <Text style={styles.label}>{t('childDetail.studentId')}</Text>
-            <View style={styles.inputContainerWithIcon}>
-              <TextInput
-                style={styles.input}
-                placeholder={t('placeholder.id')}
-                placeholderTextColor="#aaa"
-                value={id}
-                onChangeText={text => setId(text)}
-              />
-            </View>
-          </>
-        )}
-        {/* Continue or add child */}
-        {childs?.length > 0 && (
-          <TouchableOpacity
-            onPress={onContinue}
-            style={[styles.continueButton, {marginTop: 28}]}>
-            <Text style={styles.continueText}>{t('button.continue')}</Text>
-          </TouchableOpacity>
-        )}
-        {!showField ? (
-          <CustomButton
-            onPress={() => setShowField(true)}
-            btnStyle={[styles.addChildButton, {marginBottom: 0}]}
-            btnLabelStyle={styles.addChildText}
-            source={add}
-            label={t('button.addChild')}
-          />
-        ) : (
-          <CustomButton
-            disabled={name?.length === 0}
-            onPress={addChild}
-            btnStyle={[styles.continueButton, {marginTop: scale(28)}]}
-            btnLabelStyle={styles.continueText}
-            label={t('button.verify')}
-          />
-        )}
+          {/* name */}
+          {showField && (
+            <>
+              <Text style={styles.label}>{t('parentDetail.name')}</Text>
+              <View style={styles.inputContainerWithIcon}>
+                <TextInput
+                  style={styles.input}
+                  placeholder={t('placeholder.studentName')}
+                  placeholderTextColor="#aaa"
+                  value={name}
+                  onChangeText={text => setName(text)}
+                />
+              </View>
+              {/* Student id */}
+              <Text style={styles.label}>{t('childDetail.studentId')}</Text>
+              <View style={styles.inputContainerWithIcon}>
+                <TextInput
+                  style={styles.input}
+                  placeholder={t('placeholder.id')}
+                  placeholderTextColor="#aaa"
+                  value={id}
+                  onChangeText={text => setId(text)}
+                />
+              </View>
+            </>
+          )}
+          {/* Continue or add child */}
+          {childs?.length > 0 && (
+            <TouchableOpacity
+              onPress={onContinue}
+              style={[styles.continueButton, {marginTop: 28}]}>
+              <Text style={styles.continueText}>{t('button.continue')}</Text>
+            </TouchableOpacity>
+          )}
+          {!showField ? (
+            <CustomButton
+              onPress={() => setShowField(true)}
+              btnStyle={[styles.addChildButton, {marginBottom: 0}]}
+              btnLabelStyle={styles.addChildText}
+              source={add}
+              label={t('button.addChild')}
+            />
+          ) : (
+            <CustomButton
+              disabled={name?.length === 0}
+              onPress={addChild}
+              btnStyle={[styles.continueButton, {marginTop: scale(28)}]}
+              btnLabelStyle={styles.continueText}
+              label={t('button.verify')}
+            />
+          )}
+        </ScrollView>
       </SafeAreaView>
     </BackgroundView>
   );

@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {Text, View, Image, TextInput, TouchableOpacity} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Text, View, Image, TextInput, TouchableOpacity, BackHandler} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {GestureHandlerRootView, ScrollView} from 'react-native-gesture-handler';
 import {Formik} from 'formik';
@@ -38,7 +38,7 @@ function EditProfile() {
     {label: 'Female', value: 'Female'},
     {label: 'Other', value: 'Other'},
   ];
-  console.log(data);
+  // console.log(data);
 
   const validationSchema = Yup.object().shape({
     // username: Yup.string().required('Username is required'),
@@ -100,6 +100,20 @@ function EditProfile() {
   const onEditPhoneNumber = () => {
     navigation.navigate(ROUTE.AUTH, {screen: ROUTE.PHONE_NUMBER_VERIFICATION});
   };
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      () => {
+        navigation.goBack();
+        return true;
+      },
+    );
+
+    return () => {
+      backHandler.remove();
+    };
+  }, []);
 
   return (
     <GestureHandlerRootView>

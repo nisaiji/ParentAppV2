@@ -10,6 +10,7 @@ import rightArrow from '../../../assets/images/rightArrow.png';
 import pencilIcon from '../../../assets/images/pencilIcon.png';
 import logoutIcon from '../../../assets/images/logout.png';
 import infoIcon from '../../../assets/images/info.png';
+import student from '../../../assets/images/student.png';
 import smartPhoneIcon from '../../../assets/images/smartphone.png';
 import feedbackIcon from '../../../assets/images/feedback.png';
 import faqIcon from '../../../assets/images/faq.png';
@@ -91,30 +92,6 @@ function Setting() {
                 style={styles.pencilIcon}
                 resizeMode="contain"
               />
-            </TouchableOpacity>
-          </View>
-          <View style={styles.listItemCointainer}>
-            <Text style={[styles.parentName, styles.mb16]}>
-              Child Settings
-            </Text>
-            <TouchableOpacity onPress={onAddChild}>
-              <View style={styles.itemContainer}>
-                <View style={styles.itemLeftContainer}>
-                  <Image
-                    source={passwordIcon}
-                    style={styles.pencilIcon}
-                    resizeMode="contain"
-                  />
-                  <Text style={[styles.parentName, styles.itemLabel]}>
-                    Add Child
-                  </Text>
-                </View>
-                <Image
-                  source={rightArrow}
-                  style={styles.pencilIcon}
-                  resizeMode="contain"
-                />
-              </View>
             </TouchableOpacity>
           </View>
 
@@ -209,7 +186,7 @@ function Setting() {
           <View style={styles.listItemCointainer}>
             <Text style={[styles.parentName, styles.mb16]}>More</Text>
             <TouchableOpacity>
-              <View style={[styles.itemContainer, styles.mb20]}>
+              <View style={[styles.itemContainer, styles.mb10]}>
                 <View style={styles.itemLeftContainer}>
                   <Image
                     source={infoIcon}
@@ -218,6 +195,25 @@ function Setting() {
                   />
                   <Text style={[styles.parentName, styles.itemLabel]}>
                     About us
+                  </Text>
+                </View>
+                <Image
+                  source={rightArrow}
+                  style={styles.pencilIcon}
+                  resizeMode="contain"
+                />
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={onAddChild}>
+              <View style={[styles.itemContainer, styles.mb10]}>
+                <View style={styles.itemLeftContainer}>
+                  <Image
+                    source={student}
+                    style={styles.pencilIcon}
+                    resizeMode="contain"
+                  />
+                  <Text style={[styles.parentName, styles.itemLabel]}>
+                    Add Child
                   </Text>
                 </View>
                 <Image

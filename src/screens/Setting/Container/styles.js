@@ -26,7 +26,6 @@ const styles = StyleSheet.create({
   },
   parentName: {
     color: colors.WHITE,
-    marginBottom: scale(5),
     fontSize: Size.font_16,
     fontFamily: Fonts.BOLD,
   },
@@ -55,6 +54,9 @@ const styles = StyleSheet.create({
   },
   itemLabel: {
     marginLeft: scale(10),
+  },
+  mb10: {
+    marginBottom: scale(10),
   },
   mb16: {
     marginBottom: scale(16),

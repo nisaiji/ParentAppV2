@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   TextInput,
   Keyboard,
+  BackHandler,
 } from 'react-native';
 import {styles} from './styles';
 import {useNavigation, useRoute} from '@react-navigation/native';
@@ -146,6 +147,20 @@ export default function OTPVerification() {
     }
     return () => clearInterval(interval);
   }, [timer]);
+
+  useEffect(() => {
+      const backHandler = BackHandler.addEventListener(
+        'hardwareBackPress',
+        () => {
+          navigation.goBack();
+          return true;
+        },
+      );
+  
+      return () => {
+        backHandler.remove();
+      };
+    }, []);
 
   return (
     <SafeAreaView style={styles.container}>

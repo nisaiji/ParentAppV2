@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, {useState} from 'react';
-import {Image, SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
+import {Image, RefreshControl, SafeAreaView, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import styles from './styles';
 import BackgroundView from '../../../components/BackgroundView';
 import Header from '../../../components/Header';
@@ -9,24 +9,38 @@ import childDummy from '../../../assets/images/childDummy.png';
 import {useNavigation} from '@react-navigation/native';
 import {ROUTE} from '../../../navigation/constant';
 import {useDispatch, useSelector} from 'react-redux';
-import {updateCurrentChildByIndex} from '../../../redux/authSlice';
+import {
+  fetchAndSetData,
+  updateCurrentChildByIndex,
+} from '../../../redux/authSlice';
 
 function EventHoliday() {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const {data} = useSelector(state => state.auth);
+  const [refreshing, setRefreshing] = useState(false);
 
   const onArrowPress = index => {
     dispatch(updateCurrentChildByIndex(index));
     navigation.navigate(ROUTE.EDIT_CHILD);
   };
 
+  const onRefresh = () => {
+    setRefreshing(true);
+    dispatch(fetchAndSetData()); // refresh the Redux data
+    setRefreshing(false);
+  };
+
   return (
     <BackgroundView>
       <SafeAreaView style={styles.container}>
         <Header noBack heading="Your Child" />
-        <View style={styles.childContainer}>
-          {data?.students.map((item, index) => (
+        <ScrollView
+          contentContainerStyle={styles.childContainer}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }>
+          {data?.students?.map((item, index) => (
             <TouchableOpacity
               onPress={() => onArrowPress(index)}
               key={index}
@@ -50,7 +64,7 @@ function EventHoliday() {
               />
             </TouchableOpacity>
           ))}
-        </View>
+        </ScrollView>
       </SafeAreaView>
     </BackgroundView>
   );

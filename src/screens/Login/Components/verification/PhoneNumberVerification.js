@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -7,6 +7,7 @@ import {
   TextInput,
   Keyboard,
   Image,
+  BackHandler,
 } from 'react-native';
 import {styles} from './styles';
 import {useNavigation} from '@react-navigation/native';
@@ -73,6 +74,20 @@ export default function PhoneNumberVerification() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+      const backHandler = BackHandler.addEventListener(
+        'hardwareBackPress',
+        () => {
+          navigation.goBack();
+          return true;
+        },
+      );
+  
+      return () => {
+        backHandler.remove();
+      };
+    }, []);
 
   return (
     <BackgroundView>

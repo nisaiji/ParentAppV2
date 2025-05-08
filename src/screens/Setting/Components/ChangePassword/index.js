@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
-import React, {useState} from 'react';
-import {Image, ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {BackHandler, Image, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import styles from './styles';
 import BackgroundView from '@src/components/BackgroundView';
 import {GestureHandlerRootView, TextInput} from 'react-native-gesture-handler';
@@ -93,6 +93,20 @@ function ChangePassword() {
       }
     }
   };
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      () => {
+        navigation.goBack();
+        return true;
+      },
+    );
+
+    return () => {
+      backHandler.remove();
+    };
+  }, []);
 
   return (
     <GestureHandlerRootView>

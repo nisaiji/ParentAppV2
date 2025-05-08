@@ -47,6 +47,7 @@ function Dashboard() {
       eventRef?.current?.onRefresh();
     }
 
+    dispatch(fetchAndSetData());
     dispatch(updateMonthlyEvents({childId: null, events: {}}));
     dispatch(updatelastDashboardUpdatedAt());
 
@@ -61,7 +62,7 @@ function Dashboard() {
             <Text style={styles.title1}>Hello,</Text>
             <Text style={styles.title2}>{data?.fullname}</Text>
           </View>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             hitSlop={globalStyle.hitSlop10}
             onPress={() =>
               navigation.navigate(ROUTE.TAB, {
@@ -70,17 +71,17 @@ function Dashboard() {
                   screen: ROUTE.EDIT_PROFILE,
                 },
               })
-            }>
-            <Image
-              source={
-                data?.photo
-                  ? {uri: `data:image/jpeg;base64,${data?.photo}`}
-                  : childDummy
-              }
-              style={styles.childImg}
-              resizeMode="contain"
-            />
-          </TouchableOpacity>
+            }> */}
+          <Image
+            source={
+              data?.photo
+                ? {uri: `data:image/jpeg;base64,${data?.photo}`}
+                : childDummy
+            }
+            style={styles.childImg}
+            resizeMode="contain"
+          />
+          {/* </TouchableOpacity> */}
         </View>
         <View style={styles.line} />
         <ScrollView

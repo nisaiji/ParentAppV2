@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   TextInput,
   Keyboard,
+  BackHandler,
 } from 'react-native';
 import leftArrow from '../../../../assets/images/leftArrow.png';
 import {styles} from './styles';
@@ -153,6 +154,20 @@ export default function EmailOTPVerification() {
     }
     return () => clearInterval(interval);
   }, [timer]);
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      () => {
+        navigation.goBack();
+        return true;
+      },
+    );
+
+    return () => {
+      backHandler.remove();
+    };
+  }, []);
 
   return (
     <BackgroundView>

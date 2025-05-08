@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   TextInput,
   Keyboard,
+  BackHandler,
 } from 'react-native';
 import leftArrow from '../../../../assets/images/leftArrow.png';
 import {styles} from './styles';
@@ -62,8 +63,8 @@ export default function EmailVerification() {
         });
       }
     } catch (e) {
-      // errorToast(e);
-      console.log({e});
+      errorToast(e);
+      // console.log({e});
     } finally {
       setLoading(false);
     }
@@ -94,6 +95,20 @@ export default function EmailVerification() {
       navigation.goBack();
     }
   };
+
+  useEffect(() => {
+      const backHandler = BackHandler.addEventListener(
+        'hardwareBackPress',
+        () => {
+          navigation.goBack();
+          return true;
+        },
+      );
+  
+      return () => {
+        backHandler.remove();
+      };
+    }, []);
 
   return (
     <BackgroundView>

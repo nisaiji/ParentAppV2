@@ -131,7 +131,7 @@ export default function Login() {
         }
       }
     } catch (e) {
-      console.log({e});
+      // console.log({e});
       errorToast(e);
       
     } finally {
