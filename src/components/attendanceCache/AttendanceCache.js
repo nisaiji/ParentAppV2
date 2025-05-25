@@ -5,22 +5,22 @@ import {
   useImperativeHandle,
   forwardRef,
 } from 'react';
-import {View, Text} from 'react-native';
+import {View} from 'react-native';
 import moment from 'moment';
 import {useTranslation} from 'react-i18next';
 import {styles} from './styles';
 import Loader from '../Loader';
 import {useDispatch, useSelector} from 'react-redux';
-import {updateMonthlyEvents} from '../../redux/dashBoardSlice';
-import {EndPoints} from '../../ParentApi';
-import MyCalendar from '../calendar/Calendar';
+import {EndPoints} from '@src/ParentApi';
 import {errorToast} from '../CustomToast';
-import {axiosClient} from '../../services/axiosClient';
+import {axiosClient} from '@src/services/axiosClient';
+import AttendanceCalendar from './calendar/AttendanceCalendar';
+import { updateMonthlyAttendance } from '@src/redux/dashBoardSlice';
 
 /**
- * EventCalendar Component
+ * AttendanceCache Component
  *
- * This component renders a calendar that displays events and holidays.
+ * This component renders a calendar that displays attendance.
  * It allows users to switch between months and automatically fetches event data
  * from the server when necessary.
  *
@@ -32,10 +32,10 @@ import {axiosClient} from '../../services/axiosClient';
  * @param {Object} props - Component properties.
  * @param {React.Ref} ref - Forwarded reference for parent-controlled actions.
  */
-const EventCalendar = forwardRef((props, ref) => {
+const AttendanceCache = forwardRef((props, ref) => {
   const {childId} = props;
   const dispatch = useDispatch();
-  const {monthlyEvents, lastDashboardUpdatedAt} = useSelector(
+  const {monthlyAttendance, lastDashboardUpdatedAt} = useSelector(
     state => state.dashboard,
   );
   const [selectedMonth, setSelectedMonth] = useState(moment().month());
@@ -56,7 +56,7 @@ const EventCalendar = forwardRef((props, ref) => {
 
   /**
    * Runs whenever `lastDashboardUpdatedAt` changes.
-   * Resets the calendar view to the current month and fetches updated events.
+   * Resets the calendar view to the current month and fetches updated attendance.
    */
   useEffect(() => {
     if (childId) {
@@ -116,14 +116,14 @@ const EventCalendar = forwardRef((props, ref) => {
 
   /**
    * Fetches event data for the selected month if it is not already in cache.
-   * Groups events by month and updates the Redux store.
+   * Groups attendance by month and updates the Redux store.
    * @param {number} currentMonth - The selected month (0-based).
    * @param {number} currentYear - The selected year.
    */
   const eventForDashboard = async (currentMonth, currentYear) => {
-    const childEvents = monthlyEvents[childId] || {};
+    const childAttendance = monthlyAttendance[childId] || {};
 
-    const storedMonths = Object.keys(childEvents);
+    const storedMonths = Object.keys(childAttendance);
     const isWithinRange = isMonthInRange(
       currentMonth,
       currentYear,
@@ -145,7 +145,6 @@ const EventCalendar = forwardRef((props, ref) => {
             endTime: newMonthRange[newMonthRange.length - 1]?.endTime,
             studentId: childId,
           });
-          // console.log('res', response?.data);
 
           if (response?.data?.statusCode === 200) {
             const grouped = {};
@@ -163,11 +162,10 @@ const EventCalendar = forwardRef((props, ref) => {
               },
             );
 
-            // dispatch(updateMonthlyEvents(grouped));
             dispatch(
-              updateMonthlyEvents({
+              updateMonthlyAttendance({
                 childId: childId,
-                events: grouped,
+                attendance: grouped,
               }),
             );
           }
@@ -187,10 +185,10 @@ const EventCalendar = forwardRef((props, ref) => {
       <View style={styles.calendarContainer}>
         {/* Calendar Container */}
         <View style={styles.calendar}>
-          <MyCalendar
+          <AttendanceCalendar
             selectedMonthYear={`${selectedYear}-${selectedMonth + 1}`}
             events={
-              monthlyEvents?.[childId]?.[
+              monthlyAttendance?.[childId]?.[
                 moment({year: selectedYear, month: selectedMonth}).format(
                   'YYYY-MM',
                 )
@@ -205,4 +203,4 @@ const EventCalendar = forwardRef((props, ref) => {
   );
 });
 
-export default EventCalendar;
+export default AttendanceCache;

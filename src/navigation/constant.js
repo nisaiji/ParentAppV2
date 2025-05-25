@@ -10,6 +10,7 @@ export const ROUTE = {
   PARENT_DETAIL:'ParentDetail',
   CHILD_DETAIL:"ChildDetail",
   HOME: 'Home',
+  EVENT: 'Event',
   PROFILE: 'Profile',
   DASHBOARD: 'Dashboard',
   EVENT: 'Event',

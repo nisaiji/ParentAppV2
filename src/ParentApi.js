@@ -77,4 +77,5 @@ export const EndPoints = {
   PARENT_PHOTO_UPLOAD: 'v2/parent/photo-upload',
   STUDENT_PHOTO_UPLOAD: 'v2/student/parent/photo-upload',
   GET_ATTENDANCE: 'v2/student/parent/get-attendance',
+  GET_EVENTS: 'v2/parent/holiday-workday',
 };

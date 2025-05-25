@@ -146,6 +146,11 @@
       "childSetting": "Child Settings",
       "personalInfo": "Personal Information",
       "uploadPhoto": "Upload Photo"
+    },
+    "events": {
+      "eventListHead": "Holidays",
+      "holiday": "Holiday",
+      "workday": "Workday"
     }
   }
 }

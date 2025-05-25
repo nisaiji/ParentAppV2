@@ -46,7 +46,6 @@ export default function ChildDetail() {
       const res = await axiosClient.put(EndPoints.ADD_STUDENT, {
         studentIds: childs.map(item => item?._id),
       });
-      // console.log('res is ', res.data);
 
       if (res?.data?.statusCode === 200) {
         if (route?.params) {
@@ -59,6 +58,10 @@ export default function ChildDetail() {
         setId('');
         setChilds([]);
         setShowField(true);
+        navigation.reset({
+          index: 0,
+          routes: [{name: ROUTE.TAB}],
+        });
       }
     } catch (e) {
       errorToast(e);

@@ -1,10 +1,12 @@
 import {configureStore, combineReducers} from '@reduxjs/toolkit';
 import authReducer from './authSlice';
 import dashBoardReducer from './dashBoardSlice';
+import eventReducer from './eventSlice';
 
 const appReducer = combineReducers({
   auth: authReducer,
   dashboard: dashBoardReducer,
+  event: eventReducer,
 });
 
 const rootReducer = (state, action) => {

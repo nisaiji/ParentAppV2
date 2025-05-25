@@ -4,26 +4,26 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // AsyncStorage keys for storing dashboard-related data
 const DASHBOARD_TIMESTAMP_KEY = 'lastDashboardUpdatedAt';
-const DASHBOARD_MONTHLY_EVENTS_KEY = 'dashboardMonthlyEvents';
+const DASHBOARD_MONTHLY_ATTENDANCE_KEY = 'dashboardMonthlyAttendance';
 
 /**
- * Retrieves stored monthly events from AsyncStorage.
- * @returns {Promise<Object>} - Returns stored monthly events or an empty object if not found.
+ * Retrieves stored monthly attendance from AsyncStorage.
+ * @returns {Promise<Object>} - Returns stored monthly attendance or an empty object if not found.
  */
-const getStoredMonthlyEvents = async () => {
-  // JSON.parse(await AsyncStorage.getItem(DASHBOARD_MONTHLY_EVENTS_KEY)) || {};
-  const events = await AsyncStorage.getItem(DASHBOARD_MONTHLY_EVENTS_KEY);
-  return events ? JSON.parse(events) : {};
+const getStoredMonthlyAttendance = async () => {
+  // JSON.parse(await AsyncStorage.getItem(DASHBOARD_MONTHLY_ATTENDANCE_KEY)) || {};
+  const attendance = await AsyncStorage.getItem(DASHBOARD_MONTHLY_ATTENDANCE_KEY);
+  return attendance ? JSON.parse(attendance) : {};
 };
 
 /**
- * Saves monthly events data to AsyncStorage.
- * @param {Object} monthlyEvents - The events data to be stored.
+ * Saves monthly attendance data to AsyncStorage.
+ * @param {Object} monthlyAttendance - The attendance data to be stored.
  */
-const saveMonthlyEvents = async monthlyEvents =>
+const saveMonthlyAttendance = async monthlyAttendance =>
   await AsyncStorage.setItem(
-    DASHBOARD_MONTHLY_EVENTS_KEY,
-    JSON.stringify(monthlyEvents),
+    DASHBOARD_MONTHLY_ATTENDANCE_KEY,
+    JSON.stringify(monthlyAttendance),
   );
 
 /**
@@ -50,7 +50,7 @@ const getStoredLastDashboardSync = async () =>
  */
 export const isDashboardNeedsToUpdate = createAsyncThunk(
   'dashboard/isDashboardNeedsToUpdate',
-  async (_, {getState, dispatch}) => {
+  async () => {
     const currentTimestamp = moment();
     const lastDashboardSync = await getStoredLastDashboardSync();
     if (
@@ -69,16 +69,14 @@ export const isDashboardNeedsToUpdate = createAsyncThunk(
 export const initializeDashboardData = createAsyncThunk(
   'dashboard/initializeDashboardData',
   async (_, {dispatch}) => {
-    const monthlyEvents = await getStoredMonthlyEvents();
+    const monthlyAttendance = await getStoredMonthlyAttendance();
     const lastDashboardSync = await getStoredLastDashboardSync();
     // console.log('lastDashboardSync', lastDashboardSync);
 
     // Instead of dispatching all at once, loop through each childId
-    Object.entries(monthlyEvents).forEach(([childId, events]) => {
-      dispatch(updateMonthlyEvents({childId, events}));
+    Object.entries(monthlyAttendance).forEach(([childId, attendance]) => {
+      dispatch(updateMonthlyAttendance({childId, attendance}));
     });
-
-    // dispatch(updateMonthlyEvents(monthlyEvents));
     dispatch(updatelastDashboardUpdatedAt(lastDashboardSync));
   },
 );
@@ -88,7 +86,7 @@ const dashboardSlice = createSlice({
   name: 'dashboard',
   initialState: {
     lastDashboardUpdatedAt: null,
-    monthlyEvents: {},
+    monthlyAttendance: {},
     attendanceRequest: null,
   },
   reducers: {
@@ -103,18 +101,18 @@ const dashboardSlice = createSlice({
       savelastDashboardUpdatedAt(updatedTime);
     },
     /**
-     * Updates monthly events data in state and saves it to AsyncStorage.
+     * Updates monthly attendance data in state and saves it to AsyncStorage.
      * @param {Object} state - Redux state.
-     * @param {Object} action - Action containing new monthly events data.
+     * @param {Object} action - Action containing new monthly attendance data.
      */
-    updateMonthlyEvents: (state, action) => {
-      const {childId, events} = action.payload;
+    updateMonthlyAttendance: (state, action) => {
+      const {childId, attendance} = action.payload;
       if (childId) {
-        state.monthlyEvents[childId] = events;
-        saveMonthlyEvents(state.monthlyEvents);
+        state.monthlyAttendance[childId] = attendance;
+        saveMonthlyAttendance(state.monthlyAttendance);
       } else {
-        state.monthlyEvents = {};
-        saveMonthlyEvents({});
+        state.monthlyAttendance = {};
+        saveMonthlyAttendance({});
       }
     },
   },
@@ -130,7 +128,7 @@ const dashboardSlice = createSlice({
 
 export const {
   updatelastDashboardUpdatedAt,
-  updateMonthlyEvents,
+  updateMonthlyAttendance,
   updateChartData,
 } = dashboardSlice.actions;
 export default dashboardSlice.reducer;

@@ -3,6 +3,7 @@ import Metrics from './metrics';
 import Colors from './colors';
 
 const Size = {
+  font_10: Metrics.screenWidth * (10 / 375),
   font_12: Metrics.screenWidth * (12 / 375),
   font_13: Metrics.screenWidth * (13 / 375),
   font_14: Metrics.screenWidth * (14 / 375),

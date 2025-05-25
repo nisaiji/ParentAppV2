@@ -17,7 +17,7 @@ import leftArrow from '@src/assets/images/leftArrow.png';
 import {Fonts} from '@src/theme/fonts';
 
 /**
- * `MyCalendar` is a customizable calendar component that displays events and highlights the current date.
+ * `AttendanceCalendar` is a customizable calendar component that displays events and highlights the current date.
  * It allows navigation between months and provides a reference for external control.
  *
  * @component
@@ -26,7 +26,7 @@ import {Fonts} from '@src/theme/fonts';
  * @param {Function} props.onMonthChange - Callback function triggered when the month changes.
  * @param {React.Ref} ref - A reference to expose functions for external control.
  */
-const MyCalendar = forwardRef((props, ref) => {
+const AttendanceCalendar = forwardRef((props, ref) => {
   const {events, onMonthChange} = props;
   const [markedDates, setMarkedDates] = useState({});
   const [currentMonth, setCurrentMonth] = useState(
@@ -36,6 +36,7 @@ const MyCalendar = forwardRef((props, ref) => {
   const eventsRef = useRef(events);
   const [blinkColorIndex, setBlinkColorIndex] = useState(0);
   const blinkColors = [colors.BLUE, colors.GREEN, colors.RED];
+// console.log(events);
 
   // Allow parent components to trigger 'refresh' and 'goToCurrentMonth' methods via ref
   useImperativeHandle(ref, () => ({
@@ -187,7 +188,7 @@ const MyCalendar = forwardRef((props, ref) => {
 
   useEffect(() => {
     markEvents();
-  }, [blinkColorIndex]);
+  }, [events]);
 
   /**
    * Handles the month change event triggered by the calendar.
@@ -321,4 +322,4 @@ const MyCalendar = forwardRef((props, ref) => {
   );
 });
 
-export default MyCalendar;
+export default AttendanceCalendar;
