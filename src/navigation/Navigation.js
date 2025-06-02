@@ -4,10 +4,23 @@ import {ROUTE} from './constant';
 import AuthStackNavigator from './AuthStackNavigator';
 import TabStackNavigator from './TabStackNavigator';
 import Splash from './splash';
-import { navigationRef } from '../services/NavigationServices';
+import {navigationRef} from '../services/NavigationServices';
 
 const Stack = createNativeStackNavigator();
 
+/**
+ * Navigation
+ *
+ * The root navigation component of the app.
+ * It handles the top-level navigation stack, including:
+ * - Splash screen
+ * - Authentication flow
+ * - Main tabbed application
+ *
+ * It also applies global navigation control via `navigationRef`.
+ *
+ * @returns {JSX.Element} A configured NavigationContainer with root stack
+ */
 export default function Navigation() {
   return (
     <NavigationContainer ref={navigationRef}>

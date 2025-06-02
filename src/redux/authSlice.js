@@ -70,6 +70,7 @@ export const setCurrentChild = createAsyncThunk(
   },
 );
 
+// fetch and store parent and childs data
 export const fetchAndSetData = createAsyncThunk(
   'auth/fetchAndSetData',
   async (_, {dispatch}) => {

@@ -12,6 +12,18 @@ import PhoneNumberVerification from '../screens/Login/Components/verification/Ph
 
 const Stack = createNativeStackNavigator();
 
+/**
+ * AuthStackNavigator
+ *
+ * This navigator handles all the screens involved in the authentication flow:
+ * - Login
+ * - Phone and email verification
+ * - Password creation
+ * - Parent and child detail collection
+ * - Final success screen
+ *
+ * @returns {JSX.Element} A configured stack navigator component
+ */
 export default function AuthStackNavigator() {
   return (
     <Stack.Navigator initialRouteName={ROUTE.LOGIN}>

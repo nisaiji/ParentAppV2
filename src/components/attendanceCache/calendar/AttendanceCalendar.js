@@ -61,8 +61,8 @@ const AttendanceCalendar = forwardRef((props, ref) => {
   }, [events]);
 
   /**
-   * Marks event dates and highlights the current date on the calendar.
-   * @param {Array} eventList - The list of events to mark.
+   * Marks attendance dates and highlights the current date on the calendar.
+   * @param {Array} eventList - The list of attendance to mark.
    */
   const markEvents = useCallback(() => {
     const eventList = eventsRef.current;

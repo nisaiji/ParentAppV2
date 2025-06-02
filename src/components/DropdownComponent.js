@@ -4,6 +4,22 @@ import {Dropdown} from 'react-native-element-dropdown';
 import {scale} from 'react-native-size-matters';
 import {Colors, Fonts} from '../theme/fonts';
 
+/**
+ * DropdownComponent
+ *
+ * A reusable dropdown component built using `react-native-element-dropdown`.
+ * Supports optional search functionality and customized theming.
+ *
+ * Props:
+ * @param {Array} items - List of dropdown options. Each item must have `label` and `value` keys.
+ * @param {string} desc - Placeholder text for the dropdown.
+ * @param {string|number} selectedValue - The currently selected value.
+ * @param {Function} onSelect - Callback when an item is selected. Receives the selected item object.
+ * @param {boolean} [searchable=false] - Whether the dropdown supports search input.
+ *
+ * Example item format:
+ * [{ label: 'Option 1', value: '1' }, { label: 'Option 2', value: '2' }]
+ */
 const DropdownComponent = ({
   items,
   desc,

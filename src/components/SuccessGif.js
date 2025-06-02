@@ -6,6 +6,7 @@ import FastImage from 'react-native-fast-image';
 import BackgroundView from './BackgroundView';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
+// success GIF screen code
 export default function SuccessGif() {
   const navigation = useNavigation()
   const route = useRoute()

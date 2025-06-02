@@ -3,6 +3,9 @@ import { StyleSheet, View, } from 'react-native';
 import colors from '../theme/colors';
 import { scale } from 'react-native-size-matters';
 
+/**
+ * Background color of screen
+ */
 const BackgroundView = ({ children, style = {} }) => {
     return (<View style={[styles.background, style]}>{children}</View>)
 }

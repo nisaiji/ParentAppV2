@@ -2,6 +2,7 @@ import {View} from 'react-native';
 import React from 'react';
 import FastImage from 'react-native-fast-image';
 
+// Loader code
 export default function Loader() {
   return (
     <View style={styles.loading}>

@@ -3,8 +3,6 @@ import React, {
   useEffect,
   useImperativeHandle,
   forwardRef,
-  useRef,
-  useCallback,
 } from 'react';
 import {View, Text, Image, Alert} from 'react-native';
 import {Calendar} from 'react-native-calendars';

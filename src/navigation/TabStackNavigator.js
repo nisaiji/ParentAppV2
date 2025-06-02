@@ -16,12 +16,28 @@ import Event from '../screens/events/Event';
 
 const Tab = createBottomTabNavigator();
 
+/**
+ * TabStackNavigator
+ *
+ * This component defines the bottom tab navigation for the main app interface.
+ * It includes tabs for:
+ * - Dashboard
+ * - Events
+ * - Child Management (with nested stack)
+ * - Settings (with nested stack)
+ *
+ * Each tab has a custom styled icon and label. Certain nested routes hide the tab bar when appropriate.
+ */
 function TabStackNavigator() {
   return (
     <Tab.Navigator
       initialRouteName={ROUTE.CHILD}
       screenOptions={({route, navigation}) => ({
         headerShown: false,
+        /**
+         * Custom Tab Bar Button for each tab
+         * Applies dynamic styles and icons based on focused state and route
+         */
         tabBarButton: props => {
           const {accessibilityState, onPress} = props;
           const focused = accessibilityState.selected;
@@ -36,6 +52,7 @@ function TabStackNavigator() {
           let labelColor = colors.WHITE;
           let rn = route.name;
 
+          // Assign values based on route
           if (isDashboard) {
             iconSource = home;
             label = 'Home';
@@ -55,6 +72,7 @@ function TabStackNavigator() {
             labelColor = colors.BLACK1;
           }
 
+          // Render tab button with icon and label
           return (
             <TouchableOpacity
               onPress={() => {
@@ -87,7 +105,9 @@ function TabStackNavigator() {
           paddingHorizontal: scale(10),
         },
       })}>
+      {/* Dashboard Tab */}
       <Tab.Screen name={ROUTE.DASHBOARD} component={DashboardScreen} />
+      {/* Events Tab - hides tab bar on nested event route */}
       <Tab.Screen
         options={({route}) => {
           const routeName = getFocusedRouteNameFromRoute(route) ?? 'HomeMain';
@@ -103,6 +123,7 @@ function TabStackNavigator() {
         name={ROUTE.EVENT}
         component={Event}
       />
+      {/* Child Management Tab - hides tab bar on EditChild */}
       <Tab.Screen
         options={({route}) => {
           const routeName = getFocusedRouteNameFromRoute(route) ?? 'HomeMain';
@@ -118,6 +139,7 @@ function TabStackNavigator() {
         name={ROUTE.CHILD_STACK}
         component={ChildStackNavigator}
       />
+      {/* Settings Tab - hides tab bar on change password or edit profile */}
       <Tab.Screen
         options={({route}) => {
           const routeName = getFocusedRouteNameFromRoute(route) ?? 'HomeMain';

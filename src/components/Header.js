@@ -6,6 +6,18 @@ import {scale} from 'react-native-size-matters';
 import colors from '../theme/colors';
 import {Fonts, Size, globalStyle} from '../theme/fonts';
 
+/**
+ * Header Component
+ *
+ * A reusable header bar that displays:
+ * - A back button (unless `noBack` is true)
+ * - A centered heading/title
+ *
+ * Props:
+ * @param {boolean} noBack - Whether to hide the back button (default: false)
+ * @param {string} heading - The title to display in the center of the header
+ * @param {object} style - Optional custom style to override the container style
+ */
 const Header = ({noBack = false, heading = '', style = {}}) => {
   const navigation = useNavigation();
 
@@ -28,7 +40,7 @@ const Header = ({noBack = false, heading = '', style = {}}) => {
             />
           </TouchableOpacity>
         ) : (
-          <View style={styles.sideButton} /> // placeholder
+          <View style={styles.sideButton} />
         )}
 
         {/* Center - Title */}

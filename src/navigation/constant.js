@@ -1,3 +1,4 @@
+// All Routes Name
 export const ROUTE = {
   SPLASH: 'Splash',
   LOGIN: 'Login',

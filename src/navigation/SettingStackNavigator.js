@@ -8,6 +8,15 @@ import EditProfile from '../screens/Setting/Components/EditProfile';
 
 const Stack = createNativeStackNavigator();
 
+
+/**
+ * SettingStackNavigator
+ *
+ * This navigator manages the stack navigation related to setting data,
+ * including the main setting, edit profile and the change password screen.
+ *
+ * @returns {JSX.Element} A configured stack navigator for setting-related routes
+ */
 export default function ProfileStackNavigator() {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName={ROUTE.SETTING}>

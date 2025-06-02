@@ -17,11 +17,12 @@ let isShowingNoInternetToast = false;
 export const axiosClient = axios.create({baseURL});
 
 /**
- * Function to refresh the access token using the stored refresh token.
- * @returns {Promise<string|null>} - Returns the new access token or null if the refresh token is invalid.
+ * Axios Request Interceptor
+ *
+ * This interceptor:
+ * - Checks for internet connectivity.
+ * - Attaches the `Authorization` header using the saved access token.
  */
-
-// Request interceptor: Adds the access token to request headers before sending it
 axiosClient.interceptors.request.use(
   async config => {
     // Check internet connectivity before making API requests
@@ -50,7 +51,14 @@ axiosClient.interceptors.request.use(
   },
 );
 
-// Response interceptor: Handles expired JWT tokens and other API errors
+/**
+ * Axios Response Interceptor
+ *
+ * This interceptor:
+ * - Handles `status: 'ok'` or `status: 'error'` responses.
+ * - Automatically logs out users when JWT token is expired or access is forbidden.
+ * - Handles specific HTTP status codes (403, 410).
+ */
 axiosClient.interceptors.response.use(
   async response => {
     const data = response?.data;
@@ -72,6 +80,10 @@ axiosClient.interceptors.response.use(
     // Handle expired JWT token
     const err = error?.response?.data;
 
+    /**
+     * Handle JWT Expiration
+     * - If token is expired, clear storage and redirect to login screen
+     */
     if (err?.statusCode === 500 && err?.message === 'jwt expired') {
       await AsyncStorage.clear();
       navigationRef.reset({

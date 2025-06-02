@@ -117,7 +117,7 @@ const EventCache = forwardRef((props, ref) => {
   };
 
   /**
-   * Fetches event data for the selected month if it is not already in cache.
+   * Fetches event data (holiday and workday) for the selected month if it is not already in cache.
    * Groups events by month and updates the Redux store.
    * @param {number} currentMonth - The selected month (0-based).
    * @param {number} currentYear - The selected year.

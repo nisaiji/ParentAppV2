@@ -7,6 +7,14 @@ import { ROUTE } from './constant';
 
 const Stack = createNativeStackNavigator();
 
+/**
+ * ChildStackNavigator
+ *
+ * This navigator manages the stack navigation related to child data,
+ * including the main Child screen and the EditChild screen.
+ *
+ * @returns {JSX.Element} A configured stack navigator for child-related routes
+ */
 export default function ChildStackNavigator() {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName={ROUTE.CHILD}>

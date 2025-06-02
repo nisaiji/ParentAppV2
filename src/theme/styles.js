@@ -4,6 +4,9 @@ import { scale } from "react-native-size-matters";
 import Colors from "./colors";
 import { Fonts, Size } from "./fonts";
 
+/**
+ * All common Global styles code
+ */
 const globalStyles = StyleSheet.create({
   safeAreaView: {
     flex: 1,

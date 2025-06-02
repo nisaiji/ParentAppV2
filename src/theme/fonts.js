@@ -2,6 +2,9 @@ import {Platform} from 'react-native';
 import Metrics from './metrics';
 import Colors from './colors';
 
+/**
+ * Responsive font sizes based on screen width (375px as base width).
+ */
 const Size = {
   font_10: Metrics.screenWidth * (10 / 375),
   font_12: Metrics.screenWidth * (12 / 375),
@@ -22,6 +25,9 @@ const Size = {
   font_40: Metrics.screenWidth * (40 / 375),
 };
 
+/**
+ * Font family definitions used in the app.
+ */
 const Fonts = {
   REGULAR: 'Helvetica',
   BOLD: 'Helvetica-Bold',
@@ -35,6 +41,9 @@ const Weight = {
   normal: 'normal',
 };
 
+/**
+ * Common hitSlop styles to improve touchable areas.
+ */
 const globalStyle = {
   hitSlop10:{top: 10, bottom: 10, left: 10, right: 10},
   hitSlop20:{top: 20, bottom: 20, left: 20, right: 20}

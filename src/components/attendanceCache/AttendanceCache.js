@@ -115,7 +115,7 @@ const AttendanceCache = forwardRef((props, ref) => {
   };
 
   /**
-   * Fetches event data for the selected month if it is not already in cache.
+   * Fetches attendance data for the selected month if it is not already in cache.
    * Groups attendance by month and updates the Redux store.
    * @param {number} currentMonth - The selected month (0-based).
    * @param {number} currentYear - The selected year.

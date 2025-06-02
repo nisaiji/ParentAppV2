@@ -1,7 +1,8 @@
+/**
+ * REGEX Code
+ */
+
 export const REGEX = {
-  // PHONE: /^[6-9]\d{9}$/,
-  // EMAIL: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i,
-  // PASSWORD: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&^_-]{8,}$/,
   EMAIL: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
   USERNAME: /^[a-zA-Z0-9_.]{5,20}$/,
   PHONE: /^\d{10}$/,
