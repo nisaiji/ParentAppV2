@@ -13,7 +13,7 @@ import {
 
 function Event() {
   const dispatch = useDispatch();
-  const {data} = useSelector(state => state.auth);
+  const {currentChild} = useSelector(state => state.auth);
   const [refreshing, setRefreshing] = useState(false);
   const eventRef = useRef();
 
@@ -36,12 +36,12 @@ function Event() {
         <View style={styles.flexRow}>
           <View>
             <Text style={styles.title1}>Hello,</Text>
-            <Text style={styles.title2}>{data?.fullname}</Text>
+            <Text style={styles.title2}>{currentChild?.fullname}</Text>
           </View>
           <Image
             source={
-              data?.photo
-                ? {uri: `data:image/jpeg;base64,${data?.photo}`}
+              currentChild?.photo
+                ? {uri: `data:image/jpeg;base64,${currentChild?.photo}`}
                 : childDummy
             }
             style={styles.childImg}
@@ -53,12 +53,9 @@ function Event() {
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }>
-          {/* Calendar & Events */}
-          {data?.students?.map((child, index) => (
-            <View key={index} style={styles.calendarContainer}>
-              <EventCache child={child}  ref={eventRef} />
-            </View>
-          ))}
+          <View style={styles.calendarContainer}>
+            <EventCache child={currentChild} ref={eventRef} />
+          </View>
         </ScrollView>
       </View>
     </BackgroundView>

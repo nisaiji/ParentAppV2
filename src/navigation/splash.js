@@ -90,7 +90,7 @@ export default function Splash() {
     // All setup complete, navigate to main app
     navigation.reset({
       index: 0,
-      routes: [{name: ROUTE.TAB}],
+      routes: [{name: ROUTE.DASHBOARD_STACK}],
     });
   };
 

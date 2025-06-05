@@ -60,7 +60,7 @@ export default function ChildDetail() {
         setShowField(true);
         navigation.reset({
           index: 0,
-          routes: [{name: ROUTE.TAB}],
+          routes: [{name: ROUTE.DASHBOARD_STACK}],
         });
       }
     } catch (e) {

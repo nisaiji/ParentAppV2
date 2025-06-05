@@ -2,14 +2,14 @@
 export const ROUTE = {
   SPLASH: 'Splash',
   LOGIN: 'Login',
-  PHONE_NUMBER_VERIFICATION:"PhoneNumberVerification",
+  PHONE_NUMBER_VERIFICATION: 'PhoneNumberVerification',
   OTP: 'OTP',
   EMAIL_VERIFICATION: 'EmailVerification',
   EMAIL_OTP_VERIFICATION: 'Email_OTP',
   CREATE_PASSWORD: 'CreatePassword',
-  SUCCESS_PAGE:'SuccessPage',
-  PARENT_DETAIL:'ParentDetail',
-  CHILD_DETAIL:"ChildDetail",
+  SUCCESS_PAGE: 'SuccessPage',
+  PARENT_DETAIL: 'ParentDetail',
+  CHILD_DETAIL: 'ChildDetail',
   HOME: 'Home',
   EVENT: 'Event',
   PROFILE: 'Profile',
@@ -22,7 +22,8 @@ export const ROUTE = {
   EDIT_PROFILE: 'EditProfile',
   CHANGE_PASSWORD: 'ChangePassword',
   SETTING_STACK: 'SettingStack',
- 
+  DASHBOARD_STACK: 'DashboardStack',
+
   UPDATE_PASSWORD: 'UpdatePassword',
   AUTH: 'Auth',
   TAB: 'Tab',
@@ -30,6 +31,6 @@ export const ROUTE = {
   PARENT_PRIVACY: 'Parent_Privacy',
   PARENT_PROFILE_EDIT: 'Parent_Profile_Edit',
   FORGOTPASSWORD: 'ForgotPassword',
-  EVENT_SEARCH:"EventSearch",
-  EVENT_HOLIDAY:"EventHoliday"
+  EVENT_SEARCH: 'EventSearch',
+  EVENT_HOLIDAY: 'EventHoliday',
 };

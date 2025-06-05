@@ -5,6 +5,8 @@ import AuthStackNavigator from './AuthStackNavigator';
 import TabStackNavigator from './TabStackNavigator';
 import Splash from './splash';
 import {navigationRef} from '../services/NavigationServices';
+import DashboardScreen from '@src/screens/Dashboard/Container/index';
+import DashboardStackNavigator from './DashboardStackNavigator';
 
 const Stack = createNativeStackNavigator();
 
@@ -36,9 +38,9 @@ export default function Navigation() {
           component={AuthStackNavigator}
         />
         <Stack.Screen
-          name={ROUTE.TAB}
+          name={ROUTE.DASHBOARD_STACK}
           options={{headerShown: false}}
-          component={TabStackNavigator}
+          component={DashboardStackNavigator}
         />
       </Stack.Navigator>
     </NavigationContainer>

@@ -126,7 +126,7 @@ export default function Login() {
           // console.log('tab');
           navigation.reset({
             index: 0,
-            routes: [{name: ROUTE.TAB}],
+            routes: [{name: ROUTE.DASHBOARD_STACK}],
           });
         }
       }
