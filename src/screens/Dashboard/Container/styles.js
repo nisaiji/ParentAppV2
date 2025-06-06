@@ -92,5 +92,75 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     marginTop: scale(16),
   },
+  childCardContainer: {
+    height: 250,
+    marginHorizontal: scale(5),
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: colors.WHITE,
+    padding: scale(10),
+  },
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  schoolLogo: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    marginRight: 10,
+  },
+  schoolName: {
+    fontSize: Size.font_12,
+    fontFamily: Fonts.REGULAR,
+    color: colors.WHITE,
+  },
+  mainRow: {
+    flexDirection: 'row',
+    marginTop: scale(15),
+    // paddingHorizontal: scale(10),
+    paddingVertical: scale(10),
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    // borderWidth: 1,
+  },
+  infoBox: {
+    flex: 1,
+    paddingRight: scale(10),
+  },
+  name: {
+    fontSize: Size.font_20,
+    fontFamily: Fonts.BOLD,
+    color: colors.WHITE,
+    marginBottom: scale(5),
+  },
+  infoText: {
+    fontSize: Size.font_12,
+    fontFamily: Fonts.REGULAR,
+    color: colors.WHITE,
+  },
+  bold: {
+    fontFamily: Fonts.BOLD,
+  },
+  childCardImg: {
+    width: 110,
+    height: 110,
+    borderRadius: 100,
+    borderWidth: 3,
+    borderColor: colors.WHITE,
+  },
+  dotContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginVertical: scale(20),
+  },
+  dots: {
+    width: 11,
+    height: 11,
+    borderRadius: 20,
+    margin: scale(2),
+    backgroundColor: colors.BLUE,
+  },
 });
 export default styles;

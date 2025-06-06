@@ -59,7 +59,7 @@ export default function PhoneNumberVerification() {
         navigation.navigate(ROUTE.AUTH, {
           screen: ROUTE.OTP,
           params: {
-            mainStackNavigator: ROUTE.TAB,
+            mainStackNavigator: ROUTE.DASHBOARD_STACK,
             tabNavigator: ROUTE.SETTING_STACK,
             routes: [
               {name: ROUTE.SETTING}, // 👈 push Settings first

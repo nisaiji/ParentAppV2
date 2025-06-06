@@ -188,27 +188,6 @@ const EventCache = forwardRef((props, ref) => {
     <>
       {eventLoading && <Loader />}
       <View style={styles.calendarContainer}>
-        <View style={styles.flexRow}>
-          <View style={styles.flexRow}>
-            <Image
-              source={
-                child?.photo
-                  ? {uri: `data:image/jpeg;base64,${child?.photo}`}
-                  : childDummy
-              }
-              style={styles.childImg}
-              resizeMode="contain"
-            />
-            <Text style={styles.title3}>
-              {child?.firstname} {child?.lastname}
-            </Text>
-          </View>
-          <View style={styles.classContainer}>
-            <Text style={styles.classSec}>
-              {child?.classId?.name} - {child?.section?.name}
-            </Text>
-          </View>
-        </View>
         {/* Calendar Container */}
         <View style={styles.calendar}>
           <EventCalendar

@@ -77,8 +77,8 @@ function ChangePassword() {
 
         if (res.data.statusCode === 200) {
           successToast(res?.data?.result);
-          // navigation.navigate(ROUTE.TAB, {screen: ROUTE.SETTING});
-          navigation.navigate(ROUTE.TAB, {
+          // navigation.navigate(ROUTE.DASHBOARD_STACK, {screen: ROUTE.SETTING});
+          navigation.navigate(ROUTE.DASHBOARD_STACK, {
             screen: ROUTE.SETTING_STACK,
             params: {
               screen: ROUTE.SETTING,

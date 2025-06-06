@@ -8,7 +8,6 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     backgroundColor: '#66666640',
     borderRadius: 12,
-    marginTop: scale(25),
     paddingVertical: scale(18),
     paddingHorizontal: scale(10),
   },

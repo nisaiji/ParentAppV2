@@ -25,4 +25,5 @@ export const EndPoints = {
   STUDENT_PHOTO_UPLOAD: 'v2/student/parent/photo-upload',
   GET_ATTENDANCE: 'v2/student/parent/get-attendance',
   GET_EVENTS: 'v2/parent/holiday-workday',
+  GET_NOTICE: 'announcement/parent',
 };

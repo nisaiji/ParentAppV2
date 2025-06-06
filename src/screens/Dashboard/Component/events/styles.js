@@ -60,5 +60,18 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     marginTop: scale(16),
   },
+  schoolNameContainer: {
+    backgroundColor: '#66666640',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: scale(5),
+    borderRadius: 10,
+  },
+  schoolNameText: {
+    fontSize: Size.font_20,
+    fontFamily: Fonts.BOLD,
+    color: colors.COLOR_2,
+  },
 });
 export default styles;

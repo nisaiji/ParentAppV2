@@ -1,7 +1,7 @@
 import {Size, Weight, Colors, Fonts} from '@src/theme/fonts';
 import {Button, StyleSheet} from 'react-native';
 import {scale} from 'react-native-size-matters';
-import colors from '../../../../theme/colors';
+import colors from '@src/theme/colors';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -76,6 +76,7 @@ const styles = StyleSheet.create({
     marginBottom: scale(10),
     fontFamily: Fonts.BOLD,
     fontSize: Size.font_14,
+    color: colors.WHITE,
   },
   textInput: {
     borderWidth: 1,
@@ -84,6 +85,7 @@ const styles = StyleSheet.create({
     paddingLeft: scale(8),
     fontFamily: Fonts.BOLD,
     fontSize: Size.font_14,
+    color: colors.WHITE,
   },
   textInput2: {
     paddingVertical: scale(10),

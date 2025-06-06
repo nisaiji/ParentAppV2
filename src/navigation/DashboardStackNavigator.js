@@ -1,13 +1,13 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-
-import Setting from '@src/screens/Setting/Container';
-import ChangePassword from '@src/screens/Setting/Components/ChangePassword';
 import {ROUTE} from './constant';
-import EditProfile from '../screens/Setting/Components/EditProfile';
-import Dashboard from '../screens/Dashboard/Container';
-import Event from '../screens/events/Event';
-import EditChild from '../screens/Child/Components/EditChild';
+import EditProfile from '@src/screens/Setting/Components/EditProfile';
+import Dashboard from '@src/screens/Dashboard/Container';
+import Event from '@src/screens/events/Event';
+import Notice from '@src/screens/Dashboard/Component/notice/Notice';
+import Leave from '@src/screens/Dashboard/Component/notice/leave/Leave';
+import SettingStackNavigator from '@src/navigation/SettingStackNavigator';
+import EditChild from '@src/screens/Dashboard/Component/child';
 
 const Stack = createNativeStackNavigator();
 
@@ -27,6 +27,10 @@ export default function DashboardStackNavigator() {
       <Stack.Screen name={ROUTE.DASHBOARD} component={Dashboard} />
       <Stack.Screen name={ROUTE.EVENT} component={Event} />
       <Stack.Screen name={ROUTE.EDIT_CHILD} component={EditChild} />
+      <Stack.Screen name={ROUTE.EDIT_PROFILE} component={EditProfile} />
+      <Stack.Screen name={ROUTE.NOTICE} component={Notice} />
+      <Stack.Screen name={ROUTE.LEAVE} component={Leave} />
+      <Stack.Screen name={ROUTE.SETTING_STACK} component={SettingStackNavigator} />
     </Stack.Navigator>
   );
 }

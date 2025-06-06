@@ -22,8 +22,8 @@ export const styles = StyleSheet.create({
   },
   calendarContainer: {
     padding: scale(12),
-    borderRadius: 14,
-    backgroundColor: Colors.calenderBackground,
+    // borderRadius: 14,
+    // backgroundColor: Colors.calenderBackground,
   },
   calendar: {marginBottom: scale(2)},
   eventsContainer: {

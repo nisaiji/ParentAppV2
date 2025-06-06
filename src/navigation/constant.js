@@ -23,6 +23,8 @@ export const ROUTE = {
   CHANGE_PASSWORD: 'ChangePassword',
   SETTING_STACK: 'SettingStack',
   DASHBOARD_STACK: 'DashboardStack',
+  NOTICE: 'Notice',
+  LEAVE: 'Leave',
 
   UPDATE_PASSWORD: 'UpdatePassword',
   AUTH: 'Auth',

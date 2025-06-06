@@ -8,23 +8,21 @@ import * as Yup from 'yup';
 
 import styles from './styles';
 import BackgroundView from '@src/components/BackgroundView';
-import Header from '../../../../components/Header';
-import childDummy from '../../../../assets/images/childDummy.png';
-import circlePencilIcon from '../../../../assets/images/circlePencil.png';
-import calendar from '../../../../assets/images/calendar.png';
-import DropdownComponent from '../../../../components/DropdownComponent';
-import {Colors} from '../../../../theme/fonts';
+import Header from '@src/components/Header';
+import childDummy from '@src/assets/images/childDummy.png';
+import circlePencilIcon from '@src/assets/images/circlePencil.png';
+import calendar from '@src/assets/images/calendar.png';
+import DropdownComponent from '@src/components/DropdownComponent';
 import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
 import {useDispatch, useSelector} from 'react-redux';
-import ImagePickerModal from '../../../../components/ImagePickerModal';
-import {axiosClient} from '../../../../services/axiosClient';
-import {EndPoints} from '../../../../ParentApi';
-import {errorToast, successToast} from '../../../../components/CustomToast';
-import {fetchAndSetData} from '../../../../redux/authSlice';
+import ImagePickerModal from '@src/components/ImagePickerModal';
+import {axiosClient} from '@src/services/axiosClient';
+import {EndPoints} from '@src/ParentApi';
+import {errorToast, successToast} from '@src/components/CustomToast';
+import {fetchAndSetData} from '@src/redux/authSlice';
 import {useNavigation} from '@react-navigation/native';
-import {ROUTE} from '../../../../navigation/constant';
-import Loader from '../../../../components/Loader';
+import Loader from '@src/components/Loader';
 
 const EditChild = () => {
   const navigation = useNavigation();
@@ -61,7 +59,6 @@ const EditChild = () => {
     dob: Yup.string().required('Date of birth is required'),
     address: Yup.string().trim().required('Address is required'),
   });
-  // console.log(currentChild);
 
   /**
    * Uploads a new profile image.
@@ -150,15 +147,9 @@ const EditChild = () => {
                   if (res.data.statusCode === 200) {
                     successToast(res?.data?.result);
                     dispatch(fetchAndSetData());
-                    navigation.navigate(ROUTE.TAB, {
-                      screen: ROUTE.CHILD_STACK,
-                      params: {
-                        screen: ROUTE.CHILD,
-                      },
-                    });
+                    navigation.goBack();
                   }
                 } catch (e) {
-                  // console.log({e});
                   errorToast(e);
                 } finally {
                   setLoading(false);
@@ -183,7 +174,7 @@ const EditChild = () => {
                     <TextInput
                       style={styles.textInput}
                       placeholder={t('placeholder.firstname')}
-                      placeholderTextColor={styles.placeholderText}
+                      placeholderTextColor="gray"
                       onChangeText={handleChange('firstName')}
                       onBlur={handleBlur('firstName')}
                       value={values.firstName}
@@ -198,7 +189,7 @@ const EditChild = () => {
                     <TextInput
                       style={styles.textInput}
                       placeholder={t('placeholder.lastname')}
-                      placeholderTextColor={styles.placeholderText}
+                      placeholderTextColor="gray"
                       onChangeText={handleChange('lastName')}
                       onBlur={handleBlur('lastName')}
                       value={values.lastName}
@@ -281,7 +272,7 @@ const EditChild = () => {
                       style={styles.textInput}
                       textAlignVertical="top"
                       placeholder={t('placeholder.address')}
-                      placeholderTextColor={styles.placeholderText}
+                      placeholderTextColor="gray"
                       onChangeText={handleChange('address')}
                       onBlur={handleBlur('address')}
                       value={values.address}

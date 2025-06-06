@@ -58,6 +58,25 @@
       "verified": "Verified",
       "heading": "Child details"
     },
+    "notice": {
+      "schoolAdmin": "School Admin",
+      "classCoordinator": "Class Coordinator",
+      "school": "School",
+      "teacher": "Teacher",
+      "noDataFound": "No Data Found",
+      "viewNotice": "View Notice"
+    },
+    "dashboard": {
+      "class": "Class - ",
+      "dob": "DOB - ",
+      "bloodGroup": "Blood Group - ",
+      "sharedRI": "SharedRI",
+      "hello": "Hello,",
+      "applyLeave": "Apply Leave",
+      "holiday": "Holiday",
+      "childProfile": "Child Profile",
+      "postBox": "Post Box"
+    },
     "validation": {
       "requiredPhone": "Phone number is required",
       "shortPhone": "Phone number must be at least 10 digits",
@@ -120,7 +139,10 @@
       "female": "Female",
       "other": "Other",
       "camera": "Camera",
-      "gallery": "Gallery"
+      "gallery": "Gallery",
+      "byAll": "By All",
+      "byTeacher": "By Teacher",
+      "bySchool": "By School"
     },
     "label": {
       "username": "Username",
@@ -145,7 +167,8 @@
       "editProfile": "Edit Profile",
       "childSetting": "Child Settings",
       "personalInfo": "Personal Information",
-      "uploadPhoto": "Upload Photo"
+      "uploadPhoto": "Upload Photo",
+      "postBox": "Post Box"
     },
     "events": {
       "eventListHead": "Holidays",

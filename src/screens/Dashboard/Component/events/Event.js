@@ -3,13 +3,13 @@ import React, {useRef, useState} from 'react';
 import {Image, RefreshControl, ScrollView, Text, View} from 'react-native';
 import styles from './styles';
 import BackgroundView from '@src/components/BackgroundView';
-import childDummy from '@src/assets/images/childDummy.png';
 import {useDispatch, useSelector} from 'react-redux';
 import EventCache from '@src/components/eventCache/EventCache';
 import {
   updateMonthlyEvents,
   updatelastEventUpdatedAt,
 } from '@src/redux/eventSlice';
+import Header from '@src/components/Header';
 
 function Event() {
   const dispatch = useDispatch();
@@ -33,26 +33,16 @@ function Event() {
   return (
     <BackgroundView>
       <View style={styles.container}>
-        <View style={styles.flexRow}>
-          <View>
-            <Text style={styles.title1}>Hello,</Text>
-            <Text style={styles.title2}>{currentChild?.fullname}</Text>
-          </View>
-          <Image
-            source={
-              currentChild?.photo
-                ? {uri: `data:image/jpeg;base64,${currentChild?.photo}`}
-                : childDummy
-            }
-            style={styles.childImg}
-            resizeMode="contain"
-          />
-        </View>
-        <View style={styles.line} />
+        <Header heading="Event" />
         <ScrollView
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }>
+          <View style={styles.schoolNameContainer}>
+            <Text style={styles.schoolNameText}>
+              {currentChild?.admin?.schoolName}
+            </Text>
+          </View>
           <View style={styles.calendarContainer}>
             <EventCache child={currentChild} ref={eventRef} />
           </View>

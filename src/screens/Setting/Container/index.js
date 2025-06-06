@@ -1,6 +1,13 @@
 /* eslint-disable prettier/prettier */
 import React, {useState} from 'react';
-import {Image, ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Image,
+  Linking,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import styles from './styles';
 import BackgroundView from '../../../components/BackgroundView';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -55,7 +62,7 @@ function Setting() {
     navigation.navigate(ROUTE.AUTH, {
       screen: ROUTE.CHILD_DETAIL,
       params: {
-        mainStackNavigator: ROUTE.TAB,
+        mainStackNavigator: ROUTE.DASHBOARD_STACK,
         tabNavigator: ROUTE.SETTING_STACK,
         routes: [{name: ROUTE.SETTING}],
       },
@@ -65,7 +72,7 @@ function Setting() {
   return (
     <BackgroundView>
       <SafeAreaView style={styles.container}>
-        <Header noBack heading="Settings" />
+        <Header heading="Settings" />
         <ScrollView>
           <View style={styles.personalDetailContainer}>
             <View style={styles.parentDetailLeft}>
@@ -119,7 +126,7 @@ function Setting() {
               </View>
             </TouchableOpacity>
           </View>
-          <View style={styles.listItemCointainer}>
+          {/* <View style={styles.listItemCointainer}>
             <Text style={[styles.parentName, styles.mb16]}>Support</Text>
             <View style={styles.combinedBG}>
               <TouchableOpacity>
@@ -182,10 +189,13 @@ function Setting() {
                 </View>
               </TouchableOpacity>
             </View>
-          </View>
+          </View> */}
           <View style={styles.listItemCointainer}>
             <Text style={[styles.parentName, styles.mb16]}>More</Text>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() =>
+                Linking.openURL('https://development.nisaiji.com/')
+              }>
               <View style={[styles.itemContainer, styles.mb10]}>
                 <View style={styles.itemLeftContainer}>
                   <Image

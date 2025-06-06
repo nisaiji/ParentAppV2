@@ -87,7 +87,7 @@ function EditProfile() {
     navigation.navigate(ROUTE.AUTH, {
       screen: ROUTE.EMAIL_VERIFICATION,
       params: {
-        mainStackNavigator: ROUTE.TAB,
+        mainStackNavigator: ROUTE.DASHBOARD_STACK,
         tabNavigator: ROUTE.SETTING_STACK,
         routes: [
           {name: ROUTE.SETTING}, // 👈 push Settings first
@@ -179,8 +179,8 @@ function EditProfile() {
                   if (res.data.statusCode === 200) {
                     successToast(res?.data?.result);
                     dispatch(fetchAndSetData());
-                    // navigation.navigate(ROUTE.TAB, {screen: ROUTE.SETTING});
-                    navigation.navigate(ROUTE.TAB, {
+                    // navigation.navigate(ROUTE.DASHBOARD_STACK, {screen: ROUTE.SETTING});
+                    navigation.navigate(ROUTE.DASHBOARD_STACK, {
                       screen: ROUTE.SETTING_STACK,
                       params: {
                         screen: ROUTE.SETTING,
