@@ -30,6 +30,7 @@ const colors = {
   COLOR_2_40: '#A2A2A240',
   COLOR_3: '#898D8C',
   COLOR_4: '#383839',
+  COLOR_7_50: '#4E297380',
   DISABLE_COLOR: '#0A0A0A',
   LINE: '#898D8C80',
   calenderBackground: '#A2A2A21A',

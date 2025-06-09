@@ -8,11 +8,17 @@ export const isLogin = createAsyncThunk('auth/isLogin', async () => {
   try {
     const token = await AsyncStorage.getItem('accessToken');
     if (token) {
-      const status = await AsyncStorage.getItem('status');
+      const statusStr = await AsyncStorage.getItem('status');
+      const dataStr = await AsyncStorage.getItem('data');
+      const childStr = await AsyncStorage.getItem('currentChild');
+      const indexStr = await AsyncStorage.getItem('currentChildIndex');
 
       return {
         token,
-        status: status ? JSON.parse(status) : {},
+        status: statusStr ? JSON.parse(statusStr) : {},
+        data: dataStr ? JSON.parse(dataStr) : {},
+        currentChild: childStr ? JSON.parse(childStr) : null,
+        currentChildIndex: indexStr ? parseInt(indexStr, 10) : 0,
       };
     }
     return null;
@@ -168,6 +174,9 @@ const authSlice = createSlice({
         if (action.payload) {
           state.token = action.payload.token;
           state.status = action.payload.status;
+          state.data = action.payload.data;
+          state.currentChild = action.payload.currentChild;
+          state.currentChildIndex = action.payload.currentChildIndex;
         }
       })
       .addCase(setToken.fulfilled, (state, action) => {

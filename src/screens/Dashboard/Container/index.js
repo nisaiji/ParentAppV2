@@ -16,6 +16,7 @@ import BackgroundView from '@src/components/BackgroundView';
 import childCard from '@src/assets/images/childCard.png';
 import childDummy from '@src/assets/images/childDummy.png';
 import applyLeave from '@src/assets/images/applyLeave.png';
+import pcard from '@src/assets/images/pcard.png';
 import holiday from '@src/assets/images/holiday.png';
 import childProfile from '@src/assets/images/childProfile.png';
 import postBox from '@src/assets/images/postBox.png';
@@ -32,6 +33,7 @@ import {ROUTE} from '../../../navigation/constant';
 import {updateCurrentChildByIndex} from '../../../redux/authSlice';
 import moment from 'moment';
 import {useTranslation} from 'react-i18next';
+import LinearGradient from 'react-native-linear-gradient';
 
 function Dashboard() {
   const dispatch = useDispatch();
@@ -74,41 +76,17 @@ function Dashboard() {
   const renderItem = ({item}) => (
     <View style={{width: CARD_WIDTH}}>
       <ImageBackground
-        source={childCard}
+        source={pcard}
         style={styles.childCardContainer}
         imageStyle={{borderRadius: 12}}>
-        <View style={styles.headerRow}>
-          <Image
-            source={item?.admin?.photo || childDummy}
-            style={styles.schoolLogo}
-          />
+        {/* Top Banner with school name */}
+        <View style={styles.headerBanner}>
           <Text style={styles.schoolName}>{item?.admin?.schoolName}</Text>
         </View>
 
+        {/* Profile & Info */}
         <View style={styles.mainRow}>
-          <View style={styles.infoBox}>
-            <Text
-              style={
-                styles.name
-              }>{`${item?.firstname} ${item?.lastname}`}</Text>
-            <Text style={styles.infoText}>
-              {t('dashboard.class')}
-              <Text
-                style={
-                  styles.bold
-                }>{`${item?.classId?.name} ${item?.section?.name}`}</Text>
-            </Text>
-            <Text style={styles.infoText}>
-              {t('dashboard.dob')}
-              <Text style={styles.bold}>
-                {moment(item?.dob).format('DD MMMM YYYY')}
-              </Text>
-            </Text>
-            <Text style={styles.infoText}>
-              {t('dashboard.bloodGroup')}
-              <Text style={styles.bold}>{item?.bloodGroup}</Text>
-            </Text>
-          </View>
+          {/* Profile Picture */}
           <Image
             source={
               item?.photo
@@ -118,6 +96,30 @@ function Dashboard() {
             style={styles.childCardImg}
             resizeMode="cover"
           />
+          <Text
+            style={styles.name}>{`${item?.firstname} ${item?.lastname}`}</Text>
+        </View>
+        {/* Name and details */}
+        <View style={styles.infoBox}>
+          <View style={styles.infoField}>
+            <Text style={styles.label}>{t('dashboard.class')}</Text>
+            <Text
+              style={
+                styles.value
+              }>{`${item?.classId?.name} ${item?.section?.name}`}</Text>
+          </View>
+
+          <View style={styles.infoField}>
+            <Text style={styles.label}>{t('dashboard.dob')}</Text>
+            <Text style={styles.value}>
+              {moment(item?.dob).format('DD MMM YYYY')}
+            </Text>
+          </View>
+
+          <View style={styles.infoField}>
+            <Text style={styles.label}>{t('dashboard.bloodGroup')}</Text>
+            <Text style={styles.value}>{item?.bloodGroup}</Text>
+          </View>
         </View>
       </ImageBackground>
     </View>
@@ -145,7 +147,12 @@ function Dashboard() {
   };
 
   return (
-    <BackgroundView>
+    <BackgroundView style={{backgroundColor: '#071223'}}>
+      {/* <LinearGradient
+        colors={['#021B2B', '#0F0616']}
+        start={{x: 0, y: 0}}
+        end={{x: 0, y: 1}}
+        style={{flex: 1, padding: 12}}> */}
       <View style={styles.container}>
         <ScrollView
           refreshControl={
@@ -174,10 +181,7 @@ function Dashboard() {
           <View style={styles.center}>
             <Text style={styles.title1}>
               {t('dashboard.hello')}
-              <Text
-                style={
-                  styles.title2
-                }>{` ${currentChild?.firstname} ${currentChild?.lastname}`}</Text>
+              <Text style={styles.title2}>{`${data?.fullname}`}</Text>
             </Text>
           </View>
           {/* Child card select */}
@@ -340,12 +344,14 @@ function Dashboard() {
               </Text>
             </TouchableOpacity>
           </View>
+          <Text style={styles.headerTitle}>{t('dashboard.attendance')}</Text>
           {/* Attendance calendar */}
           <View style={styles.calendarContainer}>
             <AttendanceCache childId={currentChild?._id} ref={eventRef} />
           </View>
         </ScrollView>
       </View>
+      {/* </LinearGradient> */}
     </BackgroundView>
   );
 }

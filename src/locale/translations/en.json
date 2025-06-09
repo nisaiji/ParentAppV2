@@ -67,17 +67,18 @@
       "viewNotice": "View Notice"
     },
     "dashboard": {
-      "class": "Class - ",
-      "dob": "DOB - ",
-      "bloodGroup": "Blood Group - ",
+      "class": "Class",
+      "dob": "DOB",
+      "bloodGroup": "Blood Group",
       "sharedRI": "SharedRI",
-      "hello": "Hello,",
+      "hello": "Hello, ",
       "applyLeave": "Apply Leave",
       "holiday": "Holiday",
       "childProfile": "Child Profile",
       "postBox": "Post Box",
       "grades": "Grades",
-      "fees": "Fees"
+      "fees": "Fees",
+      "attendance": "Attendance"
     },
     "validation": {
       "requiredPhone": "Phone number is required",
