@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: scale(5),
   },
   title1: {
-    fontFamily: Fonts.MEDIUM,
+    fontFamily: Fonts.REGULAR,
     fontSize: Size.font_18,
     color: Colors.WHITE,
   },
@@ -56,20 +56,20 @@ const styles = StyleSheet.create({
     marginVertical: scale(20),
   },
   buttonsContainer: {
-    height: 80,
-    width: 85,
+    height: 90,
+    width: 90,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 12,
     borderWidth: 2,
-    gap: 5,
+    gap: 10,
   },
   buttonImage: {
     height: 32,
     width: 32,
   },
   buttonText: {
-    fontFamily: Fonts.MEDIUM,
+    fontFamily: Fonts.REGULAR,
     fontSize: Size.font_12,
     letterSpacing: 0.12,
     lineHeight: 20,

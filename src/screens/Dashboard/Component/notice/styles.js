@@ -228,6 +228,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     backgroundColor: '#A2A2A21A',
     padding: scale(10),
+    minHeight: 200,
   },
   formContainer2: {
     display: 'flex',
@@ -264,11 +265,13 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.BOLD,
     fontSize: Size.font_14,
     color: colors.WHITE,
+    marginBottom: 1,
   },
   date: {
-    fontFamily: Fonts.MEDIUM,
+    fontFamily: Fonts.REGULAR,
     fontSize: Size.font_12,
     color: colors.COLOR_2,
+    marginVertical: 1,
   },
   leftArrowIcon: {
     height: 12,
@@ -276,10 +279,11 @@ const styles = StyleSheet.create({
     tintColor: colors.BLUE,
   },
   noticeDescription: {
-    fontFamily: Fonts.MEDIUM,
+    fontFamily: Fonts.REGULAR,
     fontSize: Size.font_14,
     color: colors.WHITE,
     marginLeft: scale(10),
+    marginTop: scale(25),
   },
   notesIcon: {
     height: 24,
@@ -291,7 +295,7 @@ const styles = StyleSheet.create({
   //   fontSize: Size.font_14,
   // },
   noticeInput: {
-    fontFamily: Fonts.MEDIUM,
+    fontFamily: Fonts.REGULAR,
     fontSize: Size.font_14,
     flex: 1,
     paddingHorizontal: scale(10),
@@ -360,7 +364,7 @@ const styles = StyleSheet.create({
     fontSize: Size.font_12,
     marginVertical: scale(5),
     marginLeft: scale(50),
-    fontFamily: Fonts.MEDIUM,
+    fontFamily: Fonts.REGULAR,
   },
   filterContainer: {
     display: 'flex',
@@ -370,8 +374,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: scale(16),
     paddingVertical: scale(10),
     marginVertical: scale(10),
-    borderBottomWidth: 2,
-    borderColor: colors.LINE,
     width: '80%',
   },
   filterIcon: {
@@ -379,10 +381,10 @@ const styles = StyleSheet.create({
     width: 32,
   },
   refreshIcon: {
-    height: 32,
-    width: 32,
+    height: 24,
+    width: 24,
     marginRight: scale(10),
-    tintColor: 'white',
+    tintColor: colors.BLUE,
   },
   filterText: {
     color: colors.BLUE,
@@ -391,7 +393,7 @@ const styles = StyleSheet.create({
   },
   divider: {
     height: scale(1),
-    marginVertical: scale(10),
+    marginVertical: scale(15),
     borderBottomColor: colors.LINE,
     borderBottomWidth: 2,
   },

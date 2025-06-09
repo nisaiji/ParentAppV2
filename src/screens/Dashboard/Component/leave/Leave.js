@@ -1,8 +1,8 @@
 import React from 'react';
 import {Text, View} from 'react-native';
-import styles from './styles';
 import BackgroundView from '@src/components/BackgroundView';
 import Header from '@src/components/Header';
+import { styles } from './styles';
 
 export default function Leave() {
   return (

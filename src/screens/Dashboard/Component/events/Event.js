@@ -33,7 +33,7 @@ function Event() {
   return (
     <BackgroundView>
       <View style={styles.container}>
-        <Header heading="Event" />
+        <Header heading="Holiday" />
         <ScrollView
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />

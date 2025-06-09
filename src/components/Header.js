@@ -57,7 +57,7 @@ const Header = ({noBack = false, heading = '', style = {}}) => {
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: scale(55),
+    marginBottom: scale(30),
   },
   innerHeader: {
     flexDirection: 'row',

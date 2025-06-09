@@ -21,7 +21,7 @@ import noData from '@src/assets/images/noDataFound.png';
 import notes from '@src/assets/images/notes.png';
 import refresh from '@src/assets/images/refresh.png';
 import cross from '@src/assets/images/cross.png';
-import leftArrow from '@src/assets/images/left-arrow.png';
+import leftArrow from '@src/assets/images/leftNoticeArrow.png';
 import selectedByTeacher from '@src/assets/images/selectedByTeacher.png';
 import selectedBySchool from '@src/assets/images/selectedBySchool.png';
 import selectedByAll from '@src/assets/images/selectedByAll.png';
@@ -41,6 +41,7 @@ import {EndPoints} from '@src/ParentApi';
 import Header from '@src/components/Header';
 import {errorToast} from '@src/components/CustomToast';
 import BackgroundView from '@src/components/BackgroundView';
+import colors from '../../../../theme/colors';
 
 export default function Notice() {
   const {currentChild} = useSelector(state => state.auth);
@@ -145,6 +146,7 @@ export default function Notice() {
           {notices.length > 0 ? (
             notices.map((notice, index) => (
               <View key={index}>
+                <View style={styles.divider} />
                 <View style={styles.formContainer1}>
                   <View style={styles.formContainer2}>
                     <Image
@@ -222,7 +224,6 @@ export default function Notice() {
                     {notice?.description}
                   </Text>
                 </View>
-                <View style={styles.divider} />
               </View>
             ))
           ) : (

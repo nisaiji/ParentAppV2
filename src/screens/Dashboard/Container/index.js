@@ -19,6 +19,7 @@ import applyLeave from '@src/assets/images/applyLeave.png';
 import holiday from '@src/assets/images/holiday.png';
 import childProfile from '@src/assets/images/childProfile.png';
 import postBox from '@src/assets/images/postBox.png';
+import comingSoon from '@src/assets/images/comingSoon.png';
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchAndSetData} from '@src/redux/authSlice';
 import {updatelastDashboardUpdatedAt} from '@src/redux/dashBoardSlice';
@@ -61,7 +62,7 @@ function Dashboard() {
   ).current;
 
   useEffect(() => {
-    animatedDotWidths.forEach((animValue, i) => {
+    animatedDotWidths?.forEach((animValue, i) => {
       Animated.timing(animValue, {
         toValue: currentIndex === i ? 25 : 11,
         duration: 200,
@@ -203,28 +204,8 @@ function Dashboard() {
             ))}
           </View>
 
-          {/* Tab Icons */}
-          <View style={styles.flexBetween}>
-            {/* apply leave */}
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate(ROUTE.DASHBOARD_STACK, {
-                  screen: ROUTE.LEAVE,
-                })
-              }
-              style={[
-                styles.buttonsContainer,
-                {backgroundColor: '#0A81D11A', borderColor: '#898D8C1A'},
-              ]}>
-              <Image
-                source={applyLeave}
-                style={styles.buttonImage}
-                resizeMode="contain"
-              />
-              <Text style={[styles.buttonText, {color: colors.BLUE}]}>
-                {t('dashboard.applyLeave')}
-              </Text>
-            </TouchableOpacity>
+          {/* Tab Icons row 1*/}
+          <View style={[styles.flexBetween, {justifyContent: 'space-around'}]}>
             {/* holiday */}
             <TouchableOpacity
               onPress={() =>
@@ -286,6 +267,76 @@ function Dashboard() {
               />
               <Text style={[styles.buttonText, {color: '#00A692'}]}>
                 {t('dashboard.postBox')}
+              </Text>
+            </TouchableOpacity>
+          </View>
+          {/* Tab Icons row 2*/}
+          <View
+            style={[
+              styles.flexBetween,
+              {marginTop: 10, justifyContent: 'space-around'},
+            ]}>
+            {/* apply leave */}
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate(ROUTE.DASHBOARD_STACK, {
+                  screen: ROUTE.COMING_SOON,
+                  params: {message: 'Leave'},
+                })
+              }
+              style={[
+                styles.buttonsContainer,
+                {backgroundColor: '#0A81D11A', borderColor: '#898D8C1A'},
+              ]}>
+              <Image
+                source={comingSoon}
+                style={styles.buttonImage}
+                resizeMode="contain"
+              />
+              <Text style={[styles.buttonText, {color: colors.BLUE}]}>
+                {t('dashboard.applyLeave')}
+              </Text>
+            </TouchableOpacity>
+            {/* marksheet */}
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate(ROUTE.DASHBOARD_STACK, {
+                  screen: ROUTE.COMING_SOON,
+                  params: {message: 'Grades'},
+                })
+              }
+              style={[
+                styles.buttonsContainer,
+                {backgroundColor: '#0A81D11A', borderColor: '#898D8C1A'},
+              ]}>
+              <Image
+                source={comingSoon}
+                style={styles.buttonImage}
+                resizeMode="contain"
+              />
+              <Text style={[styles.buttonText, {color: colors.BLUE}]}>
+                {t('dashboard.grades')}
+              </Text>
+            </TouchableOpacity>
+            {/* apply leave */}
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate(ROUTE.DASHBOARD_STACK, {
+                  screen: ROUTE.COMING_SOON,
+                  params: {message: 'Fees'},
+                })
+              }
+              style={[
+                styles.buttonsContainer,
+                {backgroundColor: '#0A81D11A', borderColor: '#898D8C1A'},
+              ]}>
+              <Image
+                source={comingSoon}
+                style={styles.buttonImage}
+                resizeMode="contain"
+              />
+              <Text style={[styles.buttonText, {color: colors.BLUE}]}>
+                {t('dashboard.fees')}
               </Text>
             </TouchableOpacity>
           </View>

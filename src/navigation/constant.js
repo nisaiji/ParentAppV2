@@ -25,6 +25,7 @@ export const ROUTE = {
   DASHBOARD_STACK: 'DashboardStack',
   NOTICE: 'Notice',
   LEAVE: 'Leave',
+  COMING_SOON: 'ComingSoon',
 
   UPDATE_PASSWORD: 'UpdatePassword',
   AUTH: 'Auth',
