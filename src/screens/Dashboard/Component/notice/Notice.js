@@ -143,8 +143,8 @@ export default function Notice() {
 
         {/* notice data */}
         <ScrollView>
-          {notices.length > 0 ? (
-            notices.map((notice, index) => (
+          {notices?.length > 0 ? (
+            notices?.map((notice, index) => (
               <View key={index}>
                 <View style={styles.divider} />
                 <View style={styles.formContainer1}>
@@ -172,7 +172,7 @@ export default function Notice() {
                       <View>
                         <Text style={styles.teacherName}>
                           {notice?.createdByRole === 'admin'
-                            ? schoolName
+                            ? `${notice?.createdByDetails?.schoolName}`
                             : notice?.createdByRole === 'teacher'
                             ? `${notice?.createdByDetails?.firstname} ${notice?.createdByDetails?.lastname}`
                             : ''}
